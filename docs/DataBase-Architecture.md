@@ -69,7 +69,9 @@ Analysis Domain
 ├── findings
 ├── scores
 ├── recommendations
-└── reports
+├── reports
+├── analyzers
+└── analyzer_runs
 
 Future Deployment Domain
 │
@@ -98,9 +100,12 @@ Repositories
  ▼
 Analysis Jobs
  │
- ├────────────┬──────────────┬──────────────┐
- ▼            ▼              ▼              ▼
-Findings   Scores   Recommendations    Reports
+ ├────────────┬──────────────┬──────────────┬──────────────┐
+ ▼            ▼              ▼              ▼              ▼
+Findings   Scores   Recommendations    Reports      Analyzer Runs
+                                                              │
+                                                              ▼
+                                                          Analyzers
 ```
 
 ---
@@ -221,18 +226,33 @@ Connected GitHub repositories.
 
 ## analysis_jobs
 
-Tracks repository analyses.
+Tracks repository analyses and the commit snapshot under evaluation.
 
-| Column        | Type           |
-| ------------- | -------------- |
-| id            | UUID           |
-| repository_id | FK             |
-| status        | ENUM           |
-| started_at    | TIMESTAMP      |
-| completed_at  | TIMESTAMP      |
-| worker_id     | VARCHAR        |
-| duration_ms   | INTEGER        |
-| triggered_by  | UUID FK(users) |
+| Column            | Type           |
+| ----------------- | -------------- |
+| id                | UUID           |
+| repository_id     | FK             |
+| status            | ENUM           |
+| commit_sha        | VARCHAR(40)    |
+| branch            | VARCHAR        |
+| analysis_version  | VARCHAR        |
+| ruleset_version   | VARCHAR        |
+| started_at        | TIMESTAMP      |
+| completed_at      | TIMESTAMP      |
+| worker_id         | VARCHAR        |
+| duration_ms       | INTEGER        |
+| triggered_by      | UUID FK(users) |
+
+### Commit Snapshot
+
+Every analysis job captures an immutable snapshot of what was analyzed:
+
+* `commit_sha` — exact Git commit evaluated
+* `branch` — branch name at analysis time
+* `analysis_version` — Preflight analysis pipeline version
+* `ruleset_version` — scoring and finding ruleset version
+
+Re-analysis of the same commit with identical `analysis_version` and `ruleset_version` may reuse an existing completed job.
 
 ---
 
@@ -254,6 +274,56 @@ CANCELLED
 
 ---
 
+## analyzers
+
+Registry of available analyzer plugins.
+
+| Column                | Type      |
+| --------------------- | --------- |
+| id                    | UUID PK   |
+| name                  | VARCHAR UNIQUE |
+| category              | VARCHAR   |
+| analyzer_version      | VARCHAR   |
+| supported_frameworks  | JSONB     |
+| metadata              | JSONB     |
+| is_active             | BOOLEAN   |
+| created_at            | TIMESTAMP |
+| updated_at            | TIMESTAMP |
+
+---
+
+## analyzer_runs
+
+Tracks each analyzer execution within an analysis job.
+
+| Column          | Type      |
+| --------------- | --------- |
+| id              | UUID PK   |
+| analysis_job_id | FK        |
+| analyzer_id     | FK        |
+| status          | ENUM      |
+| started_at      | TIMESTAMP |
+| completed_at    | TIMESTAMP |
+| duration_ms     | INTEGER   |
+| error_message   | TEXT      |
+| metadata        | JSONB     |
+
+### AnalyzerRunStatus ENUM
+
+```
+PENDING
+
+RUNNING
+
+SUCCEEDED
+
+FAILED
+
+SKIPPED
+```
+
+---
+
 ## findings
 
 Stores every issue detected.
@@ -262,6 +332,7 @@ Stores every issue detected.
 | --------------- | ------- |
 | id              | UUID    |
 | analysis_job_id | FK      |
+| analyzer_run_id | FK (nullable) |
 | category        | ENUM    |
 | severity        | ENUM    |
 | title           | VARCHAR |
@@ -269,7 +340,21 @@ Stores every issue detected.
 | file_path       | TEXT    |
 | line_number     | INTEGER |
 | scanner         | VARCHAR |
+| fingerprint     | VARCHAR |
 | metadata        | JSONB   |
+
+### Finding Fingerprint
+
+`fingerprint` is a stable hash used for deduplication across analyses of the same repository.
+
+Typical inputs:
+
+* rule / scanner identity
+* normalized file path
+* issue signature (message key or rule id)
+* optional line-context hash
+
+Identical fingerprints within a single analysis job are collapsed. Across jobs, matching fingerprints support historical comparison and “still open / resolved” tracking.
 
 ---
 
@@ -327,6 +412,8 @@ Stores Preflight Score™.
 | maintainability_score | INTEGER   |
 | architecture_score    | INTEGER   |
 | created_at            | TIMESTAMP |
+
+`architecture_score` is reserved for V2 architecture review and may remain unset (`NULL`) in the MVP.
 
 ---
 
@@ -393,6 +480,14 @@ Analysis Job
 Analysis Job
 
 1 → 1 Report
+
+Analysis Job
+
+1 → N Analyzer Runs
+
+Analyzer
+
+1 → N Analyzer Runs
 ```
 
 ---
@@ -426,40 +521,96 @@ Example
 
 # 8. Indexing Strategy
 
-Primary indexes
+Recommended indexes for major tables:
+
+### Primary / Unique Indexes
 
 ```
 users.github_id
 
+users.email
+
 repositories.github_repo_id
+
+repositories.repository_url
+
+analyzers.name
+
+findings.fingerprint (per analysis_job_id uniqueness where applicable)
+```
+
+### Foreign Key & Lookup Indexes
+
+```
+oauth_accounts.user_id
+
+sessions.user_id
+
+projects.user_id
+
+repositories.project_id
 
 analysis_jobs.repository_id
 
 analysis_jobs.status
 
+analysis_jobs.commit_sha
+
+analysis_jobs.triggered_by
+
+analyzer_runs.analysis_job_id
+
+analyzer_runs.analyzer_id
+
+analyzer_runs.status
+
 findings.analysis_job_id
+
+findings.analyzer_run_id
 
 findings.severity
 
+findings.category
+
+findings.fingerprint
+
 recommendations.finding_id
+
+scores.analysis_job_id
+
+reports.analysis_job_id
 ```
 
-Composite indexes
+### Composite Indexes
 
 ```
-(repository_id, created_at DESC)
+(repository_id, created_at DESC)                 -- analysis history
 
-(analysis_job_id, severity)
+(repository_id, commit_sha, analysis_version, ruleset_version)  -- idempotent re-analysis lookup
 
-(user_id, created_at DESC)
+(analysis_job_id, severity)                      -- findings by severity
+
+(analysis_job_id, category)                      -- findings by category
+
+(analysis_job_id, fingerprint)                   -- deduplication within a job
+
+(user_id, created_at DESC)                       -- user activity
+
+(analyzer_id, status)                            -- analyzer run lookups
+
+(name, analyzer_version)                         -- analyzer version tracking
 ```
 
-GIN indexes
+### GIN Indexes
 
 ```
 findings.metadata
 
 reports.report_json
+
+analyzers.supported_frameworks
+
+analyzers.metadata
 ```
 
 ---

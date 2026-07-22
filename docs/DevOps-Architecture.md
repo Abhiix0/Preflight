@@ -127,6 +127,7 @@ Frontend  Backend     Redis   PostgreSQL
 | Dashboards              | Grafana                          |
 | Logs                    | Loki                             |
 | Log Collection          | Promtail                         |
+| Tracing                 | OpenTelemetry                    |
 
 ---
 
@@ -620,6 +621,19 @@ Infrastructure
 
 ---
 
+# 18.1 SLIs and SLOs
+
+| Area | SLI | SLO (MVP target) |
+| ---- | --- | ---------------- |
+| Analysis duration | Time from `QUEUED` to terminal state | p95 ≤ 5 minutes for repositories within size limits |
+| API latency | Request duration for authenticated API endpoints | p95 ≤ 300 ms excluding long-running analysis creation acknowledgements |
+| Job success rate | Share of analysis jobs reaching `COMPLETED` (excluding user `CANCELLED`) | ≥ 95% over a rolling 7-day window |
+| Deployment success rate | Share of production deploys that pass post-deploy health checks | ≥ 99% over a rolling 30-day window |
+
+SLIs are exported via Prometheus metrics and correlated with OpenTelemetry traces. SLO burn alerts are introduced after baseline traffic exists.
+
+---
+
 # 19. Alerting
 
 Future alerts:
@@ -630,20 +644,37 @@ Future alerts:
 * Failed deployment
 * Database unavailable
 * Storage full
+* SLO burn-rate violations
 
 ---
 
 # 20. Backup Strategy
 
-Database
+### PostgreSQL
 
 Daily snapshots
 
-Object Storage
+Encrypted storage
 
-Daily backup
+### MinIO
 
-Retention
+Daily backup of object storage buckets, including:
+
+* Generated reports
+* Build / analysis logs retained for audit
+* Release artifacts / SBOMs when stored
+
+### Audit Logs
+
+* Export and retain audit log streams independently of application database backups
+* Protect audit backups from overwrite by application operators where feasible
+
+### Generated Reports
+
+* Reports in PostgreSQL JSONB are covered by database backups
+* Report artifacts in MinIO are covered by object-storage backups
+
+### Retention
 
 ```text
 Daily
@@ -658,6 +689,8 @@ Monthly
 
 6 Months
 ```
+
+Recovery objectives remain RPO 24 hours / RTO 1 hour unless tightened per environment.
 
 ---
 
@@ -739,11 +772,18 @@ Secrets are never stored in Git.
 
 Development
 
-`.env`
+`.env` (local only, never committed)
 
 Production
 
-Environment variables or secret manager (future).
+Use a dedicated secrets manager (for example HashiCorp Vault, AWS Secrets Manager, GCP Secret Manager, or Doppler). Do **not** rely on long-lived plaintext environment variables as the primary production secret store.
+
+Recommended production pattern:
+
+* Secrets manager is the source of truth
+* Runtime injects secrets into the application at deploy/start time
+* Encryption keys for OAuth tokens are stored and rotated in the secrets manager
+* Access is least-privilege and audited
 
 Examples:
 
@@ -751,6 +791,7 @@ Examples:
 * OAuth credentials
 * Database passwords
 * Storage credentials
+* Token encryption keys
 
 ---
 
@@ -767,9 +808,22 @@ Vertical scaling for:
 * PostgreSQL
 * Redis
 
-Future:
+MVP orchestration remains **Docker Compose**. Kubernetes is not part of the MVP.
 
-Kubernetes support.
+---
+
+# 25.1 Migration Path: Docker Compose → Kubernetes or ECS
+
+Post-MVP, the Compose stack can migrate without redesigning application modules:
+
+1. Keep images identical; promote the same GHCR artifacts.
+2. Map Compose services to Kubernetes Deployments/Services or ECS services/tasks.
+3. Replace Compose-managed PostgreSQL/Redis/MinIO with managed equivalents when ready.
+4. Move secrets from Compose env files into the cloud secrets manager / Kubernetes Secrets sealed from the secrets manager.
+5. Introduce horizontal worker autoscaling after queue depth SLIs justify it.
+6. Retain OpenTelemetry instrumentation so traces/metrics remain continuous across orchestrators.
+
+Compose remains the local and MVP production path until operational scale requires Kubernetes or ECS.
 
 ---
 
@@ -786,7 +840,7 @@ Restore Database
 
 ↓
 
-Restore Storage
+Restore Storage (MinIO / reports / audit exports)
 
 ↓
 
@@ -805,7 +859,7 @@ Resume Service
 
 # 27. Observability
 
-Three pillars:
+Three pillars, plus tracing:
 
 ### Logs
 
@@ -819,13 +873,19 @@ Prometheus
 
 ---
 
+### Traces
+
+OpenTelemetry is the tracing standard.
+
+* Instrument FastAPI, Celery workers, and outbound GitHub/Docker calls
+* Export to an OTLP-compatible backend (collector → Jaeger/Tempo or equivalent)
+* Propagate trace context across API → queue → worker spans using analysis `job_id` as a correlating attribute
+
+---
+
 ### Dashboards
 
 Grafana
-
-Future:
-
-Distributed tracing with OpenTelemetry.
 
 ---
 
@@ -848,7 +908,7 @@ No manual server configuration.
 
 Future improvements:
 
-* Kubernetes
+* Kubernetes or ECS (post-MVP; see §25.1)
 * Helm Charts
 * ArgoCD
 * Terraform
@@ -859,10 +919,10 @@ Future improvements:
 * Canary Releases
 * Service Mesh
 
-The MVP architecture leaves room for these enhancements without requiring major redesign.
+The MVP architecture leaves room for these enhancements without requiring major redesign. Kubernetes is explicitly out of MVP scope.
 
 ---
 
 # 30. DevOps Summary
 
-Preflight's DevOps architecture emphasizes automation, reproducibility, and operational simplicity. A Docker-first, cloud-agnostic approach allows the platform to be developed locally, validated in staging, and deployed consistently to production. GitHub Actions, containerized services, structured observability, and automated deployment pipelines ensure that engineering teams can ship confidently while maintaining reliability and operational visibility.
+Preflight's DevOps architecture emphasizes automation, reproducibility, and operational simplicity. A Docker-first, cloud-agnostic approach allows the platform to be developed locally, validated in staging, and deployed consistently to production. GitHub Actions, containerized services, structured observability with OpenTelemetry, defined SLIs/SLOs, and automated deployment pipelines ensure that engineering teams can ship confidently while maintaining reliability and operational visibility.

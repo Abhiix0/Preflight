@@ -571,6 +571,25 @@ Completed
 
 Progress updates use Server-Sent Events (SSE).
 
+### SSE Reconnect Behavior
+
+* The client opens an EventSource connection to the analysis progress stream for the active `jobId`.
+* On normal disconnects (network blip, tab sleep), the browser auto-reconnects using the last received event id when available.
+* The server replays missed progress events from the reconnect cursor when possible.
+
+### Dropped Connection Recovery
+
+* If the SSE stream cannot be restored, the client falls back to `GET /analysis/{jobId}` polling until a terminal status is observed.
+* UI state is reconciled from the authoritative job status endpoint, not from in-memory progress alone.
+* Temporary network loss must not leave the UI stuck on a non-terminal step.
+
+### Job Resume Logic
+
+* Reloading the analysis page resumes from the current job status (`QUEUED`, `RUNNING`, or terminal).
+* If the job is still active, the client re-subscribes to SSE and restores the timeline from persisted progress.
+* Completed, failed, and cancelled jobs do not open a live stream; they load final results instead.
+* Cancelled or failed jobs expose explicit retry actions without inventing a new job until the user confirms.
+
 ---
 
 # 15. Findings Interface
@@ -590,6 +609,17 @@ Grouping options:
 * Category
 * File
 * Analyzer
+
+### Large Findings Lists
+
+Analyses may produce thousands of findings. The findings table MUST use windowed / virtualized rendering (for example TanStack Virtual) so only visible rows mount in the DOM.
+
+Guidance:
+
+* Virtualize the primary findings list by default above a small threshold (for example 100 rows).
+* Keep filtering, sorting, and pagination server-driven; virtualization handles client render cost within a page.
+* Avoid rendering expanded detail panels for off-screen rows.
+* Preserve keyboard navigation and screen-reader row counts when virtualizing.
 
 ---
 
@@ -701,6 +731,7 @@ Techniques:
 * Lazy loading
 * API caching
 * Dynamic imports
+* Virtualized lists for large findings tables
 
 ---
 

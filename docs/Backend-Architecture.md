@@ -396,9 +396,25 @@ class Analyzer:
 
     category: str
 
+    analyzer_version: str
+
+    supported_frameworks: list[str]
+
+    metadata: dict
+
     async def analyze(self, context) -> list[Finding]:
         ...
 ```
+
+Interface fields:
+
+| Field | Purpose |
+| ----- | ------- |
+| `name` | Stable analyzer identifier |
+| `category` | Finding category produced |
+| `analyzer_version` | SemVer of the analyzer implementation |
+| `supported_frameworks` | Frameworks this analyzer applies to (`*` for all) |
+| `metadata` | Optional descriptive metadata (owner, docs URL, severity defaults) |
 
 Example analyzers:
 
@@ -427,6 +443,15 @@ Adding a new analyzer requires:
 * No modification to existing analyzers.
 
 This follows the **Open/Closed Principle**.
+
+### Analyzer Version Tracking
+
+* Each registered analyzer declares `analyzer_version`.
+* Versions are persisted in the `analyzers` table and recorded on each `analyzer_runs` execution.
+* Findings include scanner identity so reports remain attributable after analyzer upgrades.
+* Changing `analyzer_version` or `ruleset_version` invalidates commit-snapshot reuse and triggers a fresh analysis when requested.
+
+JavaScript / TypeScript analyzers run as **subprocess tools** invoked by the FastAPI/Celery worker process. They implement the same `Analyzer` interface; there is no separate Node.js analysis service in the MVP.
 
 ---
 
@@ -482,6 +507,35 @@ Responsibilities:
 * Failure recovery
 * Retry management
 * Result aggregation
+* Domain event emission
+* Idempotent job creation
+
+### Analysis Job Lifecycle State Machine
+
+```text
+PENDING
+  │
+  ▼
+QUEUED
+  │
+  ▼
+RUNNING ──────► CANCELLED
+  │
+  ├──► COMPLETED
+  │
+  └──► FAILED
+```
+
+| State | Meaning |
+| ----- | ------- |
+| `PENDING` | Job created, not yet enqueued |
+| `QUEUED` | Accepted by the queue |
+| `RUNNING` | Worker actively executing tasks |
+| `COMPLETED` | Successful terminal state |
+| `FAILED` | Unrecoverable or timed-out terminal state |
+| `CANCELLED` | User-cancelled terminal state |
+
+Lifecycle events: `AnalysisCreated` → `AnalysisStarted` → `AnalysisCompleted` | `AnalysisFailed`.
 
 ---
 
@@ -498,10 +552,12 @@ Security Worker
 
 Docker Worker
 
-JavaScript Worker
+Analysis Worker
 
 Report Worker
 ```
+
+JavaScript analyzers execute inside the Analysis Worker via subprocesses rather than a dedicated JavaScript microservice.
 
 Each worker performs one specialized task.
 

@@ -84,12 +84,15 @@ A single repository analysis produces:
 
 * Production readiness assessment
 * Security analysis
+* Static analysis (code quality, documentation, testing, configuration)
+* Engineering Readiness Score
+* Actionable recommendations and learning roadmap
+
+Deferred to V2:
+
 * Architecture review
 * API review
-* Documentation review
-* Testing assessment
-* Deployment readiness
-* Actionable learning roadmap
+* Advanced deployment validation
 
 The objective is not simply to deploy software.
 
@@ -350,16 +353,31 @@ No unnecessary complexity.
 
 # 12. Core Features
 
-## Repository Intelligence
+## MVP Capabilities
+
+The MVP is limited to five product capabilities.
+
+### Repository Ingestion
 
 * GitHub integration
 * Tech stack detection
 * Framework detection
-* Dependency analysis
+* Dependency discovery
 
 ---
 
-## Security Review
+### Static Analysis
+
+* Code quality
+* Project structure
+* TODO detection
+* Documentation review
+* Testing discovery
+* Configuration checks
+
+---
+
+### Security Analysis
 
 * Secret detection
 * Dependency vulnerabilities
@@ -368,53 +386,15 @@ No unnecessary complexity.
 
 ---
 
-## Engineering Review
+### Engineering Readiness Score
 
-* Code quality
-* Project structure
-* Complexity analysis
-* Dead code detection
-* TODO detection
+* Deterministic **Preflight Score™**
+* Category breakdown
+* Deduction explanations
 
 ---
 
-## API Review
-
-* REST best practices
-* Validation coverage
-* Documentation completeness
-* Error handling
-
----
-
-## Testing Review
-
-* Test discovery
-* Coverage overview
-* Missing critical tests
-
----
-
-## Documentation Review
-
-* README quality
-* API documentation
-* Missing assets
-* Project completeness
-
----
-
-## Production Readiness
-
-* Docker readiness
-* Health checks
-* Environment configuration
-* Logging
-* Deployment prerequisites
-
----
-
-## Learning Roadmap
+### Recommendations
 
 Personalized improvement plan.
 
@@ -424,7 +404,40 @@ Educational explanations.
 
 ---
 
-## Deployment
+## Supporting MVP Surfaces
+
+* Dashboard
+* Analysis history
+* Engineering Readiness Report
+
+---
+
+## Deferred to V2
+
+### Architecture Review
+
+* Architecture quality assessment
+* Structural anti-pattern detection
+
+---
+
+### API Review
+
+* REST best practices
+* Validation coverage
+* API documentation completeness
+* Error handling patterns
+
+---
+
+### Advanced Deployment Validation
+
+* Deep runtime deployment checks
+* Multi-provider deployment validation
+
+---
+
+### Deployment
 
 One-click deployment after passing Preflight.
 
@@ -500,6 +513,10 @@ Preflight should evolve into the default engineering checkpoint used before soft
 
 Future capabilities may include:
 
+* Architecture Review
+* API Review
+* Advanced Deployment Validation
+* One-click Deployment
 * Pull Request Reviews
 * Continuous Repository Monitoring
 * AI Engineering Mentor

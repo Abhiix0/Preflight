@@ -284,13 +284,34 @@ Every analysis executes inside an isolated container.
 
 Container Rules
 
-* Read-only filesystem where possible
+* Rootless containers where supported by the host
+* Non-root execution inside the container
+* Read-only filesystem (writable temp mounts only where required)
+* Disabled networking by default
 * CPU limits
 * Memory limits
-* Process limits
-* Network restrictions
+* PID limits
+* Seccomp profile
+* AppArmor or SELinux confinement when available
 * Temporary volumes
 * Automatic deletion
+
+### Outbound Network Restrictions
+
+* Analysis containers have networking disabled by default.
+* No arbitrary egress to the public internet during analysis.
+* If a specific analyzer requires limited egress (future), allowlists are explicit, minimal, and audited.
+* Host metadata endpoints and internal service networks are unreachable from sandboxes.
+
+### Blast-Radius Assumptions
+
+If container isolation fails, the architecture assumes:
+
+* Compromise is limited to the analysis host / worker node, not the primary database or secrets store by default network policy.
+* OAuth tokens and production secrets are never mounted into analysis containers.
+* Repository workspaces are ephemeral and job-scoped.
+* A compromised sandbox must not gain write access to other jobs' workspaces.
+* Worker hosts are replaceable; rebuild and rotate credentials if isolation failure is suspected.
 
 Container Lifecycle
 
@@ -320,6 +341,32 @@ Containers are never reused.
 
 # 11. Secret Handling
 
+### OAuth Token Storage
+
+GitHub OAuth tokens are encrypted at rest before persistence.
+
+Encryption
+
+* Algorithm: AES-256-GCM (or equivalent authenticated encryption)
+* Ciphertext stored in `oauth_accounts.access_token` / `refresh_token`
+* Tokens decrypted only in memory for GitHub API calls
+
+Key Management
+
+* Encryption keys live in the production secrets manager, not in application source or `.env` committed files
+* Development may use a local key via environment configuration
+* Application processes receive keys at runtime through the secrets manager or sealed environment injection
+
+Rotation Strategy
+
+* Support key version identifiers alongside ciphertext
+* Rotate encryption keys on a defined schedule and on suspected compromise
+* Re-encrypt stored tokens with the new key during controlled rotation jobs
+* Invalidate and force re-authorization if decryption fails after rotation incidents
+
+Lifecycle
+
+```text
 GitHub Tokens
 
 ↓
@@ -333,12 +380,15 @@ Temporary Memory
 ↓
 
 Automatic Cleanup
+```
 
 Never logged.
 
 Never exposed to clients.
 
 Never written to reports.
+
+Never mounted into analysis containers.
 
 ---
 
@@ -429,6 +479,8 @@ Encrypted:
 * Object Storage
 
 Passwords are never stored because authentication uses OAuth.
+
+Production encryption keys and application secrets are sourced from a **secrets manager**, not from long-lived plaintext environment variables alone. See Secret Handling (§11) and DevOps Secrets Management for key management and rotation.
 
 ---
 
@@ -544,6 +596,14 @@ Every build runs:
 * License validation (future)
 
 Critical vulnerabilities block deployment.
+
+### Supply-Chain Security
+
+* Generate an SBOM (Software Bill of Materials) for application images and releases (CycloneDX or SPDX).
+* Record dependency provenance for locked packages (`uv.lock`, `pnpm-lock.yaml`) and verify integrity in CI.
+* Prefer pinned, hashed dependencies where tooling supports them.
+* Block builds on critical advisory findings before promotion to production.
+* Store SBOMs as release artifacts for future audit and incident response.
 
 ---
 

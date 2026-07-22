@@ -360,24 +360,28 @@ Users can:
 ### Included
 
 * GitHub OAuth
-* Repository connection
-* Automated analysis
-* Security scanning
+* Repository ingestion
+* Static analysis
+* Security analysis
+* Engineering Readiness Score (Preflight Score™)
+* Recommendations
 * README checks
 * Dependency analysis
 * TODO detection
-* Docker validation
-* Preflight Score™
+* Basic Docker readiness checks
+* Docker sandbox
 * Reports
 * Dashboard
-* One-click deployment
-* Docker sandbox
-* History
+* Analysis history
 
 ---
 
-### Excluded
+### Excluded (Deferred to V2 or later)
 
+* Architecture review
+* API review
+* Advanced deployment validation
+* One-click deployment
 * AI code generation
 * AI debugging
 * Cloud IDE
@@ -410,6 +414,10 @@ Core engineering readiness platform.
 
 ## Version 2.0
 
+* Architecture review
+* API review
+* Advanced deployment validation
+* One-click deployment
 * AI explanation assistant
 * Team workspaces
 * Organization support
@@ -574,7 +582,6 @@ The MVP is considered successful when users can:
 * Receive a complete engineering readiness report in under 5 minutes.
 * Understand every reported issue through actionable guidance.
 * Re-run analysis after fixes.
-* Deploy successfully from within Preflight.
 * Trust the platform to catch common engineering mistakes before deployment.
 
 ---

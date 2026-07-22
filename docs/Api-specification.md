@@ -84,6 +84,21 @@ Future versions:
 
 No breaking changes inside a version.
 
+### Deprecation Policy
+
+* A major version remains supported for at least **6 months** after the next major version is released.
+* Deprecated endpoints are announced in release notes and OpenAPI descriptions.
+* Deprecated responses include:
+
+```http
+Deprecation: true
+Sunset: <RFC 1123 date>
+Link: </docs/api/migration>; rel="deprecation"
+```
+
+* After the sunset date, deprecated versions return `410 Gone`.
+* Clients should migrate within the support window; no silent breaking changes inside `/v1`.
+
 ---
 
 # 5. Standard Response Format
@@ -228,6 +243,21 @@ DELETE /repositories/{repositoryId}
 POST /repositories/{repositoryId}/analysis
 ```
 
+Request headers
+
+```http
+Idempotency-Key: <client-generated-uuid>
+```
+
+Optional body
+
+```json
+{
+  "branch": "main",
+  "commit_sha": "abc123..."
+}
+```
+
 Response
 
 ```json
@@ -238,6 +268,13 @@ Response
 ```
 
 Returns **202 Accepted**.
+
+### Idempotency Strategy
+
+* Clients SHOULD send an `Idempotency-Key` header on `POST /repositories/{repositoryId}/analysis`.
+* The same key + authenticated user + repository within the idempotency retention window returns the original job response without creating a duplicate.
+* If an analysis is already `QUEUED` or `RUNNING` for the repository, the API returns `409 CONFLICT` with the existing `job_id`.
+* Re-analysis of an identical commit snapshot (`commit_sha` + `analysis_version` + `ruleset_version`) may return the existing completed job instead of starting a new one.
 
 ---
 
@@ -283,16 +320,33 @@ GET /repositories/{repositoryId}/analysis
 GET /analysis/{jobId}/findings
 ```
 
-Filters
+### Filtering
+
+Supported query parameters:
+
+| Parameter | Description |
+| --------- | ----------- |
+| `severity` | Filter by severity (`CRITICAL`, `HIGH`, `MEDIUM`, `LOW`, `INFO`) |
+| `category` | Filter by category (`SECURITY`, `CODE_QUALITY`, …) |
+| `scanner` | Filter by analyzer / scanner name |
+| `file_path` | Filter by file path prefix or exact match |
+| `fingerprint` | Lookup by finding fingerprint |
+| `q` | Free-text search across title and description |
+| `page` | Page number (1-based) |
+| `limit` | Page size |
+| `sort` | Sort field (`severity`, `category`, `file_path`, `created_at`) |
+| `order` | `asc` or `desc` |
+
+Example
 
 ```
-?severity=HIGH
+GET /analysis/{jobId}/findings?severity=HIGH&category=SECURITY&page=1&limit=20
+```
 
-?category=SECURITY
+Multiple severities may be supplied as a comma-separated list:
 
-?page=1
-
-?limit=20
+```
+?severity=CRITICAL,HIGH
 ```
 
 ---
@@ -310,6 +364,7 @@ Response
   "severity": "HIGH",
   "title": "Hardcoded Secret",
   "description": "...",
+  "fingerprint": "...",
   "recommendation": "...",
   "estimated_minutes": 5
 }
@@ -432,15 +487,16 @@ GET /ready
 
 # 15. Pagination
 
-All list endpoints support:
+All list endpoints use a standardized pagination contract.
 
-```
-?page=1
+### Query Parameters
 
-?limit=20
-```
+| Parameter | Default | Max | Description |
+| --------- | ------- | --- | ----------- |
+| `page` | `1` | — | 1-based page index |
+| `limit` | `20` | `100` | Items per page |
 
-Response
+### Response Envelope
 
 ```json
 {
@@ -449,21 +505,36 @@ Response
     "page": 1,
     "limit": 20,
     "total": 145,
-    "pages": 8
+    "pages": 8,
+    "has_next": true,
+    "has_prev": false
   }
 }
 ```
+
+Rules:
+
+* `page` below 1 is rejected with `400`.
+* `limit` above 100 is rejected with `400`.
+* Empty pages return `data: []` with accurate `total` / `pages`.
+* Sorting defaults are documented per endpoint; clients should not assume insertion order.
 
 ---
 
 # 16. Filtering
 
-Supported filters
+Supported filters (endpoint-specific):
 
 ```
 severity
 
 category
+
+scanner
+
+file_path
+
+fingerprint
 
 framework
 
@@ -474,13 +545,17 @@ language
 date
 
 repository
+
+q
 ```
 
 Example
 
 ```
-GET /findings?severity=CRITICAL&category=SECURITY
+GET /analysis/{jobId}/findings?severity=CRITICAL&category=SECURITY
 ```
+
+Unknown filter keys return `400` with an explicit validation error.
 
 ---
 
@@ -497,6 +572,7 @@ GET /findings?severity=CRITICAL&category=SECURITY
 | 403  | Forbidden             |
 | 404  | Resource Not Found    |
 | 409  | Conflict              |
+| 410  | Gone (deprecated API) |
 | 422  | Validation Error      |
 | 429  | Rate Limited          |
 | 500  | Internal Server Error |
@@ -522,6 +598,8 @@ INVALID_REQUEST
 
 RATE_LIMITED
 
+IDEMPOTENCY_KEY_CONFLICT
+
 SERVER_ERROR
 ```
 
@@ -543,6 +621,35 @@ Analysis creation
 
 Future premium plans may adjust limits.
 
+### Rate-Limit Response Headers
+
+Every API response includes:
+
+```http
+X-RateLimit-Limit: 120
+X-RateLimit-Remaining: 87
+X-RateLimit-Reset: 1721664000
+```
+
+When limited, the API returns `429` with:
+
+```http
+Retry-After: 30
+X-RateLimit-Limit: 120
+X-RateLimit-Remaining: 0
+X-RateLimit-Reset: 1721664000
+```
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "RATE_LIMITED",
+    "message": "Rate limit exceeded. Retry after the indicated delay."
+  }
+}
+```
+
 ---
 
 # 20. Security
@@ -560,12 +667,18 @@ Future premium plans may adjust limits.
 
 # 21. Idempotency
 
-The following endpoints are idempotent:
+The following endpoints are idempotent by nature:
 
 * `GET`
-* `DELETE`
+* `DELETE` (repeat deletes return `404` or `204` consistently once removed)
 
-`POST /repositories/{id}/analysis`
+### `POST /repositories/{id}/analysis`
+
+Idempotency is enforced via:
+
+1. Optional `Idempotency-Key` header (recommended).
+2. In-flight job uniqueness per repository (`QUEUED` / `RUNNING` → `409`).
+3. Commit snapshot reuse when `commit_sha`, `analysis_version`, and `ruleset_version` match a completed job.
 
 If an analysis is already running, the API returns:
 
@@ -575,7 +688,14 @@ If an analysis is already running, the API returns:
 
 ```json
 {
-  "error": "Analysis already running."
+  "success": false,
+  "error": {
+    "code": "ANALYSIS_RUNNING",
+    "message": "Analysis already running.",
+    "details": {
+      "job_id": "..."
+    }
+  }
 }
 ```
 

@@ -92,8 +92,8 @@ Business logic is never duplicated.
                                    │
           ┌───────────────┬───────────────┬───────────────┐
           ▼               ▼               ▼               ▼
- Repository      Security Scanner   Docker Runner   JS Analyzer
-   Module             Module            Module         Module
+ Repository      Security Scanner   Docker Runner   JS Analyzers
+   Module             Module            Module      (subprocesses)
           └───────────────┬───────────────┴───────────────┘
                           ▼
                    Scoring Engine
@@ -122,7 +122,7 @@ Business logic is never duplicated.
 | Authentication      | GitHub OAuth + JWT         |
 | Containers          | Docker                     |
 | Package Manager     | uv                         |
-| JavaScript Analysis | Node.js + Express          |
+| JavaScript Analysis | Subprocess analyzers (Node.js tooling invoked by FastAPI) |
 | API Docs            | OpenAPI / Swagger          |
 
 ---
@@ -174,11 +174,116 @@ Responsibilities:
 * Retry failed tasks
 * Aggregate results
 * Trigger score generation
+* Emit domain events
 * Notify the frontend
 
 The orchestrator **never performs analysis itself**.
 
 It only coordinates the workflow.
+
+---
+
+### Job State Machine
+
+```text
+PENDING
+  │
+  ▼
+QUEUED
+  │
+  ▼
+RUNNING ──────► CANCELLED
+  │
+  ├──► COMPLETED
+  │
+  └──► FAILED
+```
+
+Transitions:
+
+| From | To | Trigger |
+| ---- | -- | ------- |
+| PENDING | QUEUED | Job accepted and enqueued |
+| QUEUED | RUNNING | Worker claims job |
+| RUNNING | COMPLETED | All required stages finish |
+| RUNNING | FAILED | Unrecoverable error or timeout |
+| RUNNING | CANCELLED | User cancellation |
+| QUEUED | CANCELLED | User cancellation before start |
+
+Terminal states: `COMPLETED`, `FAILED`, `CANCELLED`.
+
+---
+
+### Task Dependency Flow
+
+```text
+Clone Repository
+        │
+        ▼
+Detect Tech Stack
+        │
+        ├──────────────┬──────────────┐
+        ▼              ▼              ▼
+ Security         Static / JS      Docker
+ Analyzers         Analyzers      Validation
+        │              │              │
+        └──────────────┼──────────────┘
+                       ▼
+              Aggregate Findings
+                       │
+                       ▼
+              Calculate Score
+                       │
+                       ▼
+           Generate Recommendations
+                       │
+                       ▼
+              Generate Report
+```
+
+Clone and stack detection are sequential prerequisites. Security, static/JavaScript, and Docker analyzers may run in parallel after detection. Scoring, recommendations, and reporting run only after aggregation.
+
+---
+
+### Retry Strategy
+
+* Transient failures (network, GitHub rate limits, temporary Docker daemon errors) retry with exponential backoff.
+* Default: up to 3 attempts per task.
+* Permanent failures (auth revoked, repository deleted, unsupported size) fail immediately without retry.
+* Retries never duplicate side effects already persisted for the same `job_id` + task name.
+
+---
+
+### Partial Failure Handling
+
+* Analyzer failures are isolated; one analyzer failure does not abort the job.
+* Failed analyzers emit findings or job-level warnings.
+* Scoring continues with available results.
+* Docker build failure records a deployment finding and allows remaining analyzers to finish.
+* Only orchestration-level failures (clone failure, timeout budget exhausted, cancellation) mark the job terminal as `FAILED` or `CANCELLED`.
+
+---
+
+### Idempotency
+
+* Starting analysis for the same repository commit with the same `analysis_version` and `ruleset_version` returns the existing job when one is already `QUEUED` or `RUNNING`.
+* Completed analyses for an identical commit snapshot may be reused instead of creating a duplicate job.
+* Domain events and result persistence are keyed by `job_id` so retries do not create duplicate scores or reports.
+
+---
+
+## Internal Domain Events
+
+The orchestrator publishes internal domain events for analysis lifecycle observability and worker coordination.
+
+| Event | When |
+| ----- | ---- |
+| `AnalysisCreated` | Job record created and accepted |
+| `AnalysisStarted` | Worker begins execution |
+| `AnalysisCompleted` | Job reaches `COMPLETED` |
+| `AnalysisFailed` | Job reaches `FAILED` |
+
+Events are internal to the backend (not a public webhook API in the MVP). They feed progress tracking, SSE updates, audit logs, and metrics.
 
 ---
 
@@ -211,22 +316,37 @@ Workflow:
 
 This verifies that the application works outside the developer's local machine.
 
+### Sandbox Hardening
+
+Analysis containers enforce:
+
+* Rootless containers where the host supports them
+* Non-root execution inside the container
+* Read-only filesystem (writable temp mounts only where required)
+* Disabled networking by default
+* CPU limits
+* Memory limits
+* PID limits
+* Seccomp profile
+* AppArmor or SELinux confinement when available on the host
+
+Containers are ephemeral and never reused.
+
 ---
 
-## JavaScript Analysis Module
+## JavaScript Analysis
 
-Dedicated Node.js service.
+JavaScript and TypeScript analysis runs as **subprocess-based analyzers** invoked by the FastAPI backend and Celery workers.
 
 Responsibilities:
 
 * package.json parsing
-* npm validation
-* pnpm/yarn detection
+* npm / pnpm / yarn detection
 * Next.js analysis
 * React analysis
 * Express analysis
 
-This service exists because JavaScript tooling evolves independently from Python tooling.
+There is **no dedicated Node.js analysis microservice** in the MVP. Node.js tooling may be installed in the worker environment and executed as short-lived subprocesses under the same orchestrator and sandbox controls as other analyzers.
 
 ---
 
@@ -242,7 +362,8 @@ Categories include:
 * Testing
 * Deployment Readiness
 * Configuration
-* Architecture
+
+Architecture scoring is deferred to V2.
 
 Scores are deterministic and reproducible.
 
@@ -323,11 +444,11 @@ Run Security Analysis
 
 ↓
 
-Run Docker Validation
+Run Static / JavaScript Analysis (subprocesses)
 
 ↓
 
-Run JavaScript Analysis
+Run Docker Validation
 
 ↓
 
@@ -348,6 +469,10 @@ Generate Engineering Report
 ↓
 
 Persist Results
+
+↓
+
+Emit AnalysisCompleted
 
 ↓
 
@@ -387,7 +512,7 @@ Docker Module
 
 ↓
 
-JavaScript Module
+JavaScript Analyzers (subprocesses)
 
 ↓
 
@@ -558,17 +683,21 @@ No public API contracts need to change during extraction.
 
 # 13. Architecture Decision Records (ADR)
 
-Major technical decisions will be documented separately.
+Major technical decisions are documented in `docs/ADR.md`.
 
 Initial ADRs:
 
 * ADR-001: Modular Monolith over Microservices
 * ADR-002: FastAPI as the Primary Backend
-* ADR-003: Celery + Redis for Background Processing
-* ADR-004: External Scanner Orchestration
-* ADR-005: Ephemeral Docker Validation
-* ADR-006: GitHub OAuth as the Initial Identity Provider
-* ADR-007: Server-Sent Events for Real-Time Progress
+* ADR-003: PostgreSQL over MongoDB
+* ADR-004: Docker Sandbox for Repository Analysis
+* ADR-005: Plugin-Based Analyzer Framework
+* ADR-006: REST API over GraphQL
+* ADR-007: GitHub OAuth as Authentication Provider
+* ADR-008: Server-Sent Events for Live Progress
+* ADR-016: Engineering Readiness Standard
+* ADR-017: Sandbox Execution Model
+* ADR-018: Multi-language Analysis Strategy
 
 ---
 

@@ -44,11 +44,30 @@ The MVP must enable a developer to:
 
 ---
 
+# 2.1 MVP Scope
+
+The MVP delivers exactly five product capabilities:
+
+| Capability | Description |
+| ---------- | ----------- |
+| Repository ingestion | Connect, clone, and profile a GitHub repository |
+| Static analysis | Detect code quality, documentation, testing, and configuration issues |
+| Security analysis | Detect secrets, credential leaks, and dependency vulnerabilities |
+| Engineering Readiness Score | Calculate the deterministic **Preflight Score™** |
+| Recommendations | Convert findings into prioritized, educational guidance |
+
+Supporting platform capabilities required to deliver the above (authentication, dashboard, reports, and job progress) are included as infrastructure, not as separate product pillars.
+
+---
+
 # 3. Non Goals
 
 The MVP will NOT include:
 
 * One-click deployment
+* Architecture review (deferred to V2)
+* API review (deferred to V2)
+* Advanced deployment validation (deferred to V2)
 * AI code generation
 * Team collaboration
 * Git hosting
@@ -342,11 +361,9 @@ Generate the **Preflight Score™**.
 
 ---
 
-## Score Categories
+## Score Categories (MVP)
 
 Security
-
-Architecture
 
 Documentation
 
@@ -357,6 +374,14 @@ Deployment Readiness
 Maintainability
 
 Configuration
+
+### Deferred to V2
+
+Architecture
+
+API Quality
+
+Advanced Deployment Validation
 
 ---
 
@@ -589,6 +614,196 @@ Re-analyze
 ↓
 
 Project Passes Preflight
+```
+
+---
+
+# 6.1 Failure User Flows
+
+The MVP must handle the following failure scenarios with clear user messaging and recoverable system state.
+
+---
+
+## Repository Access Revoked
+
+```
+User starts analysis
+
+↓
+
+GitHub returns 401/403
+
+↓
+
+Mark job FAILED
+
+↓
+
+Notify user: reconnect GitHub or re-authorize repository access
+
+↓
+
+Preserve prior successful analyses
+```
+
+---
+
+## Analysis Timeout
+
+```
+Analysis exceeds configured time budget
+
+↓
+
+Cancel remaining tasks
+
+↓
+
+Mark job FAILED (timeout)
+
+↓
+
+Persist partial findings when available
+
+↓
+
+Notify user with retry option
+```
+
+---
+
+## Repository Exceeds Size Limit
+
+```
+Repository size checked during ingestion
+
+↓
+
+Size exceeds platform limit
+
+↓
+
+Reject analysis before queueing
+
+↓
+
+Notify user of limit and suggested remediation
+```
+
+---
+
+## Monorepo Detection
+
+```
+Ingestion detects multiple package roots / workspaces
+
+↓
+
+Surface monorepo warning
+
+↓
+
+Analyze default root when identifiable
+
+↓
+
+Ask user to select a target subdirectory (MVP: default root only; selection in V2)
+
+↓
+
+Continue analysis with documented scope
+```
+
+---
+
+## Repository Deleted
+
+```
+User or GitHub deletes repository mid-analysis
+
+↓
+
+Clone or subsequent GitHub API calls fail
+
+↓
+
+Mark job FAILED
+
+↓
+
+Clean up temporary workspace
+
+↓
+
+Retain historical analyses already completed
+```
+
+---
+
+## Analysis Cancelled
+
+```
+User cancels running analysis
+
+↓
+
+Orchestrator stops queued and in-flight tasks
+
+↓
+
+Mark job CANCELLED
+
+↓
+
+Destroy sandbox containers and temp files
+
+↓
+
+Do not publish incomplete scores as final
+```
+
+---
+
+## Docker Build Failure
+
+```
+Sandbox image build fails
+
+↓
+
+Record Docker finding (CRITICAL/HIGH as appropriate)
+
+↓
+
+Continue remaining non-Docker analyzers
+
+↓
+
+Complete analysis with partial results
+
+↓
+
+Lower Deployment Readiness score accordingly
+```
+
+---
+
+## Re-analysis of the Same Commit
+
+```
+User requests analysis for a commit already analyzed
+
+↓
+
+Detect matching commit_sha + analysis_version + ruleset_version
+
+↓
+
+Return existing completed job (idempotent)
+
+↓
+
+Or create a new job only when analyzer/ruleset versions changed
 ```
 
 ---

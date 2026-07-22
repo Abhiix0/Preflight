@@ -44,6 +44,9 @@ Every significant architectural decision gets its own ADR.
 | ADR-013 | JSONB for Flexible Scanner Metadata    | Accepted |
 | ADR-014 | Server-Sent Events for Live Progress   | Accepted |
 | ADR-015 | Cloud-Agnostic Deployment Strategy     | Accepted |
+| ADR-016 | Engineering Readiness Standard         | Accepted |
+| ADR-017 | Sandbox Execution Model                | Accepted |
+| ADR-018 | Multi-language Analysis Strategy       | Accepted |
 
 ---
 
@@ -519,6 +522,201 @@ Avoid vendor-specific services in the MVP.
 Everything should run locally with Docker Compose and be portable to any Docker-compatible cloud.
 
 This prevents vendor lock-in and simplifies contributor onboarding.
+
+---
+
+# ADR-016
+
+## Engineering Readiness Standard
+
+### Status
+
+Accepted
+
+---
+
+### Context
+
+Preflight needs a deterministic definition of “production ready” that students can understand and that scoring can enforce consistently.
+
+Without a shared standard, analyzers, scores, and recommendations would diverge over time.
+
+---
+
+### Decision
+
+Adopt an **Engineering Readiness Standard** for the MVP composed of five product capabilities:
+
+1. Repository ingestion
+2. Static analysis
+3. Security analysis
+4. Engineering Readiness Score (**Preflight Score™**)
+5. Recommendations
+
+A repository passes Preflight when critical security issues are resolved and MVP readiness criteria for documentation, configuration, and basic deployment readiness are satisfied.
+
+Architecture review, API review, and advanced deployment validation are explicitly deferred to V2 and do not affect MVP pass/fail.
+
+---
+
+### Alternatives Considered
+
+**Broad “full engineering audit” MVP**
+
+Rejected because it expands scope into architecture and API review before core scoring is proven.
+
+**Score-only product without educational recommendations**
+
+Rejected because teaching is a core product pillar.
+
+---
+
+### Consequences
+
+Pros
+
+* Clear MVP boundaries
+* Deterministic scoring inputs
+* Consistent UX and acceptance criteria
+
+Cons
+
+* Some advanced checks wait until V2
+
+---
+
+### Review Trigger
+
+Revisit when V2 architecture/API review launches or when readiness criteria need industry-specific variants.
+
+---
+
+# ADR-017
+
+## Sandbox Execution Model
+
+### Status
+
+Accepted
+
+---
+
+### Context
+
+User repositories are untrusted. Analysis may build and start applications. Isolation must be strong enough for MVP production use without introducing Kubernetes.
+
+---
+
+### Decision
+
+Execute untrusted analysis work in ephemeral Docker sandboxes with:
+
+* Rootless containers where supported
+* Non-root execution
+* Read-only filesystem (limited writable mounts)
+* Networking disabled by default
+* CPU, memory, and PID limits
+* Seccomp profile
+* AppArmor/SELinux when available on the host
+
+Sandboxes never receive OAuth tokens or production secrets. Containers are destroyed after each job and never reused.
+
+---
+
+### Alternatives Considered
+
+**Host-native execution**
+
+Rejected due to unacceptable blast radius.
+
+**gVisor / Firecracker microVMs for MVP**
+
+Deferred; stronger isolation may be adopted later if threat model requires it.
+
+**Kubernetes-managed sandboxes for MVP**
+
+Rejected; Kubernetes is out of MVP scope.
+
+---
+
+### Consequences
+
+Pros
+
+* Strong default isolation
+* Aligns with Compose-based MVP operations
+* Clear blast-radius assumptions if isolation fails
+
+Cons
+
+* Some repositories may fail under restricted networking or resource limits
+
+---
+
+### Review Trigger
+
+Revisit if sandbox escapes are observed, or when migrating workers to Kubernetes/ECS requires a different isolation primitive.
+
+---
+
+# ADR-018
+
+## Multi-language Analysis Strategy
+
+### Status
+
+Accepted
+
+---
+
+### Context
+
+Preflight must analyze Python and JavaScript/TypeScript projects in the MVP. A dedicated Node.js microservice would add operational complexity to the modular monolith.
+
+---
+
+### Decision
+
+Keep a single FastAPI + Celery analysis runtime.
+
+* Python analyzers run in-process or as managed tools via the plugin `Analyzer` interface.
+* JavaScript/TypeScript analyzers run as **subprocess-based tools** invoked by the same workers.
+* All analyzers register through the plugin architecture and report `analyzer_version`, `supported_frameworks`, and `metadata`.
+
+There is no dedicated Node.js analysis service in the MVP.
+
+---
+
+### Alternatives Considered
+
+**Dedicated Node.js analysis microservice**
+
+Rejected for MVP due to deployment, auth, and orchestration overhead.
+
+**Language-specific worker fleets from day one**
+
+Deferred until volume justifies specialization.
+
+---
+
+### Consequences
+
+Pros
+
+* One orchestration model
+* Shared sandbox, retries, and domain events
+* Simpler Compose topology
+
+Cons
+
+* Worker images must include required JS tooling
+* Subprocess tooling upgrades need careful version tracking
+
+---
+
+### Review Trigger
+
+Revisit if JS analyzer throughput or tooling isolation requires an extracted service.
 
 ---
 

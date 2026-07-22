@@ -1,0 +1,101 @@
+# ==========================================================
+# Preflight Monorepo
+# ==========================================================
+
+# =====================
+# Python
+# =====================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual Environments
+.venv/
+venv/
+env/
+
+# Python Version
+.python-version
+
+# =====================
+# Environment Variables
+# =====================
+.env
+.env.*
+!.env.example
+
+# =====================
+# IDEs
+# =====================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =====================
+# OS Files
+# =====================
+.DS_Store
+Thumbs.db
+
+# =====================
+# Node / Frontend
+# =====================
+node_modules/
+.next/
+out/
+dist/
+coverage/
+.npm/
+.pnpm-store/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =====================
+# Build Artifacts
+# =====================
+build/
+dist/
+
+# =====================
+# Docker
+# =====================
+docker-data/
+
+# =====================
+# Database
+# =====================
+*.db
+*.sqlite3
+
+# =====================
+# Temporary Files
+# =====================
+*.log
+*.tmp
+*.temp
+.cache/
+
+# =====================
+# Testing
+# =====================
+.pytest_cache/
+coverage.xml
+
+# =====================
+# Misc
+# =====================
+*.bak
+*.orig

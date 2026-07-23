@@ -24,9 +24,7 @@ def get_s3_client() -> Any:
     )
 
 
-def upload_bytes(
-    key: str, data: bytes, content_type: str = "application/octet-stream"
-) -> None:
+def upload_bytes(key: str, data: bytes, content_type: str = "application/octet-stream") -> None:
     """Upload byte content to the configured MinIO bucket."""
     client = get_s3_client()
     client.put_object(

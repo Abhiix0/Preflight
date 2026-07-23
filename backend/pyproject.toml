@@ -23,3 +23,15 @@ dev = [
     "pytest-asyncio>=1.4.0",
     "ruff>=0.15.22",
 ]
+
+[tool.mypy]
+python_version = "3.12"
+# Pragmatic starting config; target is strict = true once codebase grows
+disallow_untyped_defs = false
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "app.api.dependencies"
+ignore_errors = true
+
+

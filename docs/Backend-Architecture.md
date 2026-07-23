@@ -73,65 +73,45 @@ Core principles:
 backend/
 │
 ├── app/
-│
 │   ├── api/
 │   │   ├── v1/
-│   │   │   ├── auth.py
-│   │   │   ├── repositories.py
-│   │   │   ├── analysis.py
-│   │   │   ├── findings.py
-│   │   │   ├── reports.py
-│   │   │   ├── dashboard.py
-│   │   │   └── score.py
+│   │   │   ├── endpoints/
+│   │   │   │   └── health.py
+│   │   │   ├── router.py
+│   │   │   └── __init__.py
 │   │   │
-│   │   ├── router.py
-│   │   └── deps.py
+│   │   ├── dependencies.py
+│   │   └── __init__.py
 │   │
 │   ├── core/
 │   │   ├── config.py
-│   │   ├── security.py
 │   │   ├── logging.py
-│   │   ├── constants.py
-│   │   └── exceptions.py
+│   │   ├── exceptions.py
+│   │   ├── lifespan.py
+│   │   └── __init__.py
 │   │
 │   ├── db/
-│   │   ├── models/
-│   │   ├── migrations/
-│   │   ├── base.py
-│   │   └── session.py
+│   │   ├── session.py
+│   │   └── __init__.py
 │   │
-│   ├── schemas/
-│   │
+│   ├── models/
 │   ├── repositories/
-│   │
+│   ├── schemas/
 │   ├── services/
-│   │
 │   ├── analyzers/
-│   │
-│   ├── orchestrator/
-│   │
 │   ├── workers/
-│   │
-│   ├── scoring/
-│   │
-│   ├── recommendations/
-│   │
-│   ├── reports/
-│   │
-│   ├── integrations/
-│   │
 │   ├── utils/
 │   │
-│   └── main.py
+│   ├── main.py
+│   └── __init__.py
 │
 ├── tests/
 │
-├── scripts/
-│
-├── docker/
+├── alembic/
 │
 ├── pyproject.toml
-│
+├── uv.lock
+├── .env.example
 └── README.md
 ```
 

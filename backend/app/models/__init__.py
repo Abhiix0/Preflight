@@ -1,5 +1,3 @@
-from sqlalchemy.orm import DeclarativeBase
+from app.db.base import Base
 
-
-class Base(DeclarativeBase):
-    """SQLAlchemy declarative base for all models."""
+__all__ = ["Base"]

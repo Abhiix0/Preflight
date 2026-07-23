@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     debug: bool = True
     api_v1_prefix: str = "/api/v1"
 
-    database_url: str = "postgresql+asyncpg://preflight:preflight@localhost:5432/preflight"
+    database_url: str = "postgresql+asyncpg://preflight:preflight@localhost:5433/preflight"
     redis_url: str = "redis://localhost:6379/0"
 
     jwt_secret: str = "change-me"

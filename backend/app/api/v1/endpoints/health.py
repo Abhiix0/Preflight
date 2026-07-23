@@ -1,13 +1,20 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncSession
 
-router = APIRouter(tags=["health"])
+from app.db.session import get_db
+
+router = APIRouter()
 
 
 @router.get("/health")
-def health() -> dict[str, str]:
-    return {"status": "healthy"}
+async def health(
+    db: AsyncSession = Depends(get_db),
+):
+    await db.execute(text("SELECT 1"))
 
-
-@router.get("/ready")
-def ready() -> dict[str, str]:
-    return {"status": "ready"}
+    return {
+        "status": "healthy",
+        "database": "connected",
+        "version": "0.1.0",
+    }

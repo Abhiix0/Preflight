@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/marketing/Navbar";
 import { Hero } from "@/components/marketing/Hero";
 import { WhyPreflightSection } from "@/components/marketing/story/WhyPreflightSection";
-import { HowItWorksSection } from "@/components/marketing/HowItWorksSection";
+import { PipelineSection } from "@/components/marketing/pipeline/PipelineSection";
 import { Footer } from "@/components/marketing/Footer";
 
 export default function LandingPage() {
@@ -16,7 +16,7 @@ export default function LandingPage() {
           </div>
         </div>
         <WhyPreflightSection />
-        <HowItWorksSection />
+        <PipelineSection />
       </main>
       <Footer />
     </div>

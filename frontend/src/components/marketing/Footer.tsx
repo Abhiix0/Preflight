@@ -16,9 +16,9 @@ function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export function Footer() {
   return (
-    <footer className="border-t border-[var(--landing-surface)]/10">
+    <footer className="border-t border-(--landing-surface)/10">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-8 sm:px-8">
-        <span className="text-sm text-[var(--landing-fg-muted)]">
+        <span className="text-sm text-(--landing-fg-muted)">
           &copy; {new Date().getFullYear()} Preflight
         </span>
 
@@ -27,7 +27,7 @@ export function Footer() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Preflight on GitHub"
-          className="text-[var(--landing-fg-muted)] transition-colors hover:text-[var(--landing-fg)]"
+          className="text-(--landing-fg-muted) transition-colors hover:text-(--landing-fg)"
         >
           <GithubIcon className="h-5 w-5" />
         </Link>

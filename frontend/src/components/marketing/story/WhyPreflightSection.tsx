@@ -6,18 +6,18 @@ import HeroVisual from "@/components/marketing/HeroVisual";
 export function WhyPreflightSection() {
   return (
     <section
-      className="bg-(--landing-bg) py-24 sm:py-32"
+      className="bg-(--landing-bg) py-16 sm:py-20"
       aria-labelledby="why-preflight-heading"
     >
       <div className="mx-auto max-w-7xl px-6 sm:px-8">
         <h2
           id="why-preflight-heading"
-          className="mb-16 text-center text-3xl font-bold tracking-tight text-(--landing-fg) sm:text-4xl lg:mb-24"
+          className="mb-10 text-center text-3xl font-bold tracking-tight text-(--landing-fg) sm:text-4xl lg:mb-16"
         >
           Why Preflight?
         </h2>
 
-        <div className="grid gap-16 lg:grid-cols-[55fr_45fr] lg:items-center lg:gap-20">
+        <div className="grid gap-12 lg:grid-cols-[55fr_45fr] lg:items-center lg:gap-16">
           {/* Visual column — shared glass panel placeholder */}
           <div className="mx-auto w-full max-w-md lg:max-w-none">
             <HeroVisual />

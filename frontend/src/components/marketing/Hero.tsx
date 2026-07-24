@@ -23,7 +23,7 @@ export function Hero() {
        */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-(--landing-surface) [clip-path:polygon(60%_0%,100%_0%,100%_100%,52%_100%)] lg:[clip-path:polygon(58%_0%,100%_0%,100%_100%,50%_100%)]"
+        className="absolute inset-0 bg-(--landing-surface) [clip-path:polygon(55%_0%,100%_0%,100%_100%,60%_100%)] lg:[clip-path:polygon(52%_0%,100%_0%,100%_100%,58%_100%)]"
       />
 
       {/* Content grid — sits above the zone layers */}

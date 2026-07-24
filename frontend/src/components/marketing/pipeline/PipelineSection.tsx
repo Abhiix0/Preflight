@@ -120,39 +120,31 @@ export function PipelineSection() {
   return (
     <section className="bg-(--landing-bg)" aria-labelledby="pipeline-heading">
 
-      {/* ── Header — always visible, outside scroll container ── */}
-      <div className="mx-auto max-w-7xl px-6 pb-16 pt-24 text-center sm:px-8 sm:pt-32">
-        <h2
-          id="pipeline-heading"
-          className="text-3xl font-bold tracking-tight text-(--landing-fg) sm:text-4xl"
-        >
-          How It Works
-        </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-(--landing-fg-muted)">
-          Five stages from repository to production-ready.
-        </p>
-      </div>
-
       {/* ── Desktop: sticky scroll-scrub ── */}
       <div className="hidden lg:block">
         {/*
          * min-h-[300vh] — scroll travel for the 4-segment animation.
-         * The sticky child stays pinned until the outer container scrolls out.
+         * The heading lives inside the sticky panel so it appears immediately
+         * with the content rather than creating a separate block of space above.
          */}
         <div className="min-h-[300vh]">
           <div
             ref={stickyRoot}
-            className="sticky top-0 flex h-screen items-center"
+            className="sticky top-0 flex h-screen flex-col items-center justify-center"
           >
             <div className="mx-auto w-full max-w-7xl px-6 sm:px-8">
-              {/*
-               * Two-row layout:
-               *   Row 1: labels (above nodes)
-               *   Row 2: node circles + SVG track (same height, track overlaid)
-               *   Row 3: cards (below nodes)
-               *
-               * All three rows share the same 5-column grid so columns align.
-               */}
+              {/* Section heading — inside sticky so no orphaned space block above */}
+              <div className="mb-12 text-center">
+                <h2
+                  id="pipeline-heading"
+                  className="text-3xl font-bold tracking-tight text-(--landing-fg) sm:text-4xl"
+                >
+                  How It Works
+                </h2>
+                <p className="mx-auto mt-3 max-w-2xl text-(--landing-fg-muted)">
+                  Five stages from repository to production-ready.
+                </p>
+              </div>
 
               {/* Row 1 — labels */}
               <div className="grid grid-cols-5">
@@ -167,17 +159,10 @@ export function PipelineSection() {
 
               {/* Row 2 — node circles + SVG track overlay */}
               <div className="relative mt-3 grid grid-cols-5">
-                {/* SVG absolutely fills this row, drawing lines between node centres */}
                 {!isStatic && <HorizontalTrack />}
-
-                {/* Node circles — each centred in its column via justify-center */}
                 {STAGES.map((stage, i) => (
                   <div key={stage.id} className="flex justify-center">
-                    <PipelineNode
-                      index={i}
-                      icon={stage.icon}
-                      static={isStatic}
-                    />
+                    <PipelineNode index={i} icon={stage.icon} static={isStatic} />
                   </div>
                 ))}
               </div>
@@ -202,14 +187,26 @@ export function PipelineSection() {
 
       {/* ── Mobile: static stacked list, no scroll-scrub ── */}
       <div className="lg:hidden">
-        <div className="mx-auto max-w-md px-6 pb-24 sm:px-8">
+        <div className="mx-auto max-w-md px-6 pb-16 pt-16 sm:px-8">
+          {/* Heading */}
+          <div className="mb-10 text-center">
+            <h2
+              id="pipeline-heading"
+              className="text-3xl font-bold tracking-tight text-(--landing-fg) sm:text-4xl"
+            >
+              How It Works
+            </h2>
+            <p className="mx-auto mt-3 max-w-2xl text-(--landing-fg-muted)">
+              Five stages from repository to production-ready.
+            </p>
+          </div>
+
           <div className="flex flex-col gap-6">
             {STAGES.map((stage, i) => (
               <div key={stage.id} className="flex items-start gap-4">
                 {/* Left: node marker + vertical connector */}
                 <div className="flex flex-col items-center">
                   <PipelineNode index={i} icon={stage.icon} static />
-                  {/* Connector line between nodes */}
                   {i < STAGES.length - 1 && (
                     <div className="mt-1 w-0.5 flex-1 self-stretch bg-(--landing-surface)/20" style={{ minHeight: "2.5rem" }} />
                   )}

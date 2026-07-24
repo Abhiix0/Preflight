@@ -11,7 +11,10 @@ export function Navbar() {
         {/* Wordmark */}
         <Link href="/" className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--landing-surface)] shadow-sm">
-            <Rocket className="h-4 w-4 text-[var(--landing-bg)]" aria-hidden="true" />
+            <Rocket
+              className="h-4 w-4 text-[var(--landing-bg)]"
+              aria-hidden="true"
+            />
           </div>
           <span className="text-lg font-bold tracking-tight text-[var(--landing-fg)]">
             Preflight

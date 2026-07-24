@@ -53,13 +53,19 @@ export function Hero() {
           </Button>
 
           {/* Trust points */}
-          <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-3" aria-label="Key capabilities">
+          <ul
+            className="mt-10 flex flex-wrap gap-x-6 gap-y-3"
+            aria-label="Key capabilities"
+          >
             {trustPoints.map((point) => (
               <li
                 key={point}
                 className="flex items-center gap-2 text-sm text-(--landing-fg-muted)"
               >
-                <Check className="h-4 w-4 text-(--landing-surface)" aria-hidden="true" />
+                <Check
+                  className="h-4 w-4 text-(--landing-surface)"
+                  aria-hidden="true"
+                />
                 {point}
               </li>
             ))}

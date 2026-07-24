@@ -1,6 +1,6 @@
-import { useEffect, useRef } from 'react';
-import { createTimeline, onScroll, type Timeline } from 'animejs';
-import { prefersReducedMotion } from './reduced-motion';
+import { useEffect, useRef } from "react";
+import { createTimeline, onScroll, type Timeline } from "animejs";
+import { prefersReducedMotion } from "./reduced-motion";
 
 export function useScrollTimeline<T extends HTMLElement>(
   build: (timeline: Timeline) => void,

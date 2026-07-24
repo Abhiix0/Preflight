@@ -86,7 +86,10 @@ function HorizontalTrack() {
           <g key={i}>
             {/* Dim baseline track — always visible */}
             <line
-              x1={lx1} y1={cy} x2={lx2} y2={cy}
+              x1={lx1}
+              y1={cy}
+              x2={lx2}
+              y2={cy}
               strokeWidth="2"
               className="stroke-(--landing-surface)/20"
             />
@@ -94,7 +97,10 @@ function HorizontalTrack() {
             <line
               className="pipeline-segment stroke-(--landing-surface)"
               data-seg={i}
-              x1={lx1} y1={cy} x2={lx2} y2={cy}
+              x1={lx1}
+              y1={cy}
+              x2={lx2}
+              y2={cy}
               strokeWidth="2.5"
               strokeLinecap="round"
             />
@@ -102,7 +108,9 @@ function HorizontalTrack() {
             <circle
               className="pipeline-particle fill-(--landing-surface)"
               data-particle={i}
-              cx={vmid} cy={cy} r="5"
+              cx={vmid}
+              cy={cy}
+              r="5"
             />
           </g>
         );
@@ -119,7 +127,6 @@ export function PipelineSection() {
 
   return (
     <section className="bg-(--landing-bg)" aria-labelledby="pipeline-heading">
-
       {/* ── Desktop: sticky scroll-scrub ── */}
       <div className="hidden lg:block">
         {/*
@@ -162,7 +169,11 @@ export function PipelineSection() {
                 {!isStatic && <HorizontalTrack />}
                 {STAGES.map((stage, i) => (
                   <div key={stage.id} className="flex justify-center">
-                    <PipelineNode index={i} icon={stage.icon} static={isStatic} />
+                    <PipelineNode
+                      index={i}
+                      icon={stage.icon}
+                      static={isStatic}
+                    />
                   </div>
                 ))}
               </div>
@@ -208,7 +219,10 @@ export function PipelineSection() {
                 <div className="flex flex-col items-center">
                   <PipelineNode index={i} icon={stage.icon} static />
                   {i < STAGES.length - 1 && (
-                    <div className="mt-1 w-0.5 flex-1 self-stretch bg-(--landing-surface)/20" style={{ minHeight: "2.5rem" }} />
+                    <div
+                      className="mt-1 w-0.5 flex-1 self-stretch bg-(--landing-surface)/20"
+                      style={{ minHeight: "2.5rem" }}
+                    />
                   )}
                 </div>
 
@@ -230,7 +244,6 @@ export function PipelineSection() {
           </div>
         </div>
       </div>
-
     </section>
   );
 }

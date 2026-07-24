@@ -53,14 +53,18 @@
   --landing-surface: #bfcfd6;
   --landing-fg: #ffffff;
   --landing-fg-muted: #a1a1aa;
+  /* Page canvas behind the hero card — slightly lighter than pure black
+     so the card shadow reads clearly */
+  --landing-page-bg: #111114;
 }
 
-.hero-diagonal-bg {
-  background: linear-gradient(
-    110deg,
-    var(--landing-bg) 45%,
-    #bfcfd61a 100%
-  );
+/* Two-zone split helpers used inside the hero card */
+.hero-zone-left {
+  background-color: var(--landing-bg);
+}
+
+.hero-zone-right {
+  background-color: var(--landing-surface);
 }
 
 @theme inline {

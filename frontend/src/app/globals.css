@@ -67,6 +67,18 @@
   background-color: var(--landing-surface);
 }
 
+/*
+ * Reduced-motion: render gauge at its final filled state immediately.
+ * useAnimeScope no-ops under prefers-reduced-motion, which would leave
+ * the arc at dashoffset=376.99 (empty) without this override.
+ * ARC_LENGTH = 376.99, FINAL_OFFSET = 22.62 (94/100 score, 270deg arc)
+ */
+@media (prefers-reduced-motion: reduce) {
+  .gauge-arc {
+    stroke-dashoffset: 22.62 !important;
+  }
+}
+
 @theme inline {
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));

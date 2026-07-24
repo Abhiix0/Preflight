@@ -10,13 +10,13 @@ export function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 sm:px-8">
         {/* Wordmark */}
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--landing-surface)] shadow-sm">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-(--landing-surface) shadow-sm">
             <Rocket
-              className="h-4 w-4 text-[var(--landing-bg)]"
+              className="h-4 w-4 text-(--landing-bg)"
               aria-hidden="true"
             />
           </div>
-          <span className="text-lg font-bold tracking-tight text-[var(--landing-fg)]">
+          <span className="text-lg font-bold tracking-tight text-(--landing-fg)">
             Preflight
           </span>
         </Link>
@@ -26,7 +26,7 @@ export function Navbar() {
           <Button
             variant="ghost"
             size="sm"
-            className="text-[var(--landing-fg-muted)] hover:text-[var(--landing-fg)] hover:bg-white/5"
+            className="text-(--landing-fg-muted) hover:bg-white/5 hover:text-(--landing-fg)"
             asChild
           >
             <Link href="/login">Login</Link>

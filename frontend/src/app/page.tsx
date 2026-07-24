@@ -9,7 +9,7 @@ export default function LandingPage() {
     <div className="landing bg-(--landing-page-bg) text-(--landing-fg)">
       <main>
         {/* Inset hero card — rounded corners with page background visible around it */}
-        <div className="mx-4 my-4 overflow-hidden rounded-2xl shadow-2xl sm:mx-6 sm:my-6 lg:rounded-3xl">
+        <div className="mx-2 my-2 overflow-hidden rounded-[2rem] shadow-2xl sm:mx-3 sm:my-3">
           <div className="relative flex min-h-screen flex-col lg:h-screen">
             <Navbar />
             <Hero />

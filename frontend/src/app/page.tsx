@@ -7,9 +7,11 @@ import { Footer } from "@/components/marketing/Footer";
 export default function LandingPage() {
   return (
     <div className="landing bg-[var(--landing-bg)] text-[var(--landing-fg)]">
-      <Navbar />
       <main>
-        <Hero />
+        <div className="hero-diagonal-bg relative flex min-h-screen flex-col lg:h-screen">
+          <Navbar />
+          <Hero />
+        </div>
         <AboutSection />
         <HowItWorksSection />
       </main>

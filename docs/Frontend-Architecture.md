@@ -87,7 +87,7 @@ Every API response, component prop, and state object is fully typed using TypeSc
 | Styling       | Tailwind CSS    |
 | Components    | shadcn/ui       |
 | Icons         | Lucide React    |
-| Animations    | Motion          |
+| Animations    | Anime.js v4     |
 | Forms         | React Hook Form |
 | Validation    | Zod             |
 | State         | Zustand         |

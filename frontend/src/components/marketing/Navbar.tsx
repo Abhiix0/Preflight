@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 export function Navbar() {
   return (
-    <nav className="relative z-10 w-full">
+    <nav className="absolute inset-x-0 top-0 z-10 w-full">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 sm:px-8">
         {/* Wordmark */}
         <Link href="/" className="flex items-center gap-2.5">
@@ -27,13 +27,6 @@ export function Navbar() {
             asChild
           >
             <Link href="/login">Login</Link>
-          </Button>
-          <Button
-            size="sm"
-            className="bg-[var(--landing-surface)] text-[var(--landing-bg)] shadow-sm hover:bg-[var(--landing-surface)]/90"
-            asChild
-          >
-            <Link href="/signup">Sign Up</Link>
           </Button>
         </div>
       </div>

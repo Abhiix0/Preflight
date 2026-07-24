@@ -55,6 +55,14 @@
   --landing-fg-muted: #a1a1aa;
 }
 
+.hero-diagonal-bg {
+  background: linear-gradient(
+    110deg,
+    var(--landing-bg) 45%,
+    #bfcfd61a 100%
+  );
+}
+
 @theme inline {
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));

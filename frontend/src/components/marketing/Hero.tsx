@@ -14,8 +14,8 @@ const trustPoints = [
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 sm:px-8 lg:grid-cols-[1fr_0.85fr] lg:items-center lg:gap-16 lg:py-32">
+    <section className="relative flex flex-1 items-center pt-[72px]">
+      <div className="mx-auto grid w-full max-w-7xl gap-12 px-6 py-12 sm:px-8 lg:grid-cols-[55fr_45fr] lg:items-center lg:gap-16">
         {/* Text column */}
         <div className="flex flex-col items-start">
           <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-[var(--landing-fg)] sm:text-5xl lg:text-6xl">
@@ -37,7 +37,7 @@ export function Hero() {
             className="mt-8 bg-[var(--landing-surface)] px-8 text-[var(--landing-bg)] shadow-lg shadow-[var(--landing-surface)]/10 hover:bg-[var(--landing-surface)]/90"
             asChild
           >
-            <Link href="/signup">Run Your First Preflight</Link>
+            <Link href="/signup">Run Preflight</Link>
           </Button>
 
           {/* Trust points */}

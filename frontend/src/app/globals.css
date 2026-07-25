@@ -93,15 +93,15 @@
 }
 
 /*
- * Reduced-motion: stop orbit rotation, show all labels statically.
- * The orbit-container animation is paused via animation-play-state
- * and each orbit-dot-inner counter-rotation is also paused.
- * orbit-label is made visible so info isn't hidden behind the dot state.
+ * Reduced-motion: stop all animations, show final/static states.
+ *   • orbit-container + orbit-dot-inner: animation stopped
+ *   • orbit-label: shown statically (labels visible without hover)
+ *   • gauge-arc: render at final filled state (dashoffset = 22.62)
+ *   • parallax-layer: no transform, stays centered
  */
 @media (prefers-reduced-motion: reduce) {
   .orbit-container {
     animation: none !important;
-    /* Dots stay at their default 120deg-apart positions */
   }
 
   .orbit-dot-inner {
@@ -113,17 +113,13 @@
     max-width: 6rem !important;
     padding-left: 0.375rem !important;
   }
-}
 
-/*
- * Reduced-motion: render gauge at its final filled state immediately.
- * useAnimeScope no-ops under prefers-reduced-motion, which would leave
- * the arc at dashoffset=376.99 (empty) without this override.
- * ARC_LENGTH = 376.99, FINAL_OFFSET = 22.62 (94/100 score, 270deg arc)
- */
-@media (prefers-reduced-motion: reduce) {
   .gauge-arc {
     stroke-dashoffset: 22.62 !important;
+  }
+
+  .parallax-layer {
+    transform: translate(0px, 0px) !important;
   }
 }
 

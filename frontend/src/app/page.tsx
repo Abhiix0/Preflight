@@ -13,7 +13,7 @@ export default function LandingPage() {
       <main>
         {/* Inset hero card — Navbar is no longer a child, so overflow-hidden
             doesn't clip the fixed navbar */}
-        <div className="mx-2 my-2 overflow-hidden rounded-[2rem] shadow-2xl sm:mx-3 sm:my-3">
+        <div className="mx-2 my-2 overflow-hidden rounded-4xl shadow-2xl sm:mx-3 sm:my-3">
           <Hero />
         </div>
         <WhyPreflightSection />

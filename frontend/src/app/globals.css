@@ -68,58 +68,28 @@
 }
 
 /*
- * Dot-grid textures for hero zones.
- * Dark zone: pale-sky dots at 3% opacity — barely-there on black.
- * Light zone: black dots at 6% opacity — slightly more visible on pale-sky.
- * Both are purely decorative layers (z below content via pointer-events-none
- * wrapper in JSX).
- */
-.hero-grid-dark {
-  background-image: radial-gradient(
-    circle,
-    color-mix(in srgb, var(--landing-surface) 12%, transparent) 1px,
-    transparent 1px
-  );
-  background-size: 22px 22px;
-}
-
-.hero-grid-light {
-  background-image: radial-gradient(
-    circle,
-    color-mix(in srgb, var(--landing-bg) 18%, transparent) 1px,
-    transparent 1px
-  );
-  background-size: 22px 22px;
-}
-
-/*
- * Reduced-motion: stop all animations, show final/static states.
- *   • orbit-container + orbit-dot-inner: animation stopped
- *   • orbit-label: shown statically (labels visible without hover)
- *   • gauge-arc: render at final filled state (dashoffset = 22.62)
- *   • parallax-layer: no transform, stays centered
+ * Reduced-motion: show a static resting frame for the flight animation.
+ * useAnimeScope bails early under prefers-reduced-motion so the loop
+ * never runs. The .flight-static class (set conditionally in FlightVisual)
+ * overrides opacity to show: jet silhouette at mid-path + blueprint lines.
+ * Everything else stays at opacity=0 (the SVG inline default).
  */
 @media (prefers-reduced-motion: reduce) {
-  .orbit-container {
-    animation: none !important;
-  }
-
-  .orbit-dot-inner {
-    animation: none !important;
-  }
-
-  .orbit-label {
+  .flight-static #flight-jet {
     opacity: 1 !important;
-    max-width: 6rem !important;
-    padding-left: 0.375rem !important;
   }
 
-  .gauge-arc {
-    stroke-dashoffset: 22.62 !important;
+  .flight-static #flight-bp-1,
+  .flight-static #flight-bp-2,
+  .flight-static #flight-bp-3,
+  .flight-static #flight-bp-4,
+  .flight-static #flight-bp-5 {
+    opacity: 0.25 !important;
   }
 
-  .parallax-layer {
-    transform: translate(0px, 0px) !important;
+  .flight-static #flight-runway-l,
+  .flight-static #flight-runway-r {
+    opacity: 0.2 !important;
   }
 }
 

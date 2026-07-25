@@ -1,7 +1,7 @@
 "use client";
 
 import { STORY_STAGES } from "./stages";
-import HeroVisual from "@/components/marketing/HeroVisual";
+import FlightVisual from "@/components/marketing/flight/FlightVisual";
 
 export function WhyPreflightSection() {
   return (
@@ -20,7 +20,7 @@ export function WhyPreflightSection() {
         <div className="grid gap-12 lg:grid-cols-[55fr_45fr] lg:items-center lg:gap-16">
           {/* Visual column — shared glass panel placeholder */}
           <div className="mx-auto w-full max-w-md lg:max-w-none">
-            <HeroVisual />
+            <FlightVisual />
           </div>
 
           {/* Content column — all 4 stages, fully visible on load */}

@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Rocket } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 /**
  * Fixed navbar at document level (not inside the hero card).
@@ -56,14 +55,19 @@ export function Navbar() {
 
         {/* Actions */}
         <div className="flex items-center gap-3">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-(--landing-fg-muted) hover:bg-white/5 hover:text-(--landing-fg)"
-            asChild
+          {/*
+           * Solid pill — bg-(--landing-surface) / text-(--landing-bg).
+           * High contrast against both scroll states:
+           *   • transparent navbar (over black hero zone): pale-sky pill on black ✓
+           *   • solid black/90 navbar (post-scroll): pale-sky pill on near-black ✓
+           * No style switching on scroll needed.
+           */}
+          <Link
+            href="/login"
+            className="rounded-full bg-(--landing-surface) px-4 py-1.5 text-sm font-semibold text-(--landing-bg) transition-opacity hover:opacity-90"
           >
-            <Link href="/login">Login</Link>
-          </Button>
+            Login
+          </Link>
         </div>
       </div>
     </nav>

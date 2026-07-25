@@ -25,9 +25,20 @@ export function Hero() {
        * This makes the pale zone narrow at the top-left and widen toward
        * the bottom-left — the "/" orientation.
        */}
+      {/* Dot grid — dark zone (sits on top of bg, beneath content) */}
+      <div
+        aria-hidden="true"
+        className="hero-grid-dark pointer-events-none absolute inset-0 z-1"
+      />
+
+      {/* Right zone — pale-sky + dot grid */}
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-(--landing-surface) [clip-path:polygon(60%_0%,100%_0%,100%_100%,45%_100%)] lg:[clip-path:polygon(58%_0%,100%_0%,100%_100%,43%_100%)]"
+      />
+      <div
+        aria-hidden="true"
+        className="hero-grid-light pointer-events-none absolute inset-0 z-1 [clip-path:polygon(60%_0%,100%_0%,100%_100%,45%_100%)] lg:[clip-path:polygon(58%_0%,100%_0%,100%_100%,43%_100%)]"
       />
 
       {/* Content grid — sits above the zone layers, pt-18 clears fixed Navbar */}

@@ -68,6 +68,54 @@
 }
 
 /*
+ * Dot-grid textures for hero zones.
+ * Dark zone: pale-sky dots at 3% opacity — barely-there on black.
+ * Light zone: black dots at 6% opacity — slightly more visible on pale-sky.
+ * Both are purely decorative layers (z below content via pointer-events-none
+ * wrapper in JSX).
+ */
+.hero-grid-dark {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--landing-surface) 12%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+}
+
+.hero-grid-light {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--landing-bg) 18%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+}
+
+/*
+ * Reduced-motion: stop orbit rotation, show all labels statically.
+ * The orbit-container animation is paused via animation-play-state
+ * and each orbit-dot-inner counter-rotation is also paused.
+ * orbit-label is made visible so info isn't hidden behind the dot state.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .orbit-container {
+    animation: none !important;
+    /* Dots stay at their default 120deg-apart positions */
+  }
+
+  .orbit-dot-inner {
+    animation: none !important;
+  }
+
+  .orbit-label {
+    opacity: 1 !important;
+    max-width: 6rem !important;
+    padding-left: 0.375rem !important;
+  }
+}
+
+/*
  * Reduced-motion: render gauge at its final filled state immediately.
  * useAnimeScope no-ops under prefers-reduced-motion, which would leave
  * the arc at dashoffset=376.99 (empty) without this override.

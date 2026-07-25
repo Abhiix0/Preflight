@@ -5,25 +5,33 @@ import {
   DURATION_SLOW,
   STAGGER_BASE,
 } from "@/lib/animation";
-import { GAUGE_ARC_LENGTH, GAUGE_FINAL_OFFSET } from "./HeroVisual";
+import {
+  GAUGE_ARC_LENGTH,
+  GAUGE_FINAL_OFFSET,
+  ORBIT_DURATION,
+} from "./HeroVisual";
 
 /**
- * buildGaugeEntrance — called by useAnimeScope inside HeroVisual.
+ * buildGaugeEntrance — called once by useAnimeScope inside HeroVisual.
  *
  * Sequence:
- *   1. Radar sweep starts immediately (continuous rotation loop)
- *   2. Badge float loops start immediately (staggered, continuous)
- *   3. Arc sweeps from 0 → final offset (one-shot, DURATION_SLOW)
- *   4. On arc complete → ambient glow pulse + scale breathe loops begin
+ *   1. Radar sweep: continuous clockwise rotation (cosmetic, always-on)
+ *   2. Orbit container: continuous clockwise rotation, 64s per revolution
+ *   3. Orbit dot-inner: counter-rotation on each dot to keep labels upright
+ *   4. Arc sweep: one-shot settle, then fires startAmbientLoop
+ *   5. Glow ring: fade-in alongside sweep
  *
- * All animations are no-ops when prefers-reduced-motion is active
- * (useAnimeScope bails early). globals.css handles the static final
- * state for the gauge arc; radar/badges render at their default
- * positions which are already sensible (rotate(0), translateY(0)).
+ * No-ops under prefers-reduced-motion (useAnimeScope bails early).
+ * globals.css stops orbit/dot-inner animations and shows labels statically.
+ *
+ * Counter-rotation math:
+ *   Container rotates +360° over ORBIT_DURATION.
+ *   Each dot-inner must rotate -360° over the same duration to cancel out.
+ *   Initial value = -startDeg (already set in JSX inline style).
+ *   Target = -startDeg - 360 (net: the label stays upright through a full orbit).
  */
 export function buildGaugeEntrance() {
-  // ── 1. Radar sweep: continuous clockwise rotation ─────────────────────────
-  // Starts from rotate(0deg) — the element's CSS default — so no jump.
+  // ── 1. Radar sweep ─────────────────────────────────────────────────────────
   animate(".radar-sweep", {
     rotate: [0, 360],
     duration: 6000,
@@ -31,24 +39,28 @@ export function buildGaugeEntrance() {
     loop: true,
   });
 
-  // ── 2. Badge float loops (staggered, independent per badge) ───────────────
-  // Small translateY amplitude (±6px), long-ish period per badge.
-  // Each badge floats at its own cadence via individual animate calls
-  // seeded by data-badge-index delay.
-  const FLOAT_PERIODS = [2800, 3400, 3100]; // ms per badge — slightly different cadences
-  const FLOAT_DELAYS = [0, 400, 200];
+  // ── 2. Orbit container: one-way continuous rotation ────────────────────────
+  animate(".orbit-container", {
+    rotate: [0, 360],
+    duration: ORBIT_DURATION,
+    ease: "linear",
+    loop: true,
+  });
 
-  document.querySelectorAll<HTMLElement>(".badge-pill").forEach((el, i) => {
+  // ── 3. Counter-rotate each dot-inner to keep labels upright ────────────────
+  // Each dot has a different startDeg; we target them individually so the
+  // from value is correct per dot.
+  document.querySelectorAll<HTMLElement>("[data-orbit-dot]").forEach((el) => {
+    const startDeg = Number(el.dataset.startDeg ?? 0);
     animate(el, {
-      translateY: [0, -6, 0],
-      duration: FLOAT_PERIODS[i] ?? 3000,
-      ease: "inOutSine",
+      rotate: [-startDeg, -startDeg - 360],
+      duration: ORBIT_DURATION,
+      ease: "linear",
       loop: true,
-      delay: FLOAT_DELAYS[i] ?? 0,
     });
   });
 
-  // ── 3. Arc sweep: one-shot settle ─────────────────────────────────────────
+  // ── 4. Arc sweep: one-shot ─────────────────────────────────────────────────
   animate(".gauge-arc", {
     strokeDashoffset: [GAUGE_ARC_LENGTH, GAUGE_FINAL_OFFSET],
     duration: DURATION_SLOW,
@@ -56,7 +68,7 @@ export function buildGaugeEntrance() {
     onComplete: startAmbientLoop,
   });
 
-  // ── 4. Glow ring fade in alongside the sweep ─────────────────────────────
+  // ── 5. Glow fade-in ────────────────────────────────────────────────────────
   animate(".gauge-glow", {
     opacity: [0, 1],
     duration: DURATION_SLOW,
@@ -66,8 +78,8 @@ export function buildGaugeEntrance() {
 }
 
 /**
- * Ambient loop — fires once after the arc sweep completes.
- * Opacity breathe on glow ring + micro scale on the ring wrapper.
+ * Ambient loop — fires once after arc sweep completes.
+ * Glow opacity breathe + micro scale on the ring wrapper.
  * Never re-runs the arc sweep.
  */
 function startAmbientLoop() {

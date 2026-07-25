@@ -1,12 +1,45 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Rocket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+/**
+ * Fixed navbar at document level (not inside the hero card).
+ *
+ * At scroll-y 0: fully transparent background, white text — sits cleanly
+ * over the dark left zone of the hero card.
+ *
+ * Once scrolled past the hero (window.innerHeight), transitions to a
+ * solid bg-(--landing-bg)/90 + backdrop-blur-md + border-b bar.
+ *
+ * z-50 ensures it sits above the hero card's stacking context
+ * (the card has overflow-hidden which would clip any absolute child —
+ * this was the root cause of the navbar being invisible/clipped).
+ */
 export function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > window.innerHeight * 0.8);
+    };
+    // Set initial state (e.g. if page loads mid-scroll)
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <nav className="absolute inset-x-0 top-0 z-10 w-full">
+    <nav
+      className={[
+        "fixed inset-x-0 top-0 z-50 w-full transition-all duration-300",
+        scrolled
+          ? "border-b border-white/10 bg-black/90 backdrop-blur-md"
+          : "bg-transparent",
+      ].join(" ")}
+    >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 sm:px-8">
         {/* Wordmark */}
         <Link href="/" className="flex items-center gap-2.5">

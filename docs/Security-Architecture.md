@@ -16,14 +16,14 @@ This document defines the security architecture of **Preflight**.
 
 It specifies how the platform protects:
 
-* User accounts
-* GitHub repositories
-* OAuth credentials
-* Analysis environments
-* Infrastructure
-* APIs
-* Reports
-* Sensitive data
+- User accounts
+- GitHub repositories
+- OAuth credentials
+- Analysis environments
+- Infrastructure
+- APIs
+- Reports
+- Sensitive data
 
 The objective is to make Preflight secure **by design**, not secure as an afterthought.
 
@@ -137,15 +137,15 @@ Authenticated Session
 
 Authentication methods:
 
-* GitHub OAuth
-* JWT Access Token
-* Refresh Token
+- GitHub OAuth
+- JWT Access Token
+- Refresh Token
 
 Future:
 
-* Google Login
-* SSO
-* Enterprise SAML
+- Google Login
+- SSO
+- Enterprise SAML
 
 ---
 
@@ -171,9 +171,9 @@ Permissions are checked on every protected endpoint.
 
 Users can only access:
 
-* Their repositories
-* Their reports
-* Their analysis history
+- Their repositories
+- Their reports
+- Their analysis history
 
 ---
 
@@ -195,10 +195,10 @@ Refresh Token
 
 Sessions are invalidated:
 
-* Logout
-* Password change (future)
-* Token compromise
-* Refresh expiration
+- Logout
+- Password change (future)
+- Token compromise
+- Refresh expiration
 
 ---
 
@@ -206,19 +206,19 @@ Sessions are invalidated:
 
 Every API request is protected by:
 
-* HTTPS
-* JWT Validation
-* Authorization
-* Request Validation
-* Rate Limiting
-* Audit Logging
+- HTTPS
+- JWT Validation
+- Authorization
+- Request Validation
+- Rate Limiting
+- Audit Logging
 
 Protected endpoints reject:
 
-* Invalid tokens
-* Expired tokens
-* Missing authentication
-* Unauthorized access
+- Invalid tokens
+- Expired tokens
+- Missing authentication
+- Unauthorized access
 
 ---
 
@@ -284,34 +284,34 @@ Every analysis executes inside an isolated container.
 
 Container Rules
 
-* Rootless containers where supported by the host
-* Non-root execution inside the container
-* Read-only filesystem (writable temp mounts only where required)
-* Disabled networking by default
-* CPU limits
-* Memory limits
-* PID limits
-* Seccomp profile
-* AppArmor or SELinux confinement when available
-* Temporary volumes
-* Automatic deletion
+- Rootless containers where supported by the host
+- Non-root execution inside the container
+- Read-only filesystem (writable temp mounts only where required)
+- Disabled networking by default
+- CPU limits
+- Memory limits
+- PID limits
+- Seccomp profile
+- AppArmor or SELinux confinement when available
+- Temporary volumes
+- Automatic deletion
 
 ### Outbound Network Restrictions
 
-* Analysis containers have networking disabled by default.
-* No arbitrary egress to the public internet during analysis.
-* If a specific analyzer requires limited egress (future), allowlists are explicit, minimal, and audited.
-* Host metadata endpoints and internal service networks are unreachable from sandboxes.
+- Analysis containers have networking disabled by default.
+- No arbitrary egress to the public internet during analysis.
+- If a specific analyzer requires limited egress (future), allowlists are explicit, minimal, and audited.
+- Host metadata endpoints and internal service networks are unreachable from sandboxes.
 
 ### Blast-Radius Assumptions
 
 If container isolation fails, the architecture assumes:
 
-* Compromise is limited to the analysis host / worker node, not the primary database or secrets store by default network policy.
-* OAuth tokens and production secrets are never mounted into analysis containers.
-* Repository workspaces are ephemeral and job-scoped.
-* A compromised sandbox must not gain write access to other jobs' workspaces.
-* Worker hosts are replaceable; rebuild and rotate credentials if isolation failure is suspected.
+- Compromise is limited to the analysis host / worker node, not the primary database or secrets store by default network policy.
+- OAuth tokens and production secrets are never mounted into analysis containers.
+- Repository workspaces are ephemeral and job-scoped.
+- A compromised sandbox must not gain write access to other jobs' workspaces.
+- Worker hosts are replaceable; rebuild and rotate credentials if isolation failure is suspected.
 
 Container Lifecycle
 
@@ -347,22 +347,22 @@ GitHub OAuth tokens are encrypted at rest before persistence.
 
 Encryption
 
-* Algorithm: AES-256-GCM (or equivalent authenticated encryption)
-* Ciphertext stored in `oauth_accounts.access_token` / `refresh_token`
-* Tokens decrypted only in memory for GitHub API calls
+- Algorithm: AES-256-GCM (or equivalent authenticated encryption)
+- Ciphertext stored in `oauth_accounts.access_token` / `refresh_token`
+- Tokens decrypted only in memory for GitHub API calls
 
 Key Management
 
-* Encryption keys live in the production secrets manager, not in application source or `.env` committed files
-* Development may use a local key via environment configuration
-* Application processes receive keys at runtime through the secrets manager or sealed environment injection
+- Encryption keys live in the production secrets manager, not in application source or `.env` committed files
+- Development may use a local key via environment configuration
+- Application processes receive keys at runtime through the secrets manager or sealed environment injection
 
 Rotation Strategy
 
-* Support key version identifiers alongside ciphertext
-* Rotate encryption keys on a defined schedule and on suspected compromise
-* Re-encrypt stored tokens with the new key during controlled rotation jobs
-* Invalidate and force re-authorization if decryption fails after rotation incidents
+- Support key version identifiers alongside ciphertext
+- Rotate encryption keys on a defined schedule and on suspected compromise
+- Re-encrypt stored tokens with the new key during controlled rotation jobs
+- Invalidate and force re-authorization if decryption fails after rotation incidents
 
 Lifecycle
 
@@ -396,22 +396,22 @@ Never mounted into analysis containers.
 
 Preflight automatically scans for:
 
-* AWS Keys
-* GitHub Tokens
-* OpenAI Keys
-* Supabase Keys
-* MongoDB URIs
-* PostgreSQL URLs
-* Stripe Keys
-* Firebase Credentials
-* Environment Variables
-* SSH Keys
+- AWS Keys
+- GitHub Tokens
+- OpenAI Keys
+- Supabase Keys
+- MongoDB URIs
+- PostgreSQL URLs
+- Stripe Keys
+- Firebase Credentials
+- Environment Variables
+- SSH Keys
 
 Detected secrets are:
 
-* Flagged
-* Reported
-* Never stored in plaintext
+- Flagged
+- Reported
+- Never stored in plaintext
 
 ---
 
@@ -433,14 +433,14 @@ Repository archives are never permanently stored.
 
 Production requirements
 
-* HTTPS only
-* TLS 1.3
-* HSTS
-* Secure Cookies
-* CSP Headers
-* X-Frame-Options
-* X-Content-Type-Options
-* Referrer Policy
+- HTTPS only
+- TLS 1.3
+- HSTS
+- Secure Cookies
+- CSP Headers
+- X-Frame-Options
+- X-Content-Type-Options
+- Referrer Policy
 
 No HTTP traffic allowed.
 
@@ -450,12 +450,12 @@ No HTTP traffic allowed.
 
 Database protections
 
-* Parameterized queries
-* SQLAlchemy ORM
-* Prepared statements
-* Least-privilege database user
-* Connection encryption
-* Regular backups
+- Parameterized queries
+- SQLAlchemy ORM
+- Prepared statements
+- Least-privilege database user
+- Connection encryption
+- Regular backups
 
 Application never constructs SQL manually.
 
@@ -473,10 +473,10 @@ AES-256
 
 Encrypted:
 
-* OAuth Tokens
-* Refresh Tokens
-* Secrets
-* Object Storage
+- OAuth Tokens
+- Refresh Tokens
+- Secrets
+- Object Storage
 
 Passwords are never stored because authentication uses OAuth.
 
@@ -514,22 +514,22 @@ Every sensitive action generates an audit event.
 
 Examples
 
-* Login
-* Logout
-* Repository Connected
-* Analysis Started
-* Analysis Completed
-* Report Downloaded
-* Repository Deleted
+- Login
+- Logout
+- Repository Connected
+- Analysis Started
+- Analysis Completed
+- Report Downloaded
+- Repository Deleted
 
 Each log contains:
 
-* User ID
-* Timestamp
-* IP Address
-* Request ID
-* Action
-* Result
+- User ID
+- Timestamp
+- IP Address
+- Request ID
+- Action
+- Result
 
 Sensitive values are masked before logging.
 
@@ -539,13 +539,13 @@ Sensitive values are masked before logging.
 
 Monitor
 
-* Failed logins
-* Repeated API failures
-* Excessive rate limiting
-* Docker failures
-* Scanner failures
-* Suspicious traffic
-* Unexpected exceptions
+- Failed logins
+- Repeated API failures
+- Excessive rate limiting
+- Docker failures
+- Scanner failures
+- Suspicious traffic
+- Unexpected exceptions
 
 Future
 
@@ -575,12 +575,12 @@ Potential Threats
 
 Every Pull Request must pass:
 
-* Ruff
-* MyPy
-* Pytest
-* Secret Scanning
-* Dependency Scanning
-* Code Review
+- Ruff
+- MyPy
+- Pytest
+- Secret Scanning
+- Dependency Scanning
+- Code Review
 
 No direct commits to the main branch.
 
@@ -590,20 +590,20 @@ No direct commits to the main branch.
 
 Every build runs:
 
-* `pip-audit`
-* `npm audit`
-* Dependency version checks
-* License validation (future)
+- `pip-audit`
+- `npm audit`
+- Dependency version checks
+- License validation (future)
 
 Critical vulnerabilities block deployment.
 
 ### Supply-Chain Security
 
-* Generate an SBOM (Software Bill of Materials) for application images and releases (CycloneDX or SPDX).
-* Record dependency provenance for locked packages (`uv.lock`, `pnpm-lock.yaml`) and verify integrity in CI.
-* Prefer pinned, hashed dependencies where tooling supports them.
-* Block builds on critical advisory findings before promotion to production.
-* Store SBOMs as release artifacts for future audit and incident response.
+- Generate an SBOM (Software Bill of Materials) for application images and releases (CycloneDX or SPDX).
+- Record dependency provenance for locked packages (`uv.lock`, `pnpm-lock.yaml`) and verify integrity in CI.
+- Prefer pinned, hashed dependencies where tooling supports them.
+- Block builds on critical advisory findings before promotion to production.
+- Store SBOMs as release artifacts for future audit and incident response.
 
 ---
 
@@ -688,15 +688,15 @@ Recovery objectives
 
 Although not initially certified, the architecture aligns with:
 
-* OWASP Top 10
-* OWASP ASVS
-* OAuth 2.1 Best Practices
-* Principle of Least Privilege
+- OWASP Top 10
+- OWASP ASVS
+- OAuth 2.1 Best Practices
+- Principle of Least Privilege
 
 Future:
 
-* SOC 2
-* ISO 27001
+- SOC 2
+- ISO 27001
 
 ---
 
@@ -742,14 +742,14 @@ Only analysis results persist.
 
 The security architecture follows:
 
-* Zero Trust
-* Least Privilege
-* Defense in Depth
-* Fail Secure
-* Secure Defaults
-* Principle of Minimal Exposure
-* Immutable Audit Trails
-* Ephemeral Execution
+- Zero Trust
+- Least Privilege
+- Defense in Depth
+- Fail Secure
+- Secure Defaults
+- Principle of Minimal Exposure
+- Immutable Audit Trails
+- Ephemeral Execution
 
 ---
 
@@ -757,16 +757,16 @@ The security architecture follows:
 
 Planned improvements:
 
-* Multi-Factor Authentication (MFA)
-* Passkeys (WebAuthn)
-* Hardware Security Keys
-* Secret Rotation
-* Organization RBAC
-* IP Allow Lists
-* Single Sign-On (SSO)
-* Security Center Dashboard
-* Security Score History
-* Signed Reports
+- Multi-Factor Authentication (MFA)
+- Passkeys (WebAuthn)
+- Hardware Security Keys
+- Secret Rotation
+- Organization RBAC
+- IP Allow Lists
+- Single Sign-On (SSO)
+- Security Center Dashboard
+- Security Score History
+- Signed Reports
 
 ---
 

@@ -19,11 +19,11 @@ It translates the product vision and architecture into an actionable engineering
 
 The roadmap is designed to:
 
-* Build iteratively
-* Deliver value early
-* Minimize technical debt
-* Validate assumptions quickly
-* Maintain production-quality standards
+- Build iteratively
+- Deliver value early
+- Minimize technical debt
+- Validate assumptions quickly
+- Maintain production-quality standards
 
 ---
 
@@ -115,25 +115,25 @@ Prepare the development environment and project structure.
 
 ### Deliverables
 
-* GitHub repository
-* Backend scaffold
-* Frontend scaffold
-* Docker Compose
-* PostgreSQL
-* Redis
-* MinIO
-* GitHub Actions
-* Ruff
-* MyPy
-* ESLint
-* Prettier
-* Initial documentation
+- GitHub repository
+- Backend scaffold
+- Frontend scaffold
+- Docker Compose
+- PostgreSQL
+- Redis
+- MinIO
+- GitHub Actions
+- Ruff
+- MyPy
+- ESLint
+- Prettier
+- Initial documentation
 
 ### Definition of Done
 
-* Project runs locally with one command.
-* CI passes.
-* Repository structure finalized.
+- Project runs locally with one command.
+- CI passes.
+- Repository structure finalized.
 
 ---
 
@@ -147,15 +147,15 @@ Allow users to securely access Preflight.
 
 ### Deliverables
 
-* GitHub OAuth
-* JWT authentication
-* User database
-* Protected routes
-* Session management
-* Landing page
-* Dashboard shell
-* Navigation
-* Theme support
+- GitHub OAuth
+- JWT authentication
+- User database
+- Protected routes
+- Session management
+- Landing page
+- Dashboard shell
+- Navigation
+- Theme support
 
 ### Definition of Done
 
@@ -173,12 +173,12 @@ Connect GitHub repositories.
 
 ### Deliverables
 
-* GitHub repository listing
-* Connect repository
-* Repository metadata
-* Framework detection
-* Repository history
-* Database persistence
+- GitHub repository listing
+- Connect repository
+- Repository metadata
+- Framework detection
+- Repository history
+- Database persistence
 
 ### Definition of Done
 
@@ -196,19 +196,19 @@ Build the core analysis pipeline.
 
 ### Deliverables
 
-* Job creation
-* Celery workers
-* Docker sandbox
-* Plugin system
-* Analyzer orchestrator
-* Progress tracking (SSE)
-* Initial analyzers:
+- Job creation
+- Celery workers
+- Docker sandbox
+- Plugin system
+- Analyzer orchestrator
+- Progress tracking (SSE)
+- Initial analyzers:
 
-  * Secret Analyzer
-  * README Analyzer
-  * Dependency Analyzer
-  * TODO Analyzer
-  * Docker Analyzer
+  - Secret Analyzer
+  - README Analyzer
+  - Dependency Analyzer
+  - TODO Analyzer
+  - Docker Analyzer
 
 ### Definition of Done
 
@@ -226,13 +226,13 @@ Transform raw analysis into actionable insights.
 
 ### Deliverables
 
-* Findings engine
-* Severity classification
-* Categories
-* Preflight Score™
-* Educational recommendations
-* Search & filtering
-* Findings UI
+- Findings engine
+- Severity classification
+- Categories
+- Preflight Score™
+- Educational recommendations
+- Search & filtering
+- Findings UI
 
 ### Definition of Done
 
@@ -250,13 +250,13 @@ Present analysis results clearly.
 
 ### Deliverables
 
-* Dashboard overview
-* Repository history
-* Report generation
-* Report viewer
-* Historical analyses
-* Exportable JSON
-* Downloadable reports
+- Dashboard overview
+- Repository history
+- Report generation
+- Report viewer
+- Historical analyses
+- Exportable JSON
+- Downloadable reports
 
 ### Definition of Done
 
@@ -274,12 +274,12 @@ Introduce deployment capabilities after repositories pass analysis.
 
 ### Deliverables
 
-* Deployment readiness checks
-* Deployment configuration validation
-* Deployment provider abstraction
-* Initial deployment integration
-* Deployment history
-* Success/failure feedback
+- Deployment readiness checks
+- Deployment configuration validation
+- Deployment provider abstraction
+- Initial deployment integration
+- Deployment history
+- Success/failure feedback
 
 ### Definition of Done
 
@@ -297,15 +297,15 @@ Prepare the platform for public release.
 
 ### Deliverables
 
-* Performance optimization
-* Accessibility improvements
-* Security audit
-* Dependency audit
-* End-to-end testing
-* UI polish
-* Documentation review
-* Bug fixes
-* Release candidate
+- Performance optimization
+- Accessibility improvements
+- Security audit
+- Dependency audit
+- End-to-end testing
+- UI polish
+- Documentation review
+- Bug fixes
+- Release candidate
 
 ### Definition of Done
 
@@ -319,24 +319,24 @@ Application meets MVP quality standards.
 
 ### Deliverables
 
-* Version 1.0.0
-* Production deployment
-* Documentation published
-* Demo video
-* Landing page
-* Public announcement
+- Version 1.0.0
+- Production deployment
+- Documentation published
+- Demo video
+- Landing page
+- Public announcement
 
 ### Success Criteria
 
 Users can:
 
-* Sign in
-* Connect a repository
-* Run an analysis
-* Understand findings
-* Fix issues
-* Re-run analysis
-* Deploy successfully
+- Sign in
+- Connect a repository
+- Run an analysis
+- Understand findings
+- Fix issues
+- Re-run analysis
+- Deploy successfully
 
 ---
 
@@ -359,39 +359,39 @@ Users can:
 
 ### Included
 
-* GitHub OAuth
-* Repository ingestion
-* Static analysis
-* Security analysis
-* Engineering Readiness Score (Preflight Score™)
-* Recommendations
-* README checks
-* Dependency analysis
-* TODO detection
-* Basic Docker readiness checks
-* Docker sandbox
-* Reports
-* Dashboard
-* Analysis history
+- GitHub OAuth
+- Repository ingestion
+- Static analysis
+- Security analysis
+- Engineering Readiness Score (Preflight Score™)
+- Recommendations
+- README checks
+- Dependency analysis
+- TODO detection
+- Basic Docker readiness checks
+- Docker sandbox
+- Reports
+- Dashboard
+- Analysis history
 
 ---
 
 ### Excluded (Deferred to V2 or later)
 
-* Architecture review
-* API review
-* Advanced deployment validation
-* One-click deployment
-* AI code generation
-* AI debugging
-* Cloud IDE
-* Git hosting
-* Team collaboration
-* Kubernetes
-* Portfolio generation
-* Resume generation
-* Recruiter mode
-* Chat assistant
+- Architecture review
+- API review
+- Advanced deployment validation
+- One-click deployment
+- AI code generation
+- AI debugging
+- Cloud IDE
+- Git hosting
+- Team collaboration
+- Kubernetes
+- Portfolio generation
+- Resume generation
+- Recruiter mode
+- Chat assistant
 
 ---
 
@@ -405,35 +405,35 @@ Core engineering readiness platform.
 
 ## Version 1.5
 
-* More analyzers
-* Improved reports
-* Additional deployment providers
-* Better dashboard insights
+- More analyzers
+- Improved reports
+- Additional deployment providers
+- Better dashboard insights
 
 ---
 
 ## Version 2.0
 
-* Architecture review
-* API review
-* Advanced deployment validation
-* One-click deployment
-* AI explanation assistant
-* Team workspaces
-* Organization support
-* Advanced deployment workflows
-* Deployment rollback
-* Plugin marketplace
+- Architecture review
+- API review
+- Advanced deployment validation
+- One-click deployment
+- AI explanation assistant
+- Team workspaces
+- Organization support
+- Advanced deployment workflows
+- Deployment rollback
+- Plugin marketplace
 
 ---
 
 ## Version 3.0
 
-* Enterprise features
-* Policy enforcement
-* Custom analyzers
-* Multi-cloud deployments
-* Organization analytics
+- Enterprise features
+- Policy enforcement
+- Custom analyzers
+- Multi-cloud deployments
+- Organization analytics
 
 ---
 
@@ -460,11 +460,11 @@ Done
 
 Each issue belongs to:
 
-* Epic
-* Sprint
-* Priority
-* Assignee
-* Milestone
+- Epic
+- Sprint
+- Priority
+- Assignee
+- Milestone
 
 ---
 
@@ -472,11 +472,11 @@ Each issue belongs to:
 
 A task is ready when:
 
-* Requirements are clear
-* Acceptance criteria exist
-* Dependencies identified
-* Technical approach agreed
-* Estimated effort assigned
+- Requirements are clear
+- Acceptance criteria exist
+- Dependencies identified
+- Technical approach agreed
+- Estimated effort assigned
 
 ---
 
@@ -484,15 +484,15 @@ A task is ready when:
 
 A feature is complete only when:
 
-* Code implemented
-* Unit tests pass
-* Integration tests pass
-* CI passes
-* Documentation updated
-* Code reviewed
-* No critical security issues
-* Performance acceptable
-* Deployed to staging
+- Code implemented
+- Unit tests pass
+- Integration tests pass
+- CI passes
+- Documentation updated
+- Code reviewed
+- No critical security issues
+- Performance acceptable
+- Deployed to staging
 
 ---
 
@@ -500,15 +500,15 @@ A feature is complete only when:
 
 Every merge must pass:
 
-* Ruff
-* MyPy
-* ESLint
-* Prettier
-* Pytest
-* Playwright
-* Secret scanning
-* Dependency scanning
-* Docker build verification
+- Ruff
+- MyPy
+- ESLint
+- Prettier
+- Pytest
+- Playwright
+- Secret scanning
+- Dependency scanning
+- Docker build verification
 
 No exceptions.
 
@@ -518,14 +518,14 @@ No exceptions.
 
 Track:
 
-* Sprint velocity
-* Lead time
-* Deployment frequency
-* CI success rate
-* Mean time to resolve bugs
-* Test coverage
-* Build time
-* Analysis success rate
+- Sprint velocity
+- Lead time
+- Deployment frequency
+- CI success rate
+- Mean time to resolve bugs
+- Test coverage
+- Build time
+- Analysis success rate
 
 ---
 
@@ -567,10 +567,10 @@ Patch Releases
 
 Production releases require:
 
-* All quality gates passing
-* Manual approval
-* Smoke tests
-* Rollback plan
+- All quality gates passing
+- Manual approval
+- Smoke tests
+- Rollback plan
 
 ---
 
@@ -578,11 +578,11 @@ Production releases require:
 
 The MVP is considered successful when users can:
 
-* Connect a GitHub repository in under 2 minutes.
-* Receive a complete engineering readiness report in under 5 minutes.
-* Understand every reported issue through actionable guidance.
-* Re-run analysis after fixes.
-* Trust the platform to catch common engineering mistakes before deployment.
+- Connect a GitHub repository in under 2 minutes.
+- Receive a complete engineering readiness report in under 5 minutes.
+- Understand every reported issue through actionable guidance.
+- Re-run analysis after fixes.
+- Trust the platform to catch common engineering mistakes before deployment.
 
 ---
 

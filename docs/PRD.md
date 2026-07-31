@@ -33,14 +33,14 @@ Preflight does **not** replace deployment platforms or static analysis tools. In
 
 The MVP must enable a developer to:
 
-* Connect a GitHub repository.
-* Analyze the repository automatically.
-* Detect production and security issues.
-* Explain findings in an understandable way.
-* Prioritize issues by impact.
-* Generate a Production Readiness Report.
-* Calculate a **Preflight Score™**.
-* Re-analyze after fixes.
+- Connect a GitHub repository.
+- Analyze the repository automatically.
+- Detect production and security issues.
+- Explain findings in an understandable way.
+- Prioritize issues by impact.
+- Generate a Production Readiness Report.
+- Calculate a **Preflight Score™**.
+- Re-analyze after fixes.
 
 ---
 
@@ -48,13 +48,13 @@ The MVP must enable a developer to:
 
 The MVP delivers exactly five product capabilities:
 
-| Capability | Description |
-| ---------- | ----------- |
-| Repository ingestion | Connect, clone, and profile a GitHub repository |
-| Static analysis | Detect code quality, documentation, testing, and configuration issues |
-| Security analysis | Detect secrets, credential leaks, and dependency vulnerabilities |
-| Engineering Readiness Score | Calculate the deterministic **Preflight Score™** |
-| Recommendations | Convert findings into prioritized, educational guidance |
+| Capability                  | Description                                                           |
+| --------------------------- | --------------------------------------------------------------------- |
+| Repository ingestion        | Connect, clone, and profile a GitHub repository                       |
+| Static analysis             | Detect code quality, documentation, testing, and configuration issues |
+| Security analysis           | Detect secrets, credential leaks, and dependency vulnerabilities      |
+| Engineering Readiness Score | Calculate the deterministic **Preflight Score™**                      |
+| Recommendations             | Convert findings into prioritized, educational guidance               |
 
 Supporting platform capabilities required to deliver the above (authentication, dashboard, reports, and job progress) are included as infrastructure, not as separate product pillars.
 
@@ -64,18 +64,18 @@ Supporting platform capabilities required to deliver the above (authentication, 
 
 The MVP will NOT include:
 
-* One-click deployment
-* Architecture review (deferred to V2)
-* API review (deferred to V2)
-* Advanced deployment validation (deferred to V2)
-* AI code generation
-* Team collaboration
-* Git hosting
-* Cloud IDE
-* Kubernetes support
-* Continuous repository monitoring
-* Organization workspaces
-* Plugin marketplace
+- One-click deployment
+- Architecture review (deferred to V2)
+- API review (deferred to V2)
+- Advanced deployment validation (deferred to V2)
+- AI code generation
+- Team collaboration
+- Git hosting
+- Cloud IDE
+- Kubernetes support
+- Continuous repository monitoring
+- Organization workspaces
+- Plugin marketplace
 
 ---
 
@@ -109,12 +109,12 @@ Securely authenticate users and connect GitHub repositories.
 
 ## Features
 
-* User Registration
-* Login
-* JWT Authentication
-* Refresh Tokens
-* GitHub OAuth
-* Repository Permissions
+- User Registration
+- Login
+- JWT Authentication
+- Refresh Tokens
+- GitHub OAuth
+- Repository Permissions
 
 ---
 
@@ -122,11 +122,11 @@ Securely authenticate users and connect GitHub repositories.
 
 The system shall:
 
-* Allow users to authenticate using GitHub OAuth.
-* Store user profile information.
-* Store GitHub access tokens securely.
-* Allow repository selection.
-* Maintain authenticated sessions.
+- Allow users to authenticate using GitHub OAuth.
+- Store user profile information.
+- Store GitHub access tokens securely.
+- Allow repository selection.
+- Maintain authenticated sessions.
 
 ---
 
@@ -142,9 +142,9 @@ The system shall:
 
 ## Out of Scope
 
-* Teams
-* Organizations
-* Multiple providers
+- Teams
+- Organizations
+- Multiple providers
 
 ---
 
@@ -162,12 +162,12 @@ Import and understand a GitHub repository.
 
 ## Features
 
-* Clone Repository
-* Branch Selection
-* Commit Metadata
-* File Discovery
-* Ignore Patterns
-* Framework Detection
+- Clone Repository
+- Branch Selection
+- Commit Metadata
+- File Discovery
+- Ignore Patterns
+- Framework Detection
 
 ---
 
@@ -175,13 +175,13 @@ Import and understand a GitHub repository.
 
 The system shall:
 
-* Clone repositories into isolated workspaces.
-* Detect programming language(s).
-* Detect frameworks.
-* Detect package managers.
-* Detect dependency manifests.
-* Detect Docker configuration.
-* Detect CI configuration.
+- Clone repositories into isolated workspaces.
+- Detect programming language(s).
+- Detect frameworks.
+- Detect package managers.
+- Detect dependency manifests.
+- Detect Docker configuration.
+- Detect CI configuration.
 
 ---
 
@@ -243,10 +243,10 @@ Run engineering analysis against the repository.
 
 ## Responsibilities
 
-* Parse repository
-* Execute scanners
-* Aggregate findings
-* Normalize results
+- Parse repository
+- Execute scanners
+- Aggregate findings
+- Normalize results
 
 ---
 
@@ -254,22 +254,22 @@ Run engineering analysis against the repository.
 
 The engine shall:
 
-* Execute repository scanners.
-* Collect outputs.
-* Remove duplicate findings.
-* Categorize findings.
-* Assign severity.
+- Execute repository scanners.
+- Collect outputs.
+- Remove duplicate findings.
+- Categorize findings.
+- Assign severity.
 
 ---
 
 ## Categories
 
-* Security
-* Maintainability
-* Documentation
-* Testing
-* Production
-* Performance
+- Security
+- Maintainability
+- Documentation
+- Testing
+- Production
+- Performance
 
 ---
 
@@ -313,11 +313,11 @@ Identify security risks before deployment.
 
 Detect:
 
-* Exposed secrets
-* Hardcoded credentials
-* Dependency vulnerabilities
-* Missing environment variables
-* Dangerous configurations
+- Exposed secrets
+- Hardcoded credentials
+- Dependency vulnerabilities
+- Missing environment variables
+- Dangerous configurations
 
 ---
 
@@ -415,10 +415,10 @@ Deployment
 
 Score must:
 
-* Be deterministic.
-* Explain deductions.
-* Update after every analysis.
-* Never hide critical failures behind a high overall score.
+- Be deterministic.
+- Explain deductions.
+- Update after every analysis.
+- Never hide critical failures behind a high overall score.
 
 ---
 
@@ -446,12 +446,12 @@ Convert technical findings into actionable guidance.
 
 Each recommendation must include:
 
-* Issue summary
-* Severity
-* Why it matters
-* How to fix it
-* Estimated effort
-* Related documentation
+- Issue summary
+- Severity
+- Why it matters
+- How to fix it
+- Estimated effort
+- Related documentation
 
 ---
 
@@ -812,22 +812,22 @@ Or create a new job only when analyzer/ruleset versions changed
 
 Engineering Metrics
 
-* Average analysis duration
-* Repository import success rate
-* Analysis completion rate
+- Average analysis duration
+- Repository import success rate
+- Analysis completion rate
 
 Product Metrics
 
-* Projects analyzed
-* Projects passing Preflight
-* Repeat analyses per repository
-* Average score improvement
+- Projects analyzed
+- Projects passing Preflight
+- Repeat analyses per repository
+- Average score improvement
 
 Learning Metrics
 
-* Issues resolved
-* Recommendation adoption
-* Time between analyses
+- Issues resolved
+- Recommendation adoption
+- Time between analyses
 
 ---
 
@@ -835,17 +835,17 @@ Learning Metrics
 
 Technical Risks
 
-* Large repositories
-* Unsupported frameworks
-* Scanner compatibility
-* GitHub API limits
+- Large repositories
+- Unsupported frameworks
+- Scanner compatibility
+- GitHub API limits
 
 Product Risks
 
-* Information overload
-* False positives
-* Slow analysis
-* Unclear recommendations
+- Information overload
+- False positives
+- Slow analysis
+- Unclear recommendations
 
 ---
 
@@ -853,12 +853,12 @@ Product Risks
 
 These items are intentionally deferred until later design phases:
 
-* How should the Preflight Score™ weighting algorithm work?
-* Which static analysis tools should be enabled by default?
-* How should unsupported frameworks be handled?
-* What is the maximum repository size for analysis?
-* Should analyses be synchronous or background jobs?
-* What historical data should be retained for each repository?
+- How should the Preflight Score™ weighting algorithm work?
+- Which static analysis tools should be enabled by default?
+- How should unsupported frameworks be handled?
+- What is the maximum repository size for analysis?
+- Should analyses be synchronous or background jobs?
+- What historical data should be retained for each repository?
 
 ---
 
@@ -866,11 +866,11 @@ These items are intentionally deferred until later design phases:
 
 The MVP is considered complete when a user can:
 
-* Authenticate with GitHub.
-* Connect a repository.
-* Run a complete engineering analysis.
-* Receive categorized findings.
-* View a Preflight Score™.
-* Understand every issue through actionable recommendations.
-* Fix issues and re-run the analysis.
-* Achieve a passing Preflight status based on defined readiness criteria.
+- Authenticate with GitHub.
+- Connect a repository.
+- Run a complete engineering analysis.
+- Receive categorized findings.
+- View a Preflight Score™.
+- Understand every issue through actionable recommendations.
+- Fix issues and re-run the analysis.
+- Achieve a passing Preflight status based on defined readiness criteria.

@@ -17,13 +17,13 @@ This document defines the DevOps architecture for **Preflight**.
 
 It describes how the application is:
 
-* Built
-* Tested
-* Packaged
-* Deployed
-* Monitored
-* Scaled
-* Maintained
+- Built
+- Tested
+- Packaged
+- Deployed
+- Monitored
+- Scaled
+- Maintained
 
 The objective is to create a deployment pipeline that is reliable, repeatable, secure, and easy to operate.
 
@@ -157,12 +157,12 @@ Local development
 
 Characteristics
 
-* Hot reload
-* Debug logging
-* Local PostgreSQL
-* Local Redis
-* Local MinIO
-* Docker Compose
+- Hot reload
+- Debug logging
+- Local PostgreSQL
+- Local Redis
+- Local MinIO
+- Docker Compose
 
 ---
 
@@ -174,10 +174,10 @@ Pre-production testing
 
 Characteristics
 
-* Production-like
-* Automatic deployment
-* Test repositories
-* Smoke tests
+- Production-like
+- Automatic deployment
+- Test repositories
+- Smoke tests
 
 ---
 
@@ -189,11 +189,11 @@ Live application
 
 Characteristics
 
-* HTTPS
-* Monitoring
-* Backup
-* Restricted debugging
-* Automatic rollback capability
+- HTTPS
+- Monitoring
+- Backup
+- Restricted debugging
+- Automatic rollback capability
 
 ---
 
@@ -381,9 +381,9 @@ release/*
 
 Rules:
 
-* Direct commits to `main` prohibited.
-* Pull requests required.
-* Code review mandatory.
+- Direct commits to `main` prohibited.
+- Pull requests required.
+- Code review mandatory.
 
 ---
 
@@ -549,11 +549,11 @@ Every service exposes:
 
 Checks include:
 
-* Database
-* Redis
-* Storage
-* Queue
-* API
+- Database
+- Redis
+- Storage
+- Queue
+- API
 
 Docker uses these endpoints for readiness.
 
@@ -581,11 +581,11 @@ Grafana
 
 Every log contains:
 
-* Timestamp
-* Request ID
-* Service
-* Severity
-* User ID (where applicable)
+- Timestamp
+- Request ID
+- Service
+- Severity
+- User ID (where applicable)
 
 ---
 
@@ -595,40 +595,40 @@ Metrics collected:
 
 Backend
 
-* Request latency
-* Error rate
-* Active users
-* Queue depth
+- Request latency
+- Error rate
+- Active users
+- Queue depth
 
 Workers
 
-* Running jobs
-* Failed jobs
-* Processing time
+- Running jobs
+- Failed jobs
+- Processing time
 
 Database
 
-* Connections
-* Query time
-* Storage
+- Connections
+- Query time
+- Storage
 
 Infrastructure
 
-* CPU
-* Memory
-* Disk
-* Network
+- CPU
+- Memory
+- Disk
+- Network
 
 ---
 
 # 18.1 SLIs and SLOs
 
-| Area | SLI | SLO (MVP target) |
-| ---- | --- | ---------------- |
-| Analysis duration | Time from `QUEUED` to terminal state | p95 ≤ 5 minutes for repositories within size limits |
-| API latency | Request duration for authenticated API endpoints | p95 ≤ 300 ms excluding long-running analysis creation acknowledgements |
-| Job success rate | Share of analysis jobs reaching `COMPLETED` (excluding user `CANCELLED`) | ≥ 95% over a rolling 7-day window |
-| Deployment success rate | Share of production deploys that pass post-deploy health checks | ≥ 99% over a rolling 30-day window |
+| Area                    | SLI                                                                      | SLO (MVP target)                                                       |
+| ----------------------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------------- |
+| Analysis duration       | Time from `QUEUED` to terminal state                                     | p95 ≤ 5 minutes for repositories within size limits                    |
+| API latency             | Request duration for authenticated API endpoints                         | p95 ≤ 300 ms excluding long-running analysis creation acknowledgements |
+| Job success rate        | Share of analysis jobs reaching `COMPLETED` (excluding user `CANCELLED`) | ≥ 95% over a rolling 7-day window                                      |
+| Deployment success rate | Share of production deploys that pass post-deploy health checks          | ≥ 99% over a rolling 30-day window                                     |
 
 SLIs are exported via Prometheus metrics and correlated with OpenTelemetry traces. SLO burn alerts are introduced after baseline traffic exists.
 
@@ -638,13 +638,13 @@ SLIs are exported via Prometheus metrics and correlated with OpenTelemetry trace
 
 Future alerts:
 
-* Service unavailable
-* High error rate
-* Queue backlog
-* Failed deployment
-* Database unavailable
-* Storage full
-* SLO burn-rate violations
+- Service unavailable
+- High error rate
+- Queue backlog
+- Failed deployment
+- Database unavailable
+- Storage full
+- SLO burn-rate violations
 
 ---
 
@@ -660,19 +660,19 @@ Encrypted storage
 
 Daily backup of object storage buckets, including:
 
-* Generated reports
-* Build / analysis logs retained for audit
-* Release artifacts / SBOMs when stored
+- Generated reports
+- Build / analysis logs retained for audit
+- Release artifacts / SBOMs when stored
 
 ### Audit Logs
 
-* Export and retain audit log streams independently of application database backups
-* Protect audit backups from overwrite by application operators where feasible
+- Export and retain audit log streams independently of application database backups
+- Protect audit backups from overwrite by application operators where feasible
 
 ### Generated Reports
 
-* Reports in PostgreSQL JSONB are covered by database backups
-* Report artifacts in MinIO are covered by object-storage backups
+- Reports in PostgreSQL JSONB are covered by database backups
+- Report artifacts in MinIO are covered by object-storage backups
 
 ### Retention
 
@@ -744,9 +744,9 @@ Start Services
 
 Migration rules:
 
-* Forward-only
-* Reviewed before release
-* Tested in staging
+- Forward-only
+- Reviewed before release
+- Tested in staging
 
 ---
 
@@ -754,11 +754,11 @@ Migration rules:
 
 Python
 
-* `uv`
+- `uv`
 
 Node.js
 
-* `pnpm`
+- `pnpm`
 
 Dependencies are locked.
 
@@ -780,18 +780,18 @@ Use a dedicated secrets manager (for example HashiCorp Vault, AWS Secrets Manage
 
 Recommended production pattern:
 
-* Secrets manager is the source of truth
-* Runtime injects secrets into the application at deploy/start time
-* Encryption keys for OAuth tokens are stored and rotated in the secrets manager
-* Access is least-privilege and audited
+- Secrets manager is the source of truth
+- Runtime injects secrets into the application at deploy/start time
+- Encryption keys for OAuth tokens are stored and rotated in the secrets manager
+- Access is least-privilege and audited
 
 Examples:
 
-* JWT keys
-* OAuth credentials
-* Database passwords
-* Storage credentials
-* Token encryption keys
+- JWT keys
+- OAuth credentials
+- Database passwords
+- Storage credentials
+- Token encryption keys
 
 ---
 
@@ -799,14 +799,14 @@ Examples:
 
 Horizontal scaling supported for:
 
-* FastAPI
-* Celery Workers
-* Frontend
+- FastAPI
+- Celery Workers
+- Frontend
 
 Vertical scaling for:
 
-* PostgreSQL
-* Redis
+- PostgreSQL
+- Redis
 
 MVP orchestration remains **Docker Compose**. Kubernetes is not part of the MVP.
 
@@ -877,9 +877,9 @@ Prometheus
 
 OpenTelemetry is the tracing standard.
 
-* Instrument FastAPI, Celery workers, and outbound GitHub/Docker calls
-* Export to an OTLP-compatible backend (collector → Jaeger/Tempo or equivalent)
-* Propagate trace context across API → queue → worker spans using analysis `job_id` as a correlating attribute
+- Instrument FastAPI, Celery workers, and outbound GitHub/Docker calls
+- Export to an OTLP-compatible backend (collector → Jaeger/Tempo or equivalent)
+- Propagate trace context across API → queue → worker spans using analysis `job_id` as a correlating attribute
 
 ---
 
@@ -893,12 +893,12 @@ Grafana
 
 Deployments must be:
 
-* Automated
-* Repeatable
-* Observable
-* Reversible
-* Versioned
-* Tested
+- Automated
+- Repeatable
+- Observable
+- Reversible
+- Versioned
+- Tested
 
 No manual server configuration.
 
@@ -908,16 +908,16 @@ No manual server configuration.
 
 Future improvements:
 
-* Kubernetes or ECS (post-MVP; see §25.1)
-* Helm Charts
-* ArgoCD
-* Terraform
-* Multi-region deployment
-* CDN
-* Auto Scaling
-* Blue-Green Deployment
-* Canary Releases
-* Service Mesh
+- Kubernetes or ECS (post-MVP; see §25.1)
+- Helm Charts
+- ArgoCD
+- Terraform
+- Multi-region deployment
+- CDN
+- Auto Scaling
+- Blue-Green Deployment
+- Canary Releases
+- Service Mesh
 
 The MVP architecture leaves room for these enhancements without requiring major redesign. Kubernetes is explicitly out of MVP scope.
 

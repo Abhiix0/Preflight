@@ -1,5 +1,5 @@
-import { apiClient } from '../lib/api-client';
-import { Finding, FindingFilters, PaginatedResponse } from '../types';
+import { apiClient } from "../lib/api-client";
+import { Finding, FindingFilters, PaginatedResponse } from "../types";
 
 export const findingsService = {
   /** GET /analysis/{jobId}/findings */

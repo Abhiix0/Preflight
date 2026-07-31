@@ -20,11 +20,11 @@ It describes how the backend is organized, how modules communicate, coding stand
 
 The objective is to create a backend that is:
 
-* Maintainable
-* Testable
-* Extensible
-* Scalable
-* Easy for multiple contributors
+- Maintainable
+- Testable
+- Extensible
+- Scalable
+- Easy for multiple contributors
 
 ---
 
@@ -36,13 +36,13 @@ The MVP intentionally avoids microservices to reduce deployment complexity while
 
 Core principles:
 
-* Business logic is independent of frameworks.
-* Every module has a single responsibility.
-* APIs are thin.
-* Services contain business logic.
-* Database access is isolated.
-* Background work is asynchronous.
-* Modules communicate through interfaces, not implementation details.
+- Business logic is independent of frameworks.
+- Every module has a single responsibility.
+- APIs are thin.
+- Services contain business logic.
+- Database access is isolated.
+- Background work is asynchronous.
+- Modules communicate through interfaces, not implementation details.
 
 ---
 
@@ -147,17 +147,17 @@ Each layer has one responsibility.
 
 Responsibilities
 
-* Receive HTTP requests
-* Validate input
-* Authenticate users
-* Call services
-* Return responses
+- Receive HTTP requests
+- Validate input
+- Authenticate users
+- Call services
+- Return responses
 
 Must NEVER
 
-* Execute SQL
-* Run analyzers
-* Implement business logic
+- Execute SQL
+- Run analyzers
+- Implement business logic
 
 ---
 
@@ -167,12 +167,12 @@ The heart of the application.
 
 Responsibilities
 
-* Business logic
-* Validation
-* Workflow orchestration
-* Authorization checks
-* Calling repositories
-* Triggering workers
+- Business logic
+- Validation
+- Workflow orchestration
+- Authorization checks
+- Calling repositories
+- Triggering workers
 
 Every feature begins here.
 
@@ -184,10 +184,10 @@ Responsible ONLY for data persistence.
 
 Responsibilities
 
-* CRUD
-* SQLAlchemy queries
-* Transactions
-* Database optimization
+- CRUD
+- SQLAlchemy queries
+- Transactions
+- Database optimization
 
 Repositories never contain business logic.
 
@@ -199,10 +199,10 @@ Stores persistent application state.
 
 Owns:
 
-* Models
-* Relationships
-* Constraints
-* Indexes
+- Models
+- Relationships
+- Constraints
+- Indexes
 
 ---
 
@@ -212,58 +212,58 @@ Each business capability owns its own module.
 
 ## Identity
 
-* Authentication
-* Authorization
-* Sessions
-* OAuth
+- Authentication
+- Authorization
+- Sessions
+- OAuth
 
 ---
 
 ## Repository
 
-* GitHub integration
-* Repository metadata
-* Framework detection
+- GitHub integration
+- Repository metadata
+- Framework detection
 
 ---
 
 ## Analysis
 
-* Job creation
-* Progress tracking
-* Worker coordination
+- Job creation
+- Progress tracking
+- Worker coordination
 
 ---
 
 ## Findings
 
-* Scanner outputs
-* Categorization
-* Severity
+- Scanner outputs
+- Categorization
+- Severity
 
 ---
 
 ## Scoring
 
-* Preflight Score™
-* Category scores
-* Readiness calculation
+- Preflight Score™
+- Category scores
+- Readiness calculation
 
 ---
 
 ## Recommendations
 
-* Educational guidance
-* Fix suggestions
-* Learning resources
+- Educational guidance
+- Fix suggestions
+- Learning resources
 
 ---
 
 ## Reports
 
-* Engineering reports
-* JSON generation
-* Historical reports
+- Engineering reports
+- JSON generation
+- Historical reports
 
 ---
 
@@ -273,12 +273,12 @@ FastAPI's dependency system is used throughout the application.
 
 Injectable components include:
 
-* Database session
-* Current user
-* Settings
-* Authentication service
-* Repository service
-* Analysis service
+- Database session
+- Current user
+- Settings
+- Authentication service
+- Repository service
+- Analysis service
 
 Example flow:
 
@@ -326,10 +326,10 @@ ReportService
 
 Rules:
 
-* Services communicate with repositories.
-* Services may call other services.
-* Services never call HTTP endpoints internally.
-* Services are fully unit testable.
+- Services communicate with repositories.
+- Services may call other services.
+- Services never call HTTP endpoints internally.
+- Services are fully unit testable.
 
 ---
 
@@ -355,9 +355,9 @@ ReportRepository
 
 Responsibilities:
 
-* Query database
-* Persist entities
-* Handle transactions
+- Query database
+- Persist entities
+- Handle transactions
 
 Nothing else.
 
@@ -388,13 +388,13 @@ class Analyzer:
 
 Interface fields:
 
-| Field | Purpose |
-| ----- | ------- |
-| `name` | Stable analyzer identifier |
-| `category` | Finding category produced |
-| `analyzer_version` | SemVer of the analyzer implementation |
-| `supported_frameworks` | Frameworks this analyzer applies to (`*` for all) |
-| `metadata` | Optional descriptive metadata (owner, docs URL, severity defaults) |
+| Field                  | Purpose                                                            |
+| ---------------------- | ------------------------------------------------------------------ |
+| `name`                 | Stable analyzer identifier                                         |
+| `category`             | Finding category produced                                          |
+| `analyzer_version`     | SemVer of the analyzer implementation                              |
+| `supported_frameworks` | Frameworks this analyzer applies to (`*` for all)                  |
+| `metadata`             | Optional descriptive metadata (owner, docs URL, severity defaults) |
 
 Example analyzers:
 
@@ -418,18 +418,18 @@ EnvironmentAnalyzer
 
 Adding a new analyzer requires:
 
-* Creating a new analyzer class.
-* Registering it.
-* No modification to existing analyzers.
+- Creating a new analyzer class.
+- Registering it.
+- No modification to existing analyzers.
 
 This follows the **Open/Closed Principle**.
 
 ### Analyzer Version Tracking
 
-* Each registered analyzer declares `analyzer_version`.
-* Versions are persisted in the `analyzers` table and recorded on each `analyzer_runs` execution.
-* Findings include scanner identity so reports remain attributable after analyzer upgrades.
-* Changing `analyzer_version` or `ruleset_version` invalidates commit-snapshot reuse and triggers a fresh analysis when requested.
+- Each registered analyzer declares `analyzer_version`.
+- Versions are persisted in the `analyzers` table and recorded on each `analyzer_runs` execution.
+- Findings include scanner identity so reports remain attributable after analyzer upgrades.
+- Changing `analyzer_version` or `ruleset_version` invalidates commit-snapshot reuse and triggers a fresh analysis when requested.
 
 JavaScript / TypeScript analyzers run as **subprocess tools** invoked by the FastAPI/Celery worker process. They implement the same `Analyzer` interface; there is no separate Node.js analysis service in the MVP.
 
@@ -483,12 +483,12 @@ Persist Results
 
 Responsibilities:
 
-* Progress tracking
-* Failure recovery
-* Retry management
-* Result aggregation
-* Domain event emission
-* Idempotent job creation
+- Progress tracking
+- Failure recovery
+- Retry management
+- Result aggregation
+- Domain event emission
+- Idempotent job creation
 
 ### Analysis Job Lifecycle State Machine
 
@@ -506,14 +506,14 @@ RUNNING ──────► CANCELLED
   └──► FAILED
 ```
 
-| State | Meaning |
-| ----- | ------- |
-| `PENDING` | Job created, not yet enqueued |
-| `QUEUED` | Accepted by the queue |
-| `RUNNING` | Worker actively executing tasks |
-| `COMPLETED` | Successful terminal state |
-| `FAILED` | Unrecoverable or timed-out terminal state |
-| `CANCELLED` | User-cancelled terminal state |
+| State       | Meaning                                   |
+| ----------- | ----------------------------------------- |
+| `PENDING`   | Job created, not yet enqueued             |
+| `QUEUED`    | Accepted by the queue                     |
+| `RUNNING`   | Worker actively executing tasks           |
+| `COMPLETED` | Successful terminal state                 |
+| `FAILED`    | Unrecoverable or timed-out terminal state |
+| `CANCELLED` | User-cancelled terminal state             |
 
 Lifecycle events: `AnalysisCreated` → `AnalysisStarted` → `AnalysisCompleted` | `AnalysisFailed`.
 
@@ -543,8 +543,8 @@ Each worker performs one specialized task.
 
 Workers communicate through:
 
-* Redis
-* PostgreSQL
+- Redis
+- PostgreSQL
 
 ---
 
@@ -554,25 +554,25 @@ Preflight integrates with:
 
 GitHub
 
-* OAuth
-* Repository access
+- OAuth
+- Repository access
 
 Docker
 
-* Container builds
-* Runtime validation
+- Container builds
+- Runtime validation
 
 Security Tools
 
-* Semgrep
-* Bandit
-* detect-secrets
-* pip-audit
+- Semgrep
+- Bandit
+- detect-secrets
+- pip-audit
 
 Future:
 
-* Trivy
-* Gitleaks
+- Trivy
+- Gitleaks
 
 ---
 
@@ -630,11 +630,11 @@ Structured logging is mandatory.
 
 Every request includes:
 
-* Request ID
-* User ID
-* Repository ID
-* Analysis Job ID
-* Timestamp
+- Request ID
+- User ID
+- Repository ID
+- Analysis Job ID
+- Timestamp
 
 Levels:
 
@@ -660,18 +660,18 @@ Validation occurs at multiple layers.
 
 API Layer
 
-* Request validation
-* Authentication
+- Request validation
+- Authentication
 
 Service Layer
 
-* Business rule validation
+- Business rule validation
 
 Database Layer
 
-* Constraints
-* Foreign keys
-* Unique indexes
+- Constraints
+- Foreign keys
+- Unique indexes
 
 No layer trusts another layer completely.
 
@@ -681,10 +681,10 @@ No layer trusts another layer completely.
 
 Redis caches:
 
-* Repository metadata
-* GitHub API responses
-* Framework detection
-* Dashboard summaries
+- Repository metadata
+- GitHub API responses
+- Framework detection
+- Dashboard summaries
 
 Cache is invalidated after every successful analysis.
 
@@ -719,50 +719,50 @@ Mock external services whenever possible.
 
 Formatting:
 
-* Ruff
-* Black
+- Ruff
+- Black
 
 Type Safety:
 
-* MyPy
+- MyPy
 
 Testing:
 
-* Pytest
+- Pytest
 
 Commits:
 
-* Conventional Commits
+- Conventional Commits
 
 Git Hooks:
 
-* Pre-commit
+- Pre-commit
 
 Documentation:
 
-* Google-style docstrings
+- Google-style docstrings
 
 ---
 
 # 21. Performance Guidelines
 
-* Async endpoints where appropriate.
-* Batch database operations.
-* Minimize GitHub API requests.
-* Stream logs instead of loading them entirely.
-* Paginate large datasets.
-* Avoid N+1 queries.
+- Async endpoints where appropriate.
+- Batch database operations.
+- Minimize GitHub API requests.
+- Stream logs instead of loading them entirely.
+- Paginate large datasets.
+- Avoid N+1 queries.
 
 ---
 
 # 22. Security Guidelines
 
-* Never log secrets.
-* Encrypt OAuth tokens.
-* Validate all user input.
-* Sanitize scanner output.
-* Run repositories inside isolated containers.
-* Delete temporary files after analysis.
+- Never log secrets.
+- Encrypt OAuth tokens.
+- Validate all user input.
+- Sanitize scanner output.
+- Run repositories inside isolated containers.
+- Delete temporary files after analysis.
 
 ---
 
@@ -772,12 +772,12 @@ Future modules can be added without modifying existing architecture.
 
 Examples:
 
-* Deployment Engine
-* AI Mentor
-* Plugin System
-* Team Management
-* Organization Policies
-* Marketplace
+- Deployment Engine
+- AI Mentor
+- Plugin System
+- Team Management
+- Organization Policies
+- Marketplace
 
 New analyzers only need to implement the Analyzer interface and register themselves.
 
@@ -861,12 +861,12 @@ Completed
 
 The backend follows these engineering principles:
 
-* **Single Responsibility Principle (SRP):** Every module has one reason to change.
-* **Open/Closed Principle (OCP):** Extend functionality through new analyzers, not by modifying existing ones.
-* **Dependency Inversion:** Business logic depends on abstractions, not frameworks.
-* **Convention over Configuration:** Predictable project structure and naming.
-* **Explicit over Implicit:** Clear interfaces, typed schemas, and documented flows.
-* **Fail Gracefully:** Partial failures should not terminate an entire analysis.
+- **Single Responsibility Principle (SRP):** Every module has one reason to change.
+- **Open/Closed Principle (OCP):** Extend functionality through new analyzers, not by modifying existing ones.
+- **Dependency Inversion:** Business logic depends on abstractions, not frameworks.
+- **Convention over Configuration:** Predictable project structure and naming.
+- **Explicit over Implicit:** Clear interfaces, typed schemas, and documented flows.
+- **Fail Gracefully:** Partial failures should not terminate an entire analysis.
 
 ---
 
@@ -876,11 +876,11 @@ The modular monolith is intentionally designed so that any major module can late
 
 Potential future services:
 
-* Repository Service
-* Analysis Service
-* Scoring Service
-* Recommendation Service
-* Deployment Service
+- Repository Service
+- Analysis Service
+- Scoring Service
+- Recommendation Service
+- Deployment Service
 
 No API contracts or database redesign should be required during this transition.
 
@@ -889,4 +889,3 @@ No API contracts or database redesign should be required during this transition.
 # 27. Architectural Summary
 
 The Preflight backend is built as a **modular monolith** with **clean architectural boundaries**, **asynchronous analysis workflows**, and a **plugin-based analyzer framework**. This design balances rapid development with long-term maintainability, enabling the platform to grow from a student-focused engineering readiness tool into a scalable developer platform without sacrificing code quality or architectural clarity.
-

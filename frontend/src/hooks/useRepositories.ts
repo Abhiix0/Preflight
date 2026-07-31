@@ -1,9 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { repositoryService, ConnectRepositoryRequest } from '../services';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { repositoryService, ConnectRepositoryRequest } from "../services";
 
 export const useRepositories = () => {
   return useQuery({
-    queryKey: ['repositories'],
+    queryKey: ["repositories"],
     queryFn: repositoryService.list,
   });
 };
@@ -11,9 +11,10 @@ export const useRepositories = () => {
 export const useConnectRepository = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: ConnectRepositoryRequest) => repositoryService.connect(data),
+    mutationFn: (data: ConnectRepositoryRequest) =>
+      repositoryService.connect(data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['repositories'] });
+      queryClient.invalidateQueries({ queryKey: ["repositories"] });
     },
   });
 };
@@ -21,16 +22,17 @@ export const useConnectRepository = () => {
 export const useDeleteRepository = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (repositoryId: string) => repositoryService.delete(repositoryId),
+    mutationFn: (repositoryId: string) =>
+      repositoryService.delete(repositoryId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['repositories'] });
+      queryClient.invalidateQueries({ queryKey: ["repositories"] });
     },
   });
 };
 
 export const useRepositoryDetails = (repositoryId: string) => {
   return useQuery({
-    queryKey: ['repository', repositoryId],
+    queryKey: ["repository", repositoryId],
     queryFn: () => repositoryService.getById(repositoryId),
     enabled: !!repositoryId,
   });

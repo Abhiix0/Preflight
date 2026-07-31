@@ -2,7 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, FolderGit2, Settings, Rocket, BarChart3, FileText, AlertCircle } from "lucide-react";
+import {
+  LayoutDashboard,
+  FolderGit2,
+  Settings,
+  Rocket,
+  BarChart3,
+  FileText,
+  AlertCircle,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUIStore } from "@/store/ui.store";
 
@@ -109,7 +117,11 @@ export function Sidebar() {
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              d={sidebarCollapsed ? "M4 6h16M4 18h16" : "M6 5l12 14M6 5l12 14M6 5L18 19"}
+              d={
+                sidebarCollapsed
+                  ? "M4 6h16M4 18h16"
+                  : "M6 5l12 14M6 5l12 14M6 5L18 19"
+              }
             />
           </svg>
         </button>

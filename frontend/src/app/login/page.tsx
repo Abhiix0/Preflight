@@ -18,7 +18,8 @@ export default function LoginPage() {
             Welcome to Preflight
           </h1>
           <p className="text-muted-foreground">
-            Connect your repositories to start analyzing code quality and security
+            Connect your repositories to start analyzing code quality and
+            security
           </p>
         </div>
 

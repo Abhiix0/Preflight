@@ -1,5 +1,5 @@
-import { apiClient } from '../lib/api-client';
-import { Report } from '../types';
+import { apiClient } from "../lib/api-client";
+import { Report } from "../types";
 
 export const reportsService = {
   /** GET /analysis/{jobId}/report */

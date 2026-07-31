@@ -51,26 +51,26 @@ Yet almost nobody teaches what happens **after** the code works.
 
 Questions every student asks:
 
-* Is my project secure?
-* Can someone else actually run this?
-* Did I accidentally expose secrets?
-* Is my API following best practices?
-* Is this architecture acceptable?
-* Is this project good enough for recruiters?
-* Will deployment fail?
-* What should I improve first?
+- Is my project secure?
+- Can someone else actually run this?
+- Did I accidentally expose secrets?
+- Is my API following best practices?
+- Is this architecture acceptable?
+- Is this project good enough for recruiters?
+- Will deployment fail?
+- What should I improve first?
 
 The answers are scattered across dozens of tools.
 
 Developers must combine:
 
-* SonarQube
-* Snyk
-* Semgrep
-* GitHub Actions
-* Docker
-* Vercel
-* Documentation generators
+- SonarQube
+- Snyk
+- Semgrep
+- GitHub Actions
+- Docker
+- Vercel
+- Documentation generators
 
 Most beginners don't even know these tools exist.
 
@@ -82,17 +82,17 @@ Instead of expecting students to become DevOps engineers overnight, Preflight ac
 
 A single repository analysis produces:
 
-* Production readiness assessment
-* Security analysis
-* Static analysis (code quality, documentation, testing, configuration)
-* Engineering Readiness Score
-* Actionable recommendations and learning roadmap
+- Production readiness assessment
+- Security analysis
+- Static analysis (code quality, documentation, testing, configuration)
+- Engineering Readiness Score
+- Actionable recommendations and learning roadmap
 
 Deferred to V2:
 
-* Architecture review
-* API review
-* Advanced deployment validation
+- Architecture review
+- API review
+- Advanced deployment validation
 
 The objective is not simply to deploy software.
 
@@ -106,11 +106,11 @@ The objective is to teach developers **why** software is or isn't ready.
 
 ### Student Developers
 
-* College students
-* Self-taught developers
-* Backend learners
-* AI builders
-* Portfolio builders
+- College students
+- Self-taught developers
+- Backend learners
+- AI builders
+- Portfolio builders
 
 These users can build software but lack production engineering experience.
 
@@ -118,20 +118,20 @@ These users can build software but lack production engineering experience.
 
 ## Secondary Audience
 
-* Hackathon participants
-* Internship applicants
-* Freelancers
-* Open-source contributors
+- Hackathon participants
+- Internship applicants
+- Freelancers
+- Open-source contributors
 
 ---
 
 ## Future Audience
 
-* University coding clubs
-* Bootcamps
-* Startup teams
-* Engineering managers
-* Recruiters
+- University coding clubs
+- Bootcamps
+- Startup teams
+- Engineering managers
+- Recruiters
 
 ---
 
@@ -145,9 +145,9 @@ I have absolutely no idea if it's production ready."
 
 Needs:
 
-* Guidance
-* Security validation
-* Deployment confidence
+- Guidance
+- Security validation
+- Deployment confidence
 
 ---
 
@@ -157,10 +157,10 @@ Needs:
 
 Needs:
 
-* Quick project review
-* Security check
-* README validation
-* One-click deployment
+- Quick project review
+- Security check
+- README validation
+- One-click deployment
 
 ---
 
@@ -170,9 +170,9 @@ Needs:
 
 Needs:
 
-* Professional project quality
-* Architecture validation
-* Recruiter confidence
+- Professional project quality
+- Architecture validation
+- Recruiter confidence
 
 ---
 
@@ -182,9 +182,9 @@ Needs:
 
 Needs:
 
-* Code quality
-* Documentation
-* Standards compliance
+- Code quality
+- Documentation
+- Standards compliance
 
 ---
 
@@ -240,9 +240,9 @@ Preflight is the engineering checkpoint before deployment.
 
 Every recommendation should answer three questions:
 
-* What is wrong?
-* Why does it matter?
-* How can I fix it?
+- What is wrong?
+- Why does it matter?
+- How can I fix it?
 
 Teaching is equally important as detecting.
 
@@ -256,10 +256,10 @@ Help developers understand their project.
 
 Examples
 
-* Tech stack detection
-* Repository overview
-* Dependency analysis
-* Architecture understanding
+- Tech stack detection
+- Repository overview
+- Dependency analysis
+- Architecture understanding
 
 ---
 
@@ -269,12 +269,12 @@ Automatically identify engineering issues.
 
 Examples
 
-* Security
-* Performance
-* Code quality
-* Documentation
-* Testing
-* Production risks
+- Security
+- Performance
+- Code quality
+- Documentation
+- Testing
+- Production risks
 
 ---
 
@@ -284,10 +284,10 @@ Every issue becomes a learning opportunity.
 
 Explain
 
-* Why it matters
-* Industry best practice
-* Recommended implementation
-* Helpful resources
+- Why it matters
+- Industry best practice
+- Recommended implementation
+- Helpful resources
 
 ---
 
@@ -297,9 +297,9 @@ Developers should know when they are ready.
 
 Examples
 
-* Readiness Score
-* Production checklist
-* Deployment validation
+- Readiness Score
+- Production checklist
+- Deployment validation
 
 ---
 
@@ -359,38 +359,38 @@ The MVP is limited to five product capabilities.
 
 ### Repository Ingestion
 
-* GitHub integration
-* Tech stack detection
-* Framework detection
-* Dependency discovery
+- GitHub integration
+- Tech stack detection
+- Framework detection
+- Dependency discovery
 
 ---
 
 ### Static Analysis
 
-* Code quality
-* Project structure
-* TODO detection
-* Documentation review
-* Testing discovery
-* Configuration checks
+- Code quality
+- Project structure
+- TODO detection
+- Documentation review
+- Testing discovery
+- Configuration checks
 
 ---
 
 ### Security Analysis
 
-* Secret detection
-* Dependency vulnerabilities
-* Environment validation
-* Security recommendations
+- Secret detection
+- Dependency vulnerabilities
+- Environment validation
+- Security recommendations
 
 ---
 
 ### Engineering Readiness Score
 
-* Deterministic **Preflight Score™**
-* Category breakdown
-* Deduction explanations
+- Deterministic **Preflight Score™**
+- Category breakdown
+- Deduction explanations
 
 ---
 
@@ -406,9 +406,9 @@ Educational explanations.
 
 ## Supporting MVP Surfaces
 
-* Dashboard
-* Analysis history
-* Engineering Readiness Report
+- Dashboard
+- Analysis history
+- Engineering Readiness Report
 
 ---
 
@@ -416,24 +416,24 @@ Educational explanations.
 
 ### Architecture Review
 
-* Architecture quality assessment
-* Structural anti-pattern detection
+- Architecture quality assessment
+- Structural anti-pattern detection
 
 ---
 
 ### API Review
 
-* REST best practices
-* Validation coverage
-* API documentation completeness
-* Error handling patterns
+- REST best practices
+- Validation coverage
+- API documentation completeness
+- Error handling patterns
 
 ---
 
 ### Advanced Deployment Validation
 
-* Deep runtime deployment checks
-* Multi-provider deployment validation
+- Deep runtime deployment checks
+- Multi-provider deployment validation
 
 ---
 
@@ -447,13 +447,13 @@ One-click deployment after passing Preflight.
 
 Preflight is NOT
 
-* A Git hosting platform
-* A Cloud IDE
-* An AI code generator
-* A Kubernetes platform
-* A Project management system
-* A Team collaboration platform
-* A Full CI/CD replacement
+- A Git hosting platform
+- A Cloud IDE
+- An AI code generator
+- A Kubernetes platform
+- A Project management system
+- A Team collaboration platform
+- A Full CI/CD replacement
 
 Preflight complements existing tools rather than replacing them.
 
@@ -481,10 +481,10 @@ Preflight combines insights from multiple engineering tools into a single educat
 
 A project is considered to have passed when:
 
-* No critical security issues remain.
-* Production readiness requirements are satisfied.
-* Documentation meets minimum standards.
-* Deployment validation succeeds.
+- No critical security issues remain.
+- Production readiness requirements are satisfied.
+- Documentation meets minimum standards.
+- Deployment validation succeeds.
 
 ---
 
@@ -492,18 +492,18 @@ A project is considered to have passed when:
 
 Product Success
 
-* Projects analyzed
-* Projects passing Preflight
-* Repeat analyses
-* Average readiness improvement
-* Deployment success rate
+- Projects analyzed
+- Projects passing Preflight
+- Repeat analyses
+- Average readiness improvement
+- Deployment success rate
 
 Learning Success
 
-* Issues resolved
-* Educational articles opened
-* Time-to-resolution
-* Developer confidence (future surveys)
+- Issues resolved
+- Educational articles opened
+- Time-to-resolution
+- Developer confidence (future surveys)
 
 ---
 
@@ -513,18 +513,18 @@ Preflight should evolve into the default engineering checkpoint used before soft
 
 Future capabilities may include:
 
-* Architecture Review
-* API Review
-* Advanced Deployment Validation
-* One-click Deployment
-* Pull Request Reviews
-* Continuous Repository Monitoring
-* AI Engineering Mentor
-* Team Dashboards
-* Custom Organization Policies
-* University & Classroom Integration
-* Hiring & Portfolio Insights
-* Plugin Marketplace
+- Architecture Review
+- API Review
+- Advanced Deployment Validation
+- One-click Deployment
+- Pull Request Reviews
+- Continuous Repository Monitoring
+- AI Engineering Mentor
+- Team Dashboards
+- Custom Organization Policies
+- University & Classroom Integration
+- Hiring & Portfolio Insights
+- Plugin Marketplace
 
 Regardless of future expansion, the mission remains unchanged:
 

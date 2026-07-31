@@ -4,14 +4,15 @@ Preflight is an Engineering Readiness Platform designed for student and early-ca
 
 ## Stack
 
-| Layer | Technologies |
-| --- | --- |
-| **Backend** | FastAPI, SQLAlchemy 2.0, Celery, PostgreSQL 17, Redis 8, MinIO |
-| **Frontend** | Next.js 15, TypeScript, Tailwind CSS |
+| Layer        | Technologies                                                   |
+| ------------ | -------------------------------------------------------------- |
+| **Backend**  | FastAPI, SQLAlchemy 2.0, Celery, PostgreSQL 17, Redis 8, MinIO |
+| **Frontend** | Next.js 15, TypeScript, Tailwind CSS                           |
 
 ## Quickstart
 
 1. Copy the environment configuration template:
+
    ```bash
    cp .env.example .env
    ```
@@ -22,6 +23,7 @@ Preflight is an Engineering Readiness Platform designed for student and early-ca
    ```
 
 Once running, access the services at:
+
 - **Frontend App**: [http://localhost:3001](http://localhost:3001)
 - **Backend Interactive API Docs**: [http://localhost:8080/docs](http://localhost:8080/docs)
 

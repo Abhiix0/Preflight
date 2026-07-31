@@ -17,23 +17,23 @@ This document defines the frontend architecture of **Preflight**.
 
 It specifies:
 
-* Application structure
-* Routing
-* Component hierarchy
-* State management
-* UI architecture
-* Design system
-* Performance strategy
-* Frontend engineering standards
+- Application structure
+- Routing
+- Component hierarchy
+- State management
+- UI architecture
+- Design system
+- Performance strategy
+- Frontend engineering standards
 
 The goal is to create a frontend that is:
 
-* Fast
-* Accessible
-* Maintainable
-* Modular
-* Scalable
-* Developer-friendly
+- Fast
+- Accessible
+- Maintainable
+- Modular
+- Scalable
+- Developer-friendly
 
 ---
 
@@ -205,11 +205,11 @@ Feature Components
 
 Every authenticated page shares:
 
-* Sidebar
-* Navigation
-* User profile
-* Theme switcher
-* Notifications
+- Sidebar
+- Navigation
+- User profile
+- Theme switcher
+- Notifications
 
 ---
 
@@ -307,9 +307,9 @@ RecommendationCard
 
 Only responsible for:
 
-* Fetching data
-* Composing layouts
-* Rendering feature components
+- Fetching data
+- Composing layouts
+- Rendering feature components
 
 ---
 
@@ -321,9 +321,9 @@ Managed with React hooks.
 
 Examples:
 
-* Dialog open
-* Active tab
-* Search input
+- Dialog open
+- Active tab
+- Search input
 
 ---
 
@@ -333,11 +333,11 @@ Managed with Zustand.
 
 Stores:
 
-* Current user
-* Theme
-* Authentication
-* Sidebar state
-* Notification preferences
+- Current user
+- Theme
+- Authentication
+- Sidebar state
+- Notification preferences
 
 ---
 
@@ -347,11 +347,11 @@ Managed with TanStack Query.
 
 Responsible for:
 
-* API caching
-* Revalidation
-* Background refetching
-* Loading state
-* Error handling
+- API caching
+- Revalidation
+- Background refetching
+- Loading state
+- Error handling
 
 ---
 
@@ -403,11 +403,11 @@ Design follows a consistent token-based system.
 
 Typography
 
-* Heading XL
-* Heading L
-* Heading M
-* Body
-* Caption
+- Heading XL
+- Heading L
+- Heading M
+- Body
+- Caption
 
 Spacing
 
@@ -573,22 +573,22 @@ Progress updates use Server-Sent Events (SSE).
 
 ### SSE Reconnect Behavior
 
-* The client opens an EventSource connection to the analysis progress stream for the active `jobId`.
-* On normal disconnects (network blip, tab sleep), the browser auto-reconnects using the last received event id when available.
-* The server replays missed progress events from the reconnect cursor when possible.
+- The client opens an EventSource connection to the analysis progress stream for the active `jobId`.
+- On normal disconnects (network blip, tab sleep), the browser auto-reconnects using the last received event id when available.
+- The server replays missed progress events from the reconnect cursor when possible.
 
 ### Dropped Connection Recovery
 
-* If the SSE stream cannot be restored, the client falls back to `GET /analysis/{jobId}` polling until a terminal status is observed.
-* UI state is reconciled from the authoritative job status endpoint, not from in-memory progress alone.
-* Temporary network loss must not leave the UI stuck on a non-terminal step.
+- If the SSE stream cannot be restored, the client falls back to `GET /analysis/{jobId}` polling until a terminal status is observed.
+- UI state is reconciled from the authoritative job status endpoint, not from in-memory progress alone.
+- Temporary network loss must not leave the UI stuck on a non-terminal step.
 
 ### Job Resume Logic
 
-* Reloading the analysis page resumes from the current job status (`QUEUED`, `RUNNING`, or terminal).
-* If the job is still active, the client re-subscribes to SSE and restores the timeline from persisted progress.
-* Completed, failed, and cancelled jobs do not open a live stream; they load final results instead.
-* Cancelled or failed jobs expose explicit retry actions without inventing a new job until the user confirms.
+- Reloading the analysis page resumes from the current job status (`QUEUED`, `RUNNING`, or terminal).
+- If the job is still active, the client re-subscribes to SSE and restores the timeline from persisted progress.
+- Completed, failed, and cancelled jobs do not open a live stream; they load final results instead.
+- Cancelled or failed jobs expose explicit retry actions without inventing a new job until the user confirms.
 
 ---
 
@@ -596,19 +596,19 @@ Progress updates use Server-Sent Events (SSE).
 
 Users can:
 
-* Search
-* Filter
-* Sort
-* Expand
-* Copy recommendations
-* Jump to documentation
+- Search
+- Filter
+- Sort
+- Expand
+- Copy recommendations
+- Jump to documentation
 
 Grouping options:
 
-* Severity
-* Category
-* File
-* Analyzer
+- Severity
+- Category
+- File
+- Analyzer
 
 ### Large Findings Lists
 
@@ -616,10 +616,10 @@ Analyses may produce thousands of findings. The findings table MUST use windowed
 
 Guidance:
 
-* Virtualize the primary findings list by default above a small threshold (for example 100 rows).
-* Keep filtering, sorting, and pagination server-driven; virtualization handles client render cost within a page.
-* Avoid rendering expanded detail panels for off-screen rows.
-* Preserve keyboard navigation and screen-reader row counts when virtualizing.
+- Virtualize the primary findings list by default above a small threshold (for example 100 rows).
+- Keep filtering, sorting, and pagination server-driven; virtualization handles client render cost within a page.
+- Avoid rendering expanded detail panels for off-screen rows.
+- Preserve keyboard navigation and screen-reader row counts when virtualizing.
 
 ---
 
@@ -653,8 +653,8 @@ Next Steps
 
 Future:
 
-* PDF export
-* Shareable links
+- PDF export
+- Shareable links
 
 ---
 
@@ -662,13 +662,13 @@ Future:
 
 All forms use:
 
-* React Hook Form
-* Zod validation
+- React Hook Form
+- Zod validation
 
 Validation occurs:
 
-* On submit
-* On blur (critical fields)
+- On submit
+- On blur (critical fields)
 
 Errors are displayed inline.
 
@@ -678,9 +678,9 @@ Errors are displayed inline.
 
 Every async page has:
 
-* Skeleton loaders
-* Progress indicators
-* Empty states
+- Skeleton loaders
+- Progress indicators
+- Empty states
 
 Never show a blank screen.
 
@@ -690,10 +690,10 @@ Never show a blank screen.
 
 Every feature has:
 
-* Error boundaries
-* Retry button
-* Helpful messages
-* Recovery actions
+- Error boundaries
+- Retry button
+- Helpful messages
+- Recovery actions
 
 Unexpected errors are logged automatically.
 
@@ -705,11 +705,11 @@ WCAG AA compliance target.
 
 Requirements:
 
-* Keyboard navigation
-* Screen reader labels
-* Focus indicators
-* Color contrast
-* Semantic HTML
+- Keyboard navigation
+- Screen reader labels
+- Focus indicators
+- Color contrast
+- Semantic HTML
 
 Accessibility is part of the definition of done.
 
@@ -719,19 +719,19 @@ Accessibility is part of the definition of done.
 
 Goals:
 
-* First Contentful Paint < 2s
-* Largest Contentful Paint < 2.5s
-* Interaction to Next Paint < 200ms
+- First Contentful Paint < 2s
+- Largest Contentful Paint < 2.5s
+- Interaction to Next Paint < 200ms
 
 Techniques:
 
-* React Server Components
-* Route-based code splitting
-* Image optimization
-* Lazy loading
-* API caching
-* Dynamic imports
-* Virtualized lists for large findings tables
+- React Server Components
+- Route-based code splitting
+- Image optimization
+- Lazy loading
+- API caching
+- Dynamic imports
+- Virtualized lists for large findings tables
 
 ---
 
@@ -765,12 +765,12 @@ The MVP is desktop-first, but all pages remain functional on mobile.
 
 # 23. Security
 
-* HttpOnly authentication cookies (preferred over storing JWTs in localStorage)
-* CSP headers
-* XSS protection
-* CSRF protection where applicable
-* Secure API communication
-* No secrets in frontend code
+- HttpOnly authentication cookies (preferred over storing JWTs in localStorage)
+- CSP headers
+- XSS protection
+- CSRF protection where applicable
+- Secure API communication
+- No secrets in frontend code
 
 ---
 
@@ -786,16 +786,16 @@ End-to-End Tests
 
 Tools:
 
-* Vitest
-* React Testing Library
-* Playwright
+- Vitest
+- React Testing Library
+- Playwright
 
 Critical flows:
 
-* Login
-* Repository connection
-* Analysis lifecycle
-* Report viewing
+- Login
+- Repository connection
+- Analysis lifecycle
+- Report viewing
 
 ---
 
@@ -803,25 +803,25 @@ Critical flows:
 
 Formatting:
 
-* Prettier
+- Prettier
 
 Linting:
 
-* ESLint
+- ESLint
 
 Typing:
 
-* Strict TypeScript
+- Strict TypeScript
 
 Components:
 
-* Functional only
+- Functional only
 
 Naming:
 
-* PascalCase components
-* camelCase functions
-* kebab-case routes
+- PascalCase components
+- camelCase functions
+- kebab-case routes
 
 ---
 
@@ -843,13 +843,13 @@ Progressive disclosure is preferred over dense interfaces.
 
 Planned additions:
 
-* Deployment Dashboard
-* AI Engineering Assistant
-* Team Workspace
-* Organization Dashboard
-* Plugin Marketplace
-* Notification Center
-* Settings Expansion
+- Deployment Dashboard
+- AI Engineering Assistant
+- Team Workspace
+- Organization Dashboard
+- Plugin Marketplace
+- Notification Center
+- Settings Expansion
 
 The architecture allows these features to be added without restructuring existing modules.
 
@@ -895,12 +895,12 @@ UI Re-render
 
 The frontend adheres to these principles:
 
-* **Single Responsibility:** Components have one purpose.
-* **Composition over Inheritance:** Build complex UIs from small reusable pieces.
-* **Server-First Rendering:** Reduce client-side JavaScript where possible.
-* **Consistency:** Shared patterns for navigation, feedback, and interactions.
-* **Performance by Default:** Optimize before adding complexity.
-* **Accessibility by Design:** Inclusive experiences are part of the architecture, not an afterthought.
+- **Single Responsibility:** Components have one purpose.
+- **Composition over Inheritance:** Build complex UIs from small reusable pieces.
+- **Server-First Rendering:** Reduce client-side JavaScript where possible.
+- **Consistency:** Shared patterns for navigation, feedback, and interactions.
+- **Performance by Default:** Optimize before adding complexity.
+- **Accessibility by Design:** Inclusive experiences are part of the architecture, not an afterthought.
 
 ---
 

@@ -17,11 +17,11 @@ This document defines the database architecture for **Preflight**, including dom
 
 The database is designed to support:
 
-* High-performance repository analysis
-* Historical analysis tracking
-* Production readiness scoring
-* Recommendation generation
-* Future deployment capabilities
+- High-performance repository analysis
+- Historical analysis tracking
+- Production readiness scoring
+- Recommendation generation
+- Future deployment capabilities
 
 The design follows **Third Normal Form (3NF)** while selectively using **JSONB** where flexibility is more valuable than strict normalization.
 
@@ -35,13 +35,13 @@ PostgreSQL provides the ideal balance between relational consistency and modern 
 
 Reasons:
 
-* ACID transactions
-* Excellent JSONB support
-* Strong indexing
-* Full-text search
-* Extensions
-* Mature ecosystem
-* Excellent SQLAlchemy support
+- ACID transactions
+- Excellent JSONB support
+- Strong indexing
+- Full-text search
+- Extensions
+- Mature ecosystem
+- Excellent SQLAlchemy support
 
 MongoDB was intentionally rejected because relationships dominate this domain.
 
@@ -228,29 +228,29 @@ Connected GitHub repositories.
 
 Tracks repository analyses and the commit snapshot under evaluation.
 
-| Column            | Type           |
-| ----------------- | -------------- |
-| id                | UUID           |
-| repository_id     | FK             |
-| status            | ENUM           |
-| commit_sha        | VARCHAR(40)    |
-| branch            | VARCHAR        |
-| analysis_version  | VARCHAR        |
-| ruleset_version   | VARCHAR        |
-| started_at        | TIMESTAMP      |
-| completed_at      | TIMESTAMP      |
-| worker_id         | VARCHAR        |
-| duration_ms       | INTEGER        |
-| triggered_by      | UUID FK(users) |
+| Column           | Type           |
+| ---------------- | -------------- |
+| id               | UUID           |
+| repository_id    | FK             |
+| status           | ENUM           |
+| commit_sha       | VARCHAR(40)    |
+| branch           | VARCHAR        |
+| analysis_version | VARCHAR        |
+| ruleset_version  | VARCHAR        |
+| started_at       | TIMESTAMP      |
+| completed_at     | TIMESTAMP      |
+| worker_id        | VARCHAR        |
+| duration_ms      | INTEGER        |
+| triggered_by     | UUID FK(users) |
 
 ### Commit Snapshot
 
 Every analysis job captures an immutable snapshot of what was analyzed:
 
-* `commit_sha` — exact Git commit evaluated
-* `branch` — branch name at analysis time
-* `analysis_version` — Preflight analysis pipeline version
-* `ruleset_version` — scoring and finding ruleset version
+- `commit_sha` — exact Git commit evaluated
+- `branch` — branch name at analysis time
+- `analysis_version` — Preflight analysis pipeline version
+- `ruleset_version` — scoring and finding ruleset version
 
 Re-analysis of the same commit with identical `analysis_version` and `ruleset_version` may reuse an existing completed job.
 
@@ -278,17 +278,17 @@ CANCELLED
 
 Registry of available analyzer plugins.
 
-| Column                | Type      |
-| --------------------- | --------- |
-| id                    | UUID PK   |
-| name                  | VARCHAR UNIQUE |
-| category              | VARCHAR   |
-| analyzer_version      | VARCHAR   |
-| supported_frameworks  | JSONB     |
-| metadata              | JSONB     |
-| is_active             | BOOLEAN   |
-| created_at            | TIMESTAMP |
-| updated_at            | TIMESTAMP |
+| Column               | Type           |
+| -------------------- | -------------- |
+| id                   | UUID PK        |
+| name                 | VARCHAR UNIQUE |
+| category             | VARCHAR        |
+| analyzer_version     | VARCHAR        |
+| supported_frameworks | JSONB          |
+| metadata             | JSONB          |
+| is_active            | BOOLEAN        |
+| created_at           | TIMESTAMP      |
+| updated_at           | TIMESTAMP      |
 
 ---
 
@@ -328,20 +328,20 @@ SKIPPED
 
 Stores every issue detected.
 
-| Column          | Type    |
-| --------------- | ------- |
-| id              | UUID    |
-| analysis_job_id | FK      |
+| Column          | Type          |
+| --------------- | ------------- |
+| id              | UUID          |
+| analysis_job_id | FK            |
 | analyzer_run_id | FK (nullable) |
-| category        | ENUM    |
-| severity        | ENUM    |
-| title           | VARCHAR |
-| description     | TEXT    |
-| file_path       | TEXT    |
-| line_number     | INTEGER |
-| scanner         | VARCHAR |
-| fingerprint     | VARCHAR |
-| metadata        | JSONB   |
+| category        | ENUM          |
+| severity        | ENUM          |
+| title           | VARCHAR       |
+| description     | TEXT          |
+| file_path       | TEXT          |
+| line_number     | INTEGER       |
+| scanner         | VARCHAR       |
+| fingerprint     | VARCHAR       |
+| metadata        | JSONB         |
 
 ### Finding Fingerprint
 
@@ -349,10 +349,10 @@ Stores every issue detected.
 
 Typical inputs:
 
-* rule / scanner identity
-* normalized file path
-* issue signature (message key or rule id)
-* optional line-context hash
+- rule / scanner identity
+- normalized file path
+- issue signature (message key or rule id)
+- optional line-context hash
 
 Identical fingerprints within a single analysis job are collapsed. Across jobs, matching fingerprints support historical comparison and “still open / resolved” tracking.
 
@@ -498,11 +498,11 @@ JSONB is intentionally used where schemas may evolve.
 
 Used for:
 
-* Scanner outputs
-* Rule metadata
-* Future plugins
-* Report payloads
-* Recommendation metadata
+- Scanner outputs
+- Rule metadata
+- Future plugins
+- Report payloads
+- Recommendation metadata
 
 Example
 
@@ -511,9 +511,7 @@ Example
   "rule": "AWS_SECRET",
   "confidence": 0.97,
   "scanner": "detect-secrets",
-  "references": [
-    "https://..."
-  ]
+  "references": ["https://..."]
 }
 ```
 
@@ -719,30 +717,30 @@ All schema changes are managed with Alembic.
 
 Rules:
 
-* Never edit an existing migration.
-* One feature per migration.
-* Always include downgrade scripts.
-* Review generated SQL before applying.
+- Never edit an existing migration.
+- One feature per migration.
+- Always include downgrade scripts.
+- Review generated SQL before applying.
 
 ---
 
 # 13. Performance Strategy
 
-* UUID primary keys for distributed safety.
-* Connection pooling via SQLAlchemy.
-* Read-heavy queries optimized with indexes.
-* JSONB indexed using GIN.
-* Historical reports archived after retention period (future).
+- UUID primary keys for distributed safety.
+- Connection pooling via SQLAlchemy.
+- Read-heavy queries optimized with indexes.
+- JSONB indexed using GIN.
+- Historical reports archived after retention period (future).
 
 ---
 
 # 14. Security Considerations
 
-* OAuth tokens encrypted at rest.
-* No plaintext secrets stored.
-* JWT identifiers only, never JWT payloads.
-* Reports sanitized before storage.
-* Temporary repository data removed after analysis.
+- OAuth tokens encrypted at rest.
+- No plaintext secrets stored.
+- JWT identifiers only, never JWT payloads.
+- Reports sanitized before storage.
+- Temporary repository data removed after analysis.
 
 ---
 
@@ -750,16 +748,16 @@ Rules:
 
 Reserved domains include:
 
-* Deployments
-* Deployment Providers
-* Build Logs
-* Organizations
-* Teams
-* Role-Based Access Control (RBAC)
-* Plugin Registry
-* Notification Center
-* Billing & Subscription
-* Audit Logs
+- Deployments
+- Deployment Providers
+- Build Logs
+- Organizations
+- Teams
+- Role-Based Access Control (RBAC)
+- Plugin Registry
+- Notification Center
+- Billing & Subscription
+- Audit Logs
 
 These additions will not require changes to existing core tables due to the domain-oriented design.
 
@@ -801,4 +799,3 @@ Completed analyses remain available for historical comparison until explicitly d
 # 18. Architectural Summary
 
 The Preflight database is built around **domain-driven modeling**, emphasizing clear ownership, historical traceability, and extensibility. The schema balances relational integrity with selective flexibility through JSONB, ensuring the platform can evolve from a student-focused engineering readiness tool into a broader developer platform without major structural changes.
-

@@ -15,10 +15,10 @@ export const formatMinutes = (minutes: number): string => {
 export const formatDate = (dateString: string): string => {
   try {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   } catch {
     return dateString;
@@ -28,16 +28,16 @@ export const formatDate = (dateString: string): string => {
 /** Format severity badge color */
 export const getSeverityColor = (severity: string): string => {
   const map: Record<string, string> = {
-    CRITICAL: 'bg-red-500 text-white',
-    HIGH: 'bg-orange-500 text-white',
-    MEDIUM: 'bg-amber-500 text-white',
-    LOW: 'bg-blue-500 text-white',
-    INFO: 'bg-slate-500 text-white',
+    CRITICAL: "bg-red-500 text-white",
+    HIGH: "bg-orange-500 text-white",
+    MEDIUM: "bg-amber-500 text-white",
+    LOW: "bg-blue-500 text-white",
+    INFO: "bg-slate-500 text-white",
   };
-  return map[severity] || 'bg-slate-500 text-white';
+  return map[severity] || "bg-slate-500 text-white";
 };
 
 /** Format category badge */
 export const formatCategory = (category: string): string => {
-  return category.replace(/_/g, ' ');
+  return category.replace(/_/g, " ");
 };

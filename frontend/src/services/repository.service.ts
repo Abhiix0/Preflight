@@ -1,5 +1,5 @@
-import { apiClient } from '../lib/api-client';
-import { Repository } from '../types';
+import { apiClient } from "../lib/api-client";
+import { Repository } from "../types";
 
 export interface ConnectRepositoryRequest {
   github_repo_id: number;
@@ -8,12 +8,12 @@ export interface ConnectRepositoryRequest {
 export const repositoryService = {
   // GET /repositories
   list: async (): Promise<Repository[]> => {
-    return apiClient.get<Repository[]>('/repositories');
+    return apiClient.get<Repository[]>("/repositories");
   },
 
   // POST /repositories
   connect: async (data: ConnectRepositoryRequest): Promise<Repository> => {
-    return apiClient.post<Repository>('/repositories', data);
+    return apiClient.post<Repository>("/repositories", data);
   },
 
   // GET /repositories/{repositoryId}

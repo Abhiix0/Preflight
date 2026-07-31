@@ -15,14 +15,14 @@
 
 The Preflight API is designed around the following principles:
 
-* RESTful resource-oriented design
-* Predictable endpoints
-* Consistent request/response formats
-* Stateless authentication
-* Idempotent operations where applicable
-* Explicit error reporting
-* Versioned APIs
-* OpenAPI 3.1 compliant
+- RESTful resource-oriented design
+- Predictable endpoints
+- Consistent request/response formats
+- Stateless authentication
+- Idempotent operations where applicable
+- Explicit error reporting
+- Versioned APIs
+- OpenAPI 3.1 compliant
 
 ---
 
@@ -86,9 +86,9 @@ No breaking changes inside a version.
 
 ### Deprecation Policy
 
-* A major version remains supported for at least **6 months** after the next major version is released.
-* Deprecated endpoints are announced in release notes and OpenAPI descriptions.
-* Deprecated responses include:
+- A major version remains supported for at least **6 months** after the next major version is released.
+- Deprecated endpoints are announced in release notes and OpenAPI descriptions.
+- Deprecated responses include:
 
 ```http
 Deprecation: true
@@ -96,8 +96,8 @@ Sunset: <RFC 1123 date>
 Link: </docs/api/migration>; rel="deprecation"
 ```
 
-* After the sunset date, deprecated versions return `410 Gone`.
-* Clients should migrate within the support window; no silent breaking changes inside `/v1`.
+- After the sunset date, deprecated versions return `410 Gone`.
+- Clients should migrate within the support window; no silent breaking changes inside `/v1`.
 
 ---
 
@@ -271,10 +271,10 @@ Returns **202 Accepted**.
 
 ### Idempotency Strategy
 
-* Clients SHOULD send an `Idempotency-Key` header on `POST /repositories/{repositoryId}/analysis`.
-* The same key + authenticated user + repository within the idempotency retention window returns the original job response without creating a duplicate.
-* If an analysis is already `QUEUED` or `RUNNING` for the repository, the API returns `409 CONFLICT` with the existing `job_id`.
-* Re-analysis of an identical commit snapshot (`commit_sha` + `analysis_version` + `ruleset_version`) may return the existing completed job instead of starting a new one.
+- Clients SHOULD send an `Idempotency-Key` header on `POST /repositories/{repositoryId}/analysis`.
+- The same key + authenticated user + repository within the idempotency retention window returns the original job response without creating a duplicate.
+- If an analysis is already `QUEUED` or `RUNNING` for the repository, the API returns `409 CONFLICT` with the existing `job_id`.
+- Re-analysis of an identical commit snapshot (`commit_sha` + `analysis_version` + `ruleset_version`) may return the existing completed job instead of starting a new one.
 
 ---
 
@@ -324,18 +324,18 @@ GET /analysis/{jobId}/findings
 
 Supported query parameters:
 
-| Parameter | Description |
-| --------- | ----------- |
-| `severity` | Filter by severity (`CRITICAL`, `HIGH`, `MEDIUM`, `LOW`, `INFO`) |
-| `category` | Filter by category (`SECURITY`, `CODE_QUALITY`, …) |
-| `scanner` | Filter by analyzer / scanner name |
-| `file_path` | Filter by file path prefix or exact match |
-| `fingerprint` | Lookup by finding fingerprint |
-| `q` | Free-text search across title and description |
-| `page` | Page number (1-based) |
-| `limit` | Page size |
-| `sort` | Sort field (`severity`, `category`, `file_path`, `created_at`) |
-| `order` | `asc` or `desc` |
+| Parameter     | Description                                                      |
+| ------------- | ---------------------------------------------------------------- |
+| `severity`    | Filter by severity (`CRITICAL`, `HIGH`, `MEDIUM`, `LOW`, `INFO`) |
+| `category`    | Filter by category (`SECURITY`, `CODE_QUALITY`, …)               |
+| `scanner`     | Filter by analyzer / scanner name                                |
+| `file_path`   | Filter by file path prefix or exact match                        |
+| `fingerprint` | Lookup by finding fingerprint                                    |
+| `q`           | Free-text search across title and description                    |
+| `page`        | Page number (1-based)                                            |
+| `limit`       | Page size                                                        |
+| `sort`        | Sort field (`severity`, `category`, `file_path`, `created_at`)   |
+| `order`       | `asc` or `desc`                                                  |
 
 Example
 
@@ -491,10 +491,10 @@ All list endpoints use a standardized pagination contract.
 
 ### Query Parameters
 
-| Parameter | Default | Max | Description |
-| --------- | ------- | --- | ----------- |
-| `page` | `1` | — | 1-based page index |
-| `limit` | `20` | `100` | Items per page |
+| Parameter | Default | Max   | Description        |
+| --------- | ------- | ----- | ------------------ |
+| `page`    | `1`     | —     | 1-based page index |
+| `limit`   | `20`    | `100` | Items per page     |
 
 ### Response Envelope
 
@@ -514,10 +514,10 @@ All list endpoints use a standardized pagination contract.
 
 Rules:
 
-* `page` below 1 is rejected with `400`.
-* `limit` above 100 is rejected with `400`.
-* Empty pages return `data: []` with accurate `total` / `pages`.
-* Sorting defaults are documented per endpoint; clients should not assume insertion order.
+- `page` below 1 is rejected with `400`.
+- `limit` above 100 is rejected with `400`.
+- Empty pages return `data: []` with accurate `total` / `pages`.
+- Sorting defaults are documented per endpoint; clients should not assume insertion order.
 
 ---
 
@@ -654,14 +654,14 @@ X-RateLimit-Reset: 1721664000
 
 # 20. Security
 
-* HTTPS only
-* JWT authentication
-* OAuth 2.0
-* Input validation using Pydantic
-* SQL injection protection through ORM
-* CSRF protection (where applicable)
-* Rate limiting
-* Request logging
+- HTTPS only
+- JWT authentication
+- OAuth 2.0
+- Input validation using Pydantic
+- SQL injection protection through ORM
+- CSRF protection (where applicable)
+- Rate limiting
+- Request logging
 
 ---
 
@@ -669,8 +669,8 @@ X-RateLimit-Reset: 1721664000
 
 The following endpoints are idempotent by nature:
 
-* `GET`
-* `DELETE` (repeat deletes return `404` or `204` consistently once removed)
+- `GET`
+- `DELETE` (repeat deletes return `404` or `204` consistently once removed)
 
 ### `POST /repositories/{id}/analysis`
 
@@ -754,13 +754,13 @@ OpenAPI specification generated from FastAPI.
 
 Reserved for future versions:
 
-* Deployment API
-* Team API
-* Organization API
-* Notifications API
-* Plugin API
-* Webhooks
-* GraphQL Gateway (optional)
+- Deployment API
+- Team API
+- Organization API
+- Notifications API
+- Plugin API
+- Webhooks
+- GraphQL Gateway (optional)
 
 ---
 

@@ -15,11 +15,11 @@ This document defines the technical architecture of **Preflight**, an Engineerin
 
 The architecture prioritizes:
 
-* Maintainability
-* Simplicity
-* Scalability
-* Educational value
-* Modular design
+- Maintainability
+- Simplicity
+- Scalability
+- Educational value
+- Modular design
 
 Although Preflight is built as a **modular monolith** for the MVP, every module is designed so it can later be extracted into an independent service without major refactoring.
 
@@ -107,23 +107,23 @@ Business logic is never duplicated.
 
 # 4. Technology Stack
 
-| Layer               | Technology                 |
-| ------------------- | -------------------------- |
-| Frontend            | Next.js + TypeScript       |
-| Styling             | Tailwind CSS + shadcn/ui   |
-| Backend             | FastAPI                    |
-| Validation          | Pydantic                   |
-| ORM                 | SQLAlchemy                 |
-| Migrations          | Alembic                    |
-| Database            | PostgreSQL                 |
-| Cache               | Redis                      |
-| Background Jobs     | Celery                     |
-| Object Storage      | MinIO (Local), S3 (Future) |
-| Authentication      | GitHub OAuth + JWT         |
-| Containers          | Docker                     |
-| Package Manager     | uv                         |
+| Layer               | Technology                                                |
+| ------------------- | --------------------------------------------------------- |
+| Frontend            | Next.js + TypeScript                                      |
+| Styling             | Tailwind CSS + shadcn/ui                                  |
+| Backend             | FastAPI                                                   |
+| Validation          | Pydantic                                                  |
+| ORM                 | SQLAlchemy                                                |
+| Migrations          | Alembic                                                   |
+| Database            | PostgreSQL                                                |
+| Cache               | Redis                                                     |
+| Background Jobs     | Celery                                                    |
+| Object Storage      | MinIO (Local), S3 (Future)                                |
+| Authentication      | GitHub OAuth + JWT                                        |
+| Containers          | Docker                                                    |
+| Package Manager     | uv                                                        |
 | JavaScript Analysis | Subprocess analyzers (Node.js tooling invoked by FastAPI) |
-| API Docs            | OpenAPI / Swagger          |
+| API Docs            | OpenAPI / Swagger                                         |
 
 ---
 
@@ -133,17 +133,17 @@ Business logic is never duplicated.
 
 Responsible for:
 
-* GitHub OAuth
-* JWT authentication
-* Refresh tokens
-* User sessions
-* Repository permissions
+- GitHub OAuth
+- JWT authentication
+- Refresh tokens
+- User sessions
+- Repository permissions
 
 Owns:
 
-* Users
-* Sessions
-* OAuth credentials
+- Users
+- Sessions
+- OAuth credentials
 
 ---
 
@@ -151,12 +151,12 @@ Owns:
 
 Responsible for:
 
-* Repository cloning
-* Git metadata
-* Branch selection
-* Framework detection
-* Language detection
-* Dependency discovery
+- Repository cloning
+- Git metadata
+- Branch selection
+- Framework detection
+- Language detection
+- Dependency discovery
 
 Produces a standardized Repository Profile.
 
@@ -168,14 +168,14 @@ The orchestrator coordinates the complete engineering analysis workflow.
 
 Responsibilities:
 
-* Create analysis jobs
-* Schedule worker tasks
-* Track analysis progress
-* Retry failed tasks
-* Aggregate results
-* Trigger score generation
-* Emit domain events
-* Notify the frontend
+- Create analysis jobs
+- Schedule worker tasks
+- Track analysis progress
+- Retry failed tasks
+- Aggregate results
+- Trigger score generation
+- Emit domain events
+- Notify the frontend
 
 The orchestrator **never performs analysis itself**.
 
@@ -201,14 +201,14 @@ RUNNING ──────► CANCELLED
 
 Transitions:
 
-| From | To | Trigger |
-| ---- | -- | ------- |
-| PENDING | QUEUED | Job accepted and enqueued |
-| QUEUED | RUNNING | Worker claims job |
-| RUNNING | COMPLETED | All required stages finish |
-| RUNNING | FAILED | Unrecoverable error or timeout |
-| RUNNING | CANCELLED | User cancellation |
-| QUEUED | CANCELLED | User cancellation before start |
+| From    | To        | Trigger                        |
+| ------- | --------- | ------------------------------ |
+| PENDING | QUEUED    | Job accepted and enqueued      |
+| QUEUED  | RUNNING   | Worker claims job              |
+| RUNNING | COMPLETED | All required stages finish     |
+| RUNNING | FAILED    | Unrecoverable error or timeout |
+| RUNNING | CANCELLED | User cancellation              |
+| QUEUED  | CANCELLED | User cancellation before start |
 
 Terminal states: `COMPLETED`, `FAILED`, `CANCELLED`.
 
@@ -247,28 +247,28 @@ Clone and stack detection are sequential prerequisites. Security, static/JavaScr
 
 ### Retry Strategy
 
-* Transient failures (network, GitHub rate limits, temporary Docker daemon errors) retry with exponential backoff.
-* Default: up to 3 attempts per task.
-* Permanent failures (auth revoked, repository deleted, unsupported size) fail immediately without retry.
-* Retries never duplicate side effects already persisted for the same `job_id` + task name.
+- Transient failures (network, GitHub rate limits, temporary Docker daemon errors) retry with exponential backoff.
+- Default: up to 3 attempts per task.
+- Permanent failures (auth revoked, repository deleted, unsupported size) fail immediately without retry.
+- Retries never duplicate side effects already persisted for the same `job_id` + task name.
 
 ---
 
 ### Partial Failure Handling
 
-* Analyzer failures are isolated; one analyzer failure does not abort the job.
-* Failed analyzers emit findings or job-level warnings.
-* Scoring continues with available results.
-* Docker build failure records a deployment finding and allows remaining analyzers to finish.
-* Only orchestration-level failures (clone failure, timeout budget exhausted, cancellation) mark the job terminal as `FAILED` or `CANCELLED`.
+- Analyzer failures are isolated; one analyzer failure does not abort the job.
+- Failed analyzers emit findings or job-level warnings.
+- Scoring continues with available results.
+- Docker build failure records a deployment finding and allows remaining analyzers to finish.
+- Only orchestration-level failures (clone failure, timeout budget exhausted, cancellation) mark the job terminal as `FAILED` or `CANCELLED`.
 
 ---
 
 ### Idempotency
 
-* Starting analysis for the same repository commit with the same `analysis_version` and `ruleset_version` returns the existing job when one is already `QUEUED` or `RUNNING`.
-* Completed analyses for an identical commit snapshot may be reused instead of creating a duplicate job.
-* Domain events and result persistence are keyed by `job_id` so retries do not create duplicate scores or reports.
+- Starting analysis for the same repository commit with the same `analysis_version` and `ruleset_version` returns the existing job when one is already `QUEUED` or `RUNNING`.
+- Completed analyses for an identical commit snapshot may be reused instead of creating a duplicate job.
+- Domain events and result persistence are keyed by `job_id` so retries do not create duplicate scores or reports.
 
 ---
 
@@ -276,12 +276,12 @@ Clone and stack detection are sequential prerequisites. Security, static/JavaScr
 
 The orchestrator publishes internal domain events for analysis lifecycle observability and worker coordination.
 
-| Event | When |
-| ----- | ---- |
-| `AnalysisCreated` | Job record created and accepted |
-| `AnalysisStarted` | Worker begins execution |
-| `AnalysisCompleted` | Job reaches `COMPLETED` |
-| `AnalysisFailed` | Job reaches `FAILED` |
+| Event               | When                            |
+| ------------------- | ------------------------------- |
+| `AnalysisCreated`   | Job record created and accepted |
+| `AnalysisStarted`   | Worker begins execution         |
+| `AnalysisCompleted` | Job reaches `COMPLETED`         |
+| `AnalysisFailed`    | Job reaches `FAILED`            |
 
 Events are internal to the backend (not a public webhook API in the MVP). They feed progress tracking, SSE updates, audit logs, and metrics.
 
@@ -291,11 +291,11 @@ Events are internal to the backend (not a public webhook API in the MVP). They f
 
 Runs external security tools including:
 
-* Semgrep
-* Bandit
-* detect-secrets
-* pip-audit
-* Trivy (future)
+- Semgrep
+- Bandit
+- detect-secrets
+- pip-audit
+- Trivy (future)
 
 Normalizes all outputs into a unified finding format.
 
@@ -320,15 +320,15 @@ This verifies that the application works outside the developer's local machine.
 
 Analysis containers enforce:
 
-* Rootless containers where the host supports them
-* Non-root execution inside the container
-* Read-only filesystem (writable temp mounts only where required)
-* Disabled networking by default
-* CPU limits
-* Memory limits
-* PID limits
-* Seccomp profile
-* AppArmor or SELinux confinement when available on the host
+- Rootless containers where the host supports them
+- Non-root execution inside the container
+- Read-only filesystem (writable temp mounts only where required)
+- Disabled networking by default
+- CPU limits
+- Memory limits
+- PID limits
+- Seccomp profile
+- AppArmor or SELinux confinement when available on the host
 
 Containers are ephemeral and never reused.
 
@@ -340,11 +340,11 @@ JavaScript and TypeScript analysis runs as **subprocess-based analyzers** invoke
 
 Responsibilities:
 
-* package.json parsing
-* npm / pnpm / yarn detection
-* Next.js analysis
-* React analysis
-* Express analysis
+- package.json parsing
+- npm / pnpm / yarn detection
+- Next.js analysis
+- React analysis
+- Express analysis
 
 There is **no dedicated Node.js analysis microservice** in the MVP. Node.js tooling may be installed in the worker environment and executed as short-lived subprocesses under the same orchestrator and sandbox controls as other analyzers.
 
@@ -356,12 +356,12 @@ Calculates the **Preflight Score™**.
 
 Categories include:
 
-* Security
-* Maintainability
-* Documentation
-* Testing
-* Deployment Readiness
-* Configuration
+- Security
+- Maintainability
+- Documentation
+- Testing
+- Deployment Readiness
+- Configuration
 
 Architecture scoring is deferred to V2.
 
@@ -375,12 +375,12 @@ Transforms technical findings into educational recommendations.
 
 Each recommendation includes:
 
-* Issue summary
-* Severity
-* Why it matters
-* Recommended fix
-* Estimated effort
-* Learning resources
+- Issue summary
+- Severity
+- Why it matters
+- Recommended fix
+- Estimated effort
+- Learning resources
 
 ---
 
@@ -390,14 +390,14 @@ Generates the Engineering Readiness Report.
 
 Outputs:
 
-* JSON report
-* Dashboard view
-* Historical reports
+- JSON report
+- Dashboard view
+- Historical reports
 
 Future:
 
-* PDF export
-* Shareable reports
+- PDF export
+- Shareable reports
 
 ---
 
@@ -583,14 +583,14 @@ Progress is delivered using Server-Sent Events (SSE) for the MVP.
 
 Stores:
 
-* Users
-* Repositories
-* Projects
-* Analysis jobs
-* Findings
-* Scores
-* Recommendations
-* Reports
+- Users
+- Repositories
+- Projects
+- Analysis jobs
+- Findings
+- Scores
+- Recommendations
+- Reports
 
 ---
 
@@ -598,9 +598,9 @@ Stores:
 
 Stores:
 
-* Celery queues
-* Job state
-* Temporary cache
+- Celery queues
+- Job state
+- Temporary cache
 
 ---
 
@@ -608,10 +608,10 @@ Stores:
 
 Stores:
 
-* Temporary repository archives
-* Generated reports
-* Build logs
-* Future deployment artifacts
+- Temporary repository archives
+- Generated reports
+- Build logs
+- Future deployment artifacts
 
 Repositories are deleted after analysis completes.
 
@@ -657,9 +657,9 @@ Preflight continues analysis even if one subsystem fails.
 
 Examples:
 
-* If Semgrep fails, Bandit still executes.
-* If Docker validation fails, repository analysis continues.
-* If README analysis fails, scoring still completes.
+- If Semgrep fails, Bandit still executes.
+- If Docker validation fails, repository analysis continues.
+- If README analysis fails, scoring still completes.
 
 Each module reports failures independently.
 
@@ -671,11 +671,11 @@ The modular monolith is designed for future extraction.
 
 Potential future services:
 
-* Repository Service
-* Security Service
-* Docker Service
-* Recommendation Service
-* Deployment Service
+- Repository Service
+- Security Service
+- Docker Service
+- Recommendation Service
+- Deployment Service
 
 No public API contracts need to change during extraction.
 
@@ -687,17 +687,17 @@ Major technical decisions are documented in `docs/ADR.md`.
 
 Initial ADRs:
 
-* ADR-001: Modular Monolith over Microservices
-* ADR-002: FastAPI as the Primary Backend
-* ADR-003: PostgreSQL over MongoDB
-* ADR-004: Docker Sandbox for Repository Analysis
-* ADR-005: Plugin-Based Analyzer Framework
-* ADR-006: REST API over GraphQL
-* ADR-007: GitHub OAuth as Authentication Provider
-* ADR-008: Server-Sent Events for Live Progress
-* ADR-016: Engineering Readiness Standard
-* ADR-017: Sandbox Execution Model
-* ADR-018: Multi-language Analysis Strategy
+- ADR-001: Modular Monolith over Microservices
+- ADR-002: FastAPI as the Primary Backend
+- ADR-003: PostgreSQL over MongoDB
+- ADR-004: Docker Sandbox for Repository Analysis
+- ADR-005: Plugin-Based Analyzer Framework
+- ADR-006: REST API over GraphQL
+- ADR-007: GitHub OAuth as Authentication Provider
+- ADR-008: Server-Sent Events for Live Progress
+- ADR-016: Engineering Readiness Standard
+- ADR-017: Sandbox Execution Model
+- ADR-018: Multi-language Analysis Strategy
 
 ---
 
@@ -707,14 +707,14 @@ The architecture intentionally supports future capabilities without redesign.
 
 Planned extensions include:
 
-* One-click deployment (V2)
-* Additional framework support
-* Pull request analysis
-* Continuous repository monitoring
-* Team workspaces
-* Organization policies
-* AI engineering mentor
-* Plugin ecosystem
+- One-click deployment (V2)
+- Additional framework support
+- Pull request analysis
+- Continuous repository monitoring
+- Team workspaces
+- Organization policies
+- AI engineering mentor
+- Plugin ecosystem
 
 ---
 

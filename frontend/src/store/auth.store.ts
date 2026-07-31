@@ -1,6 +1,6 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { User } from '../types';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { User } from "../types";
 
 interface AuthState {
   user: User | null;
@@ -22,7 +22,7 @@ export const useAuthStore = create<AuthState>()(
       logout: () => set({ user: null, token: null, isAuthenticated: false }),
     }),
     {
-      name: 'preflight-auth',
+      name: "preflight-auth",
       partialize: (state) => ({ token: state.token }),
     }
   )

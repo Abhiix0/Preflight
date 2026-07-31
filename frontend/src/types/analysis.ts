@@ -1,4 +1,5 @@
-export type AnalysisStatus = 'QUEUED' | 'RUNNING' | 'COMPLETED' | 'FAILED' | 'CANCELLED';
+export type AnalysisStatus =
+  "QUEUED" | "RUNNING" | "COMPLETED" | "FAILED" | "CANCELLED";
 
 export interface Analysis {
   job_id: string;

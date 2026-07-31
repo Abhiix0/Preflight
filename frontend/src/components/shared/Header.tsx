@@ -41,15 +41,18 @@ export function Header() {
         {isAuthenticated && user ? (
           <div className="flex items-center gap-3">
             <Avatar className="h-9 w-9">
-              <AvatarImage src={user.avatar_url || undefined} alt={user.username} />
-              <AvatarFallback
-                className="bg-primary/10 text-xs font-semibold text-primary"
-              >
+              <AvatarImage
+                src={user.avatar_url || undefined}
+                alt={user.username}
+              />
+              <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">
                 {user.username?.[0].toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <div>
-              <div className="text-sm font-medium text-foreground">{user.username}</div>
+              <div className="text-sm font-medium text-foreground">
+                {user.username}
+              </div>
               <div className="text-xs text-muted-foreground">{user.email}</div>
             </div>
           </div>

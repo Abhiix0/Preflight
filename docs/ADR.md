@@ -14,12 +14,12 @@
 
 An Architecture Decision Record documents:
 
-* The problem
-* The options considered
-* The decision
-* Why the decision was made
-* Trade-offs
-* Future consequences
+- The problem
+- The options considered
+- The decision
+- Why the decision was made
+- Trade-offs
+- Future consequences
 
 Every significant architectural decision gets its own ADR.
 
@@ -90,10 +90,10 @@ The platform has clear business domains but limited operational resources.
 
 Using microservices would increase:
 
-* Deployment complexity
-* Debugging difficulty
-* Infrastructure cost
-* Development overhead
+- Deployment complexity
+- Debugging difficulty
+- Infrastructure cost
+- Development overhead
 
 without providing proportional value.
 
@@ -113,10 +113,10 @@ Microservices
 
 Rejected because:
 
-* Too much operational overhead
-* Requires service discovery
-* More complex deployments
-* Slower development
+- Too much operational overhead
+- Requires service discovery
+- More complex deployments
+- Slower development
 
 ---
 
@@ -124,15 +124,15 @@ Rejected because:
 
 Pros
 
-* Faster development
-* Easier debugging
-* Single deployment
-* Simpler testing
+- Faster development
+- Easier debugging
+- Single deployment
+- Simpler testing
 
 Cons
 
-* Larger application
-* Requires discipline to maintain module boundaries
+- Larger application
+- Requires discipline to maintain module boundaries
 
 ---
 
@@ -140,9 +140,9 @@ Cons
 
 Revisit when:
 
-* Multiple engineering teams exist.
-* Backend exceeds ~150k LOC.
-* Independent deployment becomes necessary.
+- Multiple engineering teams exist.
+- Backend exceeds ~150k LOC.
+- Independent deployment becomes necessary.
 
 ---
 
@@ -160,11 +160,11 @@ Accepted
 
 The backend requires:
 
-* Async support
-* Automatic API documentation
-* Strong typing
-* High performance
-* Excellent Python ecosystem integration
+- Async support
+- Automatic API documentation
+- Strong typing
+- High performance
+- Excellent Python ecosystem integration
 
 ---
 
@@ -180,12 +180,12 @@ Use **FastAPI** as the primary backend framework.
 
 Pros:
 
-* Mature ecosystem
+- Mature ecosystem
 
 Cons:
 
-* Too opinionated
-* Unnecessary features for this project
+- Too opinionated
+- Unnecessary features for this project
 
 ---
 
@@ -193,12 +193,12 @@ Cons:
 
 Pros:
 
-* Lightweight
+- Lightweight
 
 Cons:
 
-* Requires more boilerplate
-* No native typing or OpenAPI generation
+- Requires more boilerplate
+- No native typing or OpenAPI generation
 
 ---
 
@@ -206,12 +206,12 @@ Cons:
 
 Pros:
 
-* Excellent architecture
+- Excellent architecture
 
 Cons:
 
-* JavaScript ecosystem
-* Project already centered on Python analyzers
+- JavaScript ecosystem
+- Project already centered on Python analyzers
 
 ---
 
@@ -219,14 +219,14 @@ Cons:
 
 Pros
 
-* Native async
-* Automatic Swagger
-* Strong typing
-* Excellent performance
+- Native async
+- Automatic Swagger
+- Strong typing
+- Excellent performance
 
 Cons
 
-* Smaller ecosystem than Django
+- Smaller ecosystem than Django
 
 ---
 
@@ -244,13 +244,13 @@ Only reconsider if Python ceases to be the primary implementation language.
 
 Preflight manages highly relational data:
 
-* Users
-* Projects
-* Repositories
-* Analysis Jobs
-* Findings
-* Reports
-* Scores
+- Users
+- Projects
+- Repositories
+- Analysis Jobs
+- Findings
+- Reports
+- Scores
 
 Strong relationships and transactional consistency are more important than schema flexibility.
 
@@ -270,9 +270,9 @@ MongoDB
 
 Rejected because:
 
-* Weak relational modeling
-* Higher risk of data duplication
-* More complex joins at the application layer
+- Weak relational modeling
+- Higher risk of data duplication
+- More complex joins at the application layer
 
 ---
 
@@ -280,14 +280,14 @@ Rejected because:
 
 Pros
 
-* ACID compliance
-* Mature indexing
-* Powerful SQL
-* JSONB flexibility
+- ACID compliance
+- Mature indexing
+- Powerful SQL
+- JSONB flexibility
 
 Cons
 
-* Requires migrations
+- Requires migrations
 
 ---
 
@@ -309,9 +309,9 @@ Every analysis executes inside an isolated Docker container.
 
 Containers are:
 
-* Ephemeral
-* Resource-limited
-* Automatically destroyed
+- Ephemeral
+- Resource-limited
+- Automatically destroyed
 
 ---
 
@@ -331,13 +331,13 @@ Rejected due to significantly higher resource usage and slower startup.
 
 Pros
 
-* Strong isolation
-* Reproducible builds
-* Consistent environments
+- Strong isolation
+- Reproducible builds
+- Consistent environments
 
 Cons
 
-* Slightly higher execution overhead
+- Slightly higher execution overhead
 
 ---
 
@@ -351,11 +351,11 @@ Preflight will continuously gain new analyzers.
 
 Examples:
 
-* README Analyzer
-* Secret Scanner
-* Docker Analyzer
-* Dependency Analyzer
-* License Analyzer
+- README Analyzer
+- Secret Scanner
+- Docker Analyzer
+- Dependency Analyzer
+- License Analyzer
 
 The architecture should support adding analyzers without modifying existing logic.
 
@@ -371,14 +371,14 @@ Every analyzer implements a shared interface and registers itself with the orche
 
 Pros
 
-* Open/Closed Principle
-* Easy extensibility
-* Independent testing
-* Cleaner orchestration
+- Open/Closed Principle
+- Easy extensibility
+- Independent testing
+- Cleaner orchestration
 
 Cons
 
-* Slightly more abstraction than a simple function-based approach
+- Slightly more abstraction than a simple function-based approach
 
 ---
 
@@ -406,9 +406,9 @@ GraphQL
 
 Rejected because:
 
-* Higher complexity
-* Additional caching considerations
-* Limited immediate value for the MVP
+- Higher complexity
+- Additional caching considerations
+- Limited immediate value for the MVP
 
 ---
 
@@ -416,13 +416,13 @@ Rejected because:
 
 Pros
 
-* Simpler clients
-* Easier caching
-* Straightforward documentation
+- Simpler clients
+- Easier caching
+- Straightforward documentation
 
 Cons
 
-* Less flexible querying
+- Less flexible querying
 
 ---
 
@@ -484,13 +484,13 @@ Rejected because bidirectional communication is unnecessary for the MVP.
 
 Pros
 
-* Simpler implementation
-* Lower overhead
-* Native browser support
+- Simpler implementation
+- Lower overhead
+- Native browser support
 
 Cons
 
-* One-way communication only
+- One-way communication only
 
 ---
 
@@ -504,10 +504,10 @@ GitHub Actions is the default CI/CD platform.
 
 Reasons:
 
-* Repository-native
-* Good Docker support
-* Marketplace ecosystem
-* Free tier suitable for MVP
+- Repository-native
+- Good Docker support
+- Marketplace ecosystem
+- Free tier suitable for MVP
 
 ---
 
@@ -575,13 +575,13 @@ Rejected because teaching is a core product pillar.
 
 Pros
 
-* Clear MVP boundaries
-* Deterministic scoring inputs
-* Consistent UX and acceptance criteria
+- Clear MVP boundaries
+- Deterministic scoring inputs
+- Consistent UX and acceptance criteria
 
 Cons
 
-* Some advanced checks wait until V2
+- Some advanced checks wait until V2
 
 ---
 
@@ -611,13 +611,13 @@ User repositories are untrusted. Analysis may build and start applications. Isol
 
 Execute untrusted analysis work in ephemeral Docker sandboxes with:
 
-* Rootless containers where supported
-* Non-root execution
-* Read-only filesystem (limited writable mounts)
-* Networking disabled by default
-* CPU, memory, and PID limits
-* Seccomp profile
-* AppArmor/SELinux when available on the host
+- Rootless containers where supported
+- Non-root execution
+- Read-only filesystem (limited writable mounts)
+- Networking disabled by default
+- CPU, memory, and PID limits
+- Seccomp profile
+- AppArmor/SELinux when available on the host
 
 Sandboxes never receive OAuth tokens or production secrets. Containers are destroyed after each job and never reused.
 
@@ -643,13 +643,13 @@ Rejected; Kubernetes is out of MVP scope.
 
 Pros
 
-* Strong default isolation
-* Aligns with Compose-based MVP operations
-* Clear blast-radius assumptions if isolation fails
+- Strong default isolation
+- Aligns with Compose-based MVP operations
+- Clear blast-radius assumptions if isolation fails
 
 Cons
 
-* Some repositories may fail under restricted networking or resource limits
+- Some repositories may fail under restricted networking or resource limits
 
 ---
 
@@ -679,9 +679,9 @@ Preflight must analyze Python and JavaScript/TypeScript projects in the MVP. A d
 
 Keep a single FastAPI + Celery analysis runtime.
 
-* Python analyzers run in-process or as managed tools via the plugin `Analyzer` interface.
-* JavaScript/TypeScript analyzers run as **subprocess-based tools** invoked by the same workers.
-* All analyzers register through the plugin architecture and report `analyzer_version`, `supported_frameworks`, and `metadata`.
+- Python analyzers run in-process or as managed tools via the plugin `Analyzer` interface.
+- JavaScript/TypeScript analyzers run as **subprocess-based tools** invoked by the same workers.
+- All analyzers register through the plugin architecture and report `analyzer_version`, `supported_frameworks`, and `metadata`.
 
 There is no dedicated Node.js analysis service in the MVP.
 
@@ -703,14 +703,14 @@ Deferred until volume justifies specialization.
 
 Pros
 
-* One orchestration model
-* Shared sandbox, retries, and domain events
-* Simpler Compose topology
+- One orchestration model
+- Shared sandbox, retries, and domain events
+- Simpler Compose topology
 
 Cons
 
-* Worker images must include required JS tooling
-* Subprocess tooling upgrades need careful version tracking
+- Worker images must include required JS tooling
+- Subprocess tooling upgrades need careful version tracking
 
 ---
 
@@ -724,13 +724,13 @@ Revisit if JS analyzer throughput or tooling isolation requires an extracted ser
 
 New ADRs are required whenever an architectural decision:
 
-* Changes infrastructure
-* Introduces a major dependency
-* Alters deployment strategy
-* Changes database technology
-* Changes authentication
-* Changes communication patterns
-* Introduces new architectural patterns
+- Changes infrastructure
+- Introduces a major dependency
+- Alters deployment strategy
+- Changes database technology
+- Changes authentication
+- Changes communication patterns
+- Introduces new architectural patterns
 
 Each ADR must include a review trigger so future engineers know when to revisit the decision.
 
@@ -739,4 +739,3 @@ Each ADR must include a review trigger so future engineers know when to revisit 
 # ADR Summary
 
 Architecture Decision Records ensure that Preflight's technical evolution remains intentional and traceable. By documenting the context, alternatives, trade-offs, and consequences behind every major engineering choice, the project gains a durable engineering memory that supports onboarding, maintenance, and future scaling without relying on tribal knowledge.
-

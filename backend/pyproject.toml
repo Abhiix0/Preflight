@@ -36,4 +36,9 @@ ignore_missing_imports = true
 module = "app.api.dependencies"
 ignore_errors = true
 
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+pythonVersion = "3.12"
+extraPaths = ["."]
 

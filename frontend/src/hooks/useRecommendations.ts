@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import { recommendationsService } from '../services';
-import { Recommendation } from '../types';
 
 export const useRecommendations = (jobId: string) => {
   return useQuery({

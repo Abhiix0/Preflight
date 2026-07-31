@@ -1,11 +1,12 @@
+"use client";
+
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/auth.store";
 import { apiClient } from "@/lib/api-client";
-import { useRouter as useNextRouter } from "next/router";
+import type { User } from "@/types";
 
 export default function AuthCallback() {
-  const router = useNextRouter(); // Using next/router for query access
   const appRouter = useRouter();
   const { setUser, setToken, logout } = useAuthStore((state) => ({
     setUser: state.setUser,
@@ -18,7 +19,7 @@ export default function AuthCallback() {
     // The backend should set the JWT in a cookie, and we'll fetch the user
     const fetchUser = async () => {
       try {
-        const user = await apiClient.get<any>("/users/me");
+        const user = await apiClient.get<User>("/users/me");
         setToken(localStorage.getItem("preflight_token")); // Get from cookie/storage
         setUser(user);
         appRouter.push("/dashboard");

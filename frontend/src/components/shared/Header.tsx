@@ -4,9 +4,8 @@ import * as React from "react";
 import { useTheme } from "next-themes";
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuthStore } from "@/store/auth.store";
-import { Link } from "next/navigation";
 
 export function Header() {
   const { theme, setTheme } = useTheme();
@@ -42,10 +41,9 @@ export function Header() {
         {isAuthenticated && user ? (
           <div className="flex items-center gap-3">
             <Avatar className="h-9 w-9">
+              <AvatarImage src={user.avatar_url || undefined} alt={user.username} />
               <AvatarFallback
                 className="bg-primary/10 text-xs font-semibold text-primary"
-                src={user.avatar_url || undefined}
-                alt={user.username}
               >
                 {user.username?.[0].toUpperCase()}
               </AvatarFallback>

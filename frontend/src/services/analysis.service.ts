@@ -1,6 +1,5 @@
 import { apiClient } from '../lib/api-client';
-import { Analysis, AnalysisStatus, AnalysisJobResponse } from '../types';
-import { AnalysisRequest } from '../types';
+import { Analysis, AnalysisStatus, AnalysisRequest } from '../types';
 
 export interface AnalysisJobsResponse {
   job_id: string;

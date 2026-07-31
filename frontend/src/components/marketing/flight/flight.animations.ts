@@ -1,11 +1,8 @@
 import { createTimeline, createDrawable, animate, utils } from "animejs";
 import { EASE_PRIMARY } from "@/lib/animation";
 import {
-  FLIGHT_PATH,
   PATH_POINTS,
   PATH_ANGLES,
-  LZ_CX,
-  LZ_CY,
 } from "./FlightVisual";
 
 /**

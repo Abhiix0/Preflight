@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import { reportsService } from '../services';
-import { Report } from '../types';
 
 export const useReport = (jobId: string) => {
   return useQuery({

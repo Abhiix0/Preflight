@@ -1,12 +1,10 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 
 export default function LoginPage() {
   const { login } = useAuth();
-  const router = useRouter();
 
   const handleLogin = () => {
     login();

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { findingsService } from '../services';
-import { Finding, FindingFilters, PaginatedResponse } from '../types';
+import { FindingFilters } from '../types';
 
 export const useFindings = (
   jobId: string,

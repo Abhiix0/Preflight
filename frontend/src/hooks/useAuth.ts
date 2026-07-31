@@ -3,7 +3,7 @@ import { authService } from '../services';
 import { useAuthStore } from '../store';
 
 export const useCurrentUser = () => {
-  const { user, setUser } = useAuthStore();
+  const { setUser } = useAuthStore();
 
   return useQuery({
     queryKey: ['currentUser'],

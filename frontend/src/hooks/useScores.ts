@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import { scoresService } from '../services';
-import { Score } from '../types';
 
 export const useScore = (jobId: string) => {
   return useQuery({

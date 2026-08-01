@@ -1,14 +1,16 @@
 import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { authService } from "../services";
 import { useAuthStore } from "../store";
 
 export const useCurrentUser = () => {
-  const { setUser } = useAuthStore();
+  const setUser = useAuthStore((state) => state.setUser);
+  const logout = useAuthStore((state) => state.logout);
 
   const query = useQuery({
     queryKey: ["currentUser"],
     queryFn: authService.getCurrentUser,
+    retry: false,
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
@@ -16,14 +18,16 @@ export const useCurrentUser = () => {
     if (query.data) {
       setUser(query.data);
     } else if (query.isError) {
-      setUser(null);
+      logout();
     }
-  }, [query.data, query.isError, setUser]);
+  }, [query.data, query.isError, setUser, logout]);
 
   return query;
 };
 
 export const useAuth = () => {
+  const queryClient = useQueryClient();
+
   return {
     user: useAuthStore((state) => state.user),
     isAuthenticated: useAuthStore((state) => state.isAuthenticated),
@@ -35,7 +39,8 @@ export const useAuth = () => {
     },
     logout: async () => {
       await authService.logout();
-      window.location.href = "/";
+      queryClient.removeQueries({ queryKey: ["currentUser"] });
+      window.location.href = "/login";
     },
   };
 };

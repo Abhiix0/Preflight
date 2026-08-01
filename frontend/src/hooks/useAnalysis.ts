@@ -8,7 +8,11 @@ export const useStartAnalysis = () => {
     mutationFn: (params: {
       repositoryId: string;
       requestData?: AnalysisRequest;
-    }) => analysisService.start(params.repositoryId, params.requestData),
+      idempotencyKey?: string;
+    }) => analysisService.start(params.repositoryId, {
+      requestData: params.requestData,
+      idempotencyKey: params.idempotencyKey || crypto.randomUUID(),
+    }),
     onSuccess: (_, { repositoryId }) => {
       queryClient.invalidateQueries({ queryKey: ["analysis", repositoryId] });
       queryClient.invalidateQueries({ queryKey: ["repositories"] });

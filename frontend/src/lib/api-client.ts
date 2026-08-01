@@ -1,6 +1,19 @@
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api/v1";
 
+export class ApiError extends Error {
+  constructor(
+    public status: number,
+    public code: string,
+    message: string,
+    public details?: unknown
+  ) {
+    super(message);
+    this.name = "ApiError";
+    Object.setPrototypeOf(this, ApiError.prototype);
+  }
+}
+
 export interface ApiClientOptions {
   headers?: Record<string, string>;
 }
@@ -23,26 +36,28 @@ class ApiClient {
       credentials: "include",
     });
 
+    if (response.status === 204 || response.headers.get("content-length") === "0") {
+      return undefined as unknown as T;
+    }
+
     const json = await response.json();
 
     if (!response.ok) {
-      // Handle standard error shape from Api-specification.md section 5
-      throw {
-        status: response.status,
-        code: json.error?.code || "SERVER_ERROR",
-        message: json.error?.message || "An unexpected error occurred",
-        details: json.error?.details,
-      };
+      throw new ApiError(
+        response.status,
+        json.error?.code || "SERVER_ERROR",
+        json.error?.message || "An unexpected error occurred",
+        json.error?.details
+      );
     }
 
-    // According to spec, success responses are wrapped in { success, message, data }
     if (json.success === false) {
-      throw {
-        status: response.status,
-        code: json.error?.code || "API_ERROR",
-        message: json.error?.message || "API returned success: false",
-        details: json.error?.details,
-      };
+      throw new ApiError(
+        response.status,
+        json.error?.code || "API_ERROR",
+        json.error?.message || "API returned success: false",
+        json.error?.details
+      );
     }
 
     return json.data;
@@ -55,8 +70,13 @@ class ApiClient {
     return this.request<T>(`${endpoint}${queryString}`, { method: "GET" });
   }
 
-  async post<T>(endpoint: string, body?: unknown): Promise<T> {
+  async post<T>(
+    endpoint: string,
+    body?: unknown,
+    options: RequestInit = {}
+  ): Promise<T> {
     return this.request<T>(endpoint, {
+      ...options,
       method: "POST",
       body: JSON.stringify(body),
     });

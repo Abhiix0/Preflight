@@ -6,19 +6,27 @@ export interface AnalysisJobsResponse {
   status: AnalysisStatus;
 }
 
+export interface StartAnalysisOptions {
+  requestData?: AnalysisRequest;
+  idempotencyKey?: string;
+}
+
 export const analysisService = {
   /**
    * POST /repositories/{repositoryId}/analysis
    */
   start: async (
     repositoryId: string,
-    requestData?: AnalysisRequest
+    options?: StartAnalysisOptions
   ): Promise<AnalysisJobsResponse> => {
     const endpoint = `/repositories/${repositoryId}/analysis`;
-    if (requestData) {
-      return apiClient.post<AnalysisJobsResponse>(endpoint, requestData);
+    const headers: Record<string, string> = {};
+    if (options?.idempotencyKey) {
+      headers["Idempotency-Key"] = options.idempotencyKey;
     }
-    return apiClient.post<AnalysisJobsResponse>(endpoint);
+    return apiClient.post<AnalysisJobsResponse>(endpoint, options?.requestData, {
+      headers,
+    });
   },
 
   /** GET /analysis/{jobId} */

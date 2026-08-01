@@ -8,9 +8,8 @@ import type { User } from "@/types";
 
 export default function AuthCallback() {
   const appRouter = useRouter();
-  const { setUser, setToken, logout } = useAuthStore((state) => ({
+  const { setUser, logout } = useAuthStore((state) => ({
     setUser: state.setUser,
-    setToken: state.setToken,
     logout: state.logout,
   }));
 
@@ -20,7 +19,6 @@ export default function AuthCallback() {
     const fetchUser = async () => {
       try {
         const user = await apiClient.get<User>("/users/me");
-        setToken(localStorage.getItem("preflight_token")); // Get from cookie/storage
         setUser(user);
         appRouter.push("/dashboard");
       } catch (error) {
@@ -31,7 +29,7 @@ export default function AuthCallback() {
     };
 
     fetchUser();
-  }, [appRouter, setToken, setUser, logout]);
+  }, [appRouter, setUser, logout]);
 
   return null;
 }

@@ -1,4 +1,5 @@
 import { apiClient } from "../lib/api-client";
+import { useAuthStore } from "../store";
 import { User } from "../types";
 
 export const authService = {
@@ -12,10 +13,7 @@ export const authService = {
 
   // POST /auth/logout
   logout: async (): Promise<void> => {
-    // Clear token on frontend
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("preflight_token");
-    }
-    return apiClient.get<void>("/auth/logout");
+    await apiClient.post<void>("/auth/logout");
+    useAuthStore.getState().logout();
   },
 };

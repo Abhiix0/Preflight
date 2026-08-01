@@ -12,24 +12,15 @@ class ApiClient {
     this.baseUrl = API_BASE_URL;
   }
 
-  private async getAuthToken(): Promise<string | null> {
-    if (typeof window === "undefined") return null;
-    return localStorage.getItem("preflight_token");
-  }
-
   async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
-    const token = await this.getAuthToken();
-
     const headers = new Headers(options.headers);
-    if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
-    }
     headers.set("Content-Type", "application/json");
     headers.set("Accept", "application/json");
 
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       ...options,
       headers,
+      credentials: "include",
     });
 
     const json = await response.json();

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { authService } from "../services";
 import { useAuthStore } from "../store";
@@ -5,13 +6,21 @@ import { useAuthStore } from "../store";
 export const useCurrentUser = () => {
   const { setUser } = useAuthStore();
 
-  return useQuery({
+  const query = useQuery({
     queryKey: ["currentUser"],
     queryFn: authService.getCurrentUser,
-    onSuccess: (data) => setUser(data),
-    onError: () => setUser(null),
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
+
+  useEffect(() => {
+    if (query.data) {
+      setUser(query.data);
+    } else if (query.isError) {
+      setUser(null);
+    }
+  }, [query.data, query.isError, setUser]);
+
+  return query;
 };
 
 export const useAuth = () => {
@@ -19,11 +28,13 @@ export const useAuth = () => {
     user: useAuthStore((state) => state.user),
     isAuthenticated: useAuthStore((state) => state.isAuthenticated),
     login: () => {
-      // Redirect to GitHub OAuth - handled by Next.js router or auth service
-      window.location.href = "/auth/github";
+      const backendBaseUrl = (
+        process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api/v1"
+      ).replace(/\/api\/v1\/?$/, "");
+      window.location.href = `${backendBaseUrl}/auth/github`;
     },
-    logout: () => {
-      useAuthStore.getState().logout();
+    logout: async () => {
+      await authService.logout();
       window.location.href = "/";
     },
   };

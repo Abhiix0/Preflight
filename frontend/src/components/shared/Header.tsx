@@ -1,14 +1,20 @@
 "use client";
 
 import * as React from "react";
-import { useTheme } from "next-themes";
-import { Moon, Sun } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuthStore } from "@/store/auth.store";
 
+/**
+ * Cyberpunk Header — terminal-style top bar.
+ *
+ * - font-label monospace label, uppercase tracking
+ * - chamfered avatar frame (from restyled Avatar primitive)
+ * - neon-accent hover on logout icon button
+ * - ThemeProvider / Sun / Moon removed — dark mode is mandatory
+ */
 export function Header() {
-  const { theme, setTheme } = useTheme();
   const { user, isAuthenticated, logout } = useAuthStore((state) => ({
     user: state.user,
     isAuthenticated: state.isAuthenticated,
@@ -16,68 +22,58 @@ export function Header() {
   }));
 
   return (
-    <header className="flex h-16 w-full items-center justify-between border-b bg-card px-6 text-card-foreground">
-      {/* Title / Breadcrumb placeholder */}
+    <header className="flex h-14 w-full shrink-0 items-center justify-between border-b border-border bg-card px-6">
+      {/* Terminal label */}
       <div className="flex items-center gap-2">
-        <h2 className="text-sm font-semibold text-muted-foreground">
+        <span className="font-label text-[10px] uppercase tracking-widest text-muted-foreground">
+          //
+        </span>
+        <span className="font-label text-[10px] uppercase tracking-widest text-accent">
           Engineering Readiness Platform
-        </h2>
+        </span>
       </div>
 
-      {/* Right Controls */}
+      {/* Right controls */}
       <div className="flex items-center gap-4">
-        {/* Theme Toggle */}
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          aria-label="Toggle theme"
-        >
-          <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-        </Button>
-
-        {/* User Info */}
         {isAuthenticated && user ? (
           <div className="flex items-center gap-3">
-            <Avatar className="h-9 w-9">
+            {/* Chamfered avatar */}
+            <Avatar className="size-8">
               <AvatarImage
                 src={user.avatar_url || undefined}
                 alt={user.username}
               />
-              <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">
-                {user.username?.[0].toUpperCase()}
+              <AvatarFallback>
+                {user.username?.[0]?.toUpperCase()}
               </AvatarFallback>
             </Avatar>
-            <div>
-              <div className="text-sm font-medium text-foreground">
+
+            {/* User info */}
+            <div className="hidden sm:block">
+              <div className="font-label text-[10px] uppercase tracking-wider text-foreground">
                 {user.username}
               </div>
-              <div className="text-xs text-muted-foreground">{user.email}</div>
+              <div className="font-body text-[10px] text-muted-foreground">
+                {user.email}
+              </div>
             </div>
           </div>
         ) : null}
 
-        {/* Logout Button */}
+        {/* Logout — neon accent hover */}
         <Button
           variant="ghost"
           size="icon"
           onClick={logout}
           aria-label="Sign out"
+          className={[
+            "text-muted-foreground",
+            "hover:text-accent hover:bg-accent/10",
+            "hover:filter-[drop-shadow(0_0_4px_var(--accent))]",
+            "transition-all duration-150 motion-reduce:transition-none",
+          ].join(" ")}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-            />
-          </svg>
+          <LogOut className="h-4 w-4 stroke-[1.5]" />
         </Button>
       </div>
     </header>

@@ -24,6 +24,11 @@ interface ConfirmDialogProps {
   onOpenChange?: (open: boolean) => void;
 }
 
+/**
+ * ConfirmDialog — unchanged prop API, now wired to the cyberpunk-restyled
+ * Dialog primitives from Phase 2 (chamfered panel, neon glow, font-label
+ * title, scanline-safe overlay). No additional class overrides needed.
+ */
 export function ConfirmDialog({
   trigger,
   title,
@@ -43,13 +48,20 @@ export function ConfirmDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
+
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
-          {description && <DialogDescription>{description}</DialogDescription>}
+          {description && (
+            <DialogDescription>{description}</DialogDescription>
+          )}
         </DialogHeader>
+
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange?.(false)}>
+          <Button
+            variant="outline"
+            onClick={() => onOpenChange?.(false)}
+          >
             {cancelLabel}
           </Button>
           <Button

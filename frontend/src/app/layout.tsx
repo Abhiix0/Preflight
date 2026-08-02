@@ -38,10 +38,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${orbitron.variable} ${shareTeChMono.variable} ${jetbrainsMono.variable} h-full antialiased`}
-      suppressHydrationWarning
+      className={`dark ${orbitron.variable} ${shareTeChMono.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col" suppressHydrationWarning>
+      <body className="min-h-full flex flex-col">
         <Providers>{children}</Providers>
       </body>
     </html>

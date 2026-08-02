@@ -1,6 +1,17 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
+/**
+ * Cyberpunk LoadingSkeletons.
+ *
+ * TableSkeleton — header row gets accent/10 tint to signal column headers;
+ *                 body rows use standard muted/40 skeleton.
+ * CardSkeleton  — wrapped in a chamfered card border (bg-card, border-border,
+ *                 cyber-chamfer-sm) so the skeleton has the same shape as the
+ *                 card it replaces.
+ * DashboardSkeleton — grid of CardSkeletons + one wide CardSkeleton below.
+ */
+
 export function TableSkeleton({
   rows = 5,
   columns = 4,
@@ -12,15 +23,19 @@ export function TableSkeleton({
 }) {
   return (
     <div className={cn("w-full space-y-3", className)}>
-      {/* Header */}
-      <div className="flex gap-4">
+      {/* Header row — accent tint */}
+      <div className="flex gap-4 border-b border-border pb-3">
         {Array.from({ length: columns }).map((_, i) => (
-          <Skeleton key={i} className="h-5 flex-1" />
+          <Skeleton
+            key={i}
+            className="h-4 flex-1 bg-accent/10"
+          />
         ))}
       </div>
-      {/* Rows */}
+
+      {/* Body rows */}
       {Array.from({ length: rows }).map((_, rowIndex) => (
-        <div key={rowIndex} className="flex gap-4">
+        <div key={rowIndex} className="flex gap-4 py-0.5">
           {Array.from({ length: columns }).map((_, colIndex) => (
             <Skeleton key={colIndex} className="h-4 flex-1" />
           ))}
@@ -32,11 +47,21 @@ export function TableSkeleton({
 
 export function CardSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn("space-y-3 p-6", className)}>
-      <Skeleton className="h-6 w-3/4" />
-      <Skeleton className="h-4 w-1/2" />
-      <Skeleton className="h-4 w-full" />
-      <Skeleton className="h-4 w-2/3" />
+    <div
+      className={cn(
+        // Chamfered card shell — matches Card default variant shape
+        "bg-card border border-border cyber-chamfer-sm",
+        "space-y-3 p-6",
+        className
+      )}
+    >
+      {/* Title line — accent tint */}
+      <Skeleton className="h-4 w-3/4 bg-accent/10" />
+      {/* Subtitle */}
+      <Skeleton className="h-3 w-1/2" />
+      {/* Body lines */}
+      <Skeleton className="h-3 w-full" />
+      <Skeleton className="h-3 w-2/3" />
     </div>
   );
 }

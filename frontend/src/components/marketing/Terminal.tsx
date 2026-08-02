@@ -32,17 +32,17 @@ const SCAN_LINES = [
   { prefix: "✓", text: " Preflight Score™: 84 / 100", type: "ok" },
 ];
 
-const CHAR_DELAY = 28;   // ms per character
-const LINE_PAUSE = 420;  // ms between lines
+const CHAR_DELAY = 28; // ms per character
+const LINE_PAUSE = 420; // ms between lines
 
 type PrefixType = "cmd" | "info" | "warn" | "err" | "ok";
 
 const prefixColor: Record<PrefixType, string> = {
-  cmd:  "text-accent",
+  cmd: "text-accent",
   info: "text-accent",
   warn: "text-[#ffaa00]",
-  err:  "text-destructive",
-  ok:   "text-accent",
+  err: "text-destructive",
+  ok: "text-accent",
 };
 
 type State = {
@@ -160,7 +160,9 @@ export function Terminal() {
           {/* Completed lines */}
           {state.completedLines.map((line, i) => (
             <div key={i} className="flex gap-2 leading-relaxed">
-              <span className={`shrink-0 font-label ${prefixColor[line.type as PrefixType]}`}>
+              <span
+                className={`shrink-0 font-label ${prefixColor[line.type as PrefixType]}`}
+              >
                 {line.prefix}
               </span>
               <span className="text-foreground">{line.text}</span>
@@ -170,19 +172,21 @@ export function Terminal() {
           {/* Currently typing line */}
           {!state.done && state.currentLineIndex < SCAN_LINES.length && (
             <div className="flex gap-2 leading-relaxed">
-              <span className={`shrink-0 font-label ${
-                prefixColor[SCAN_LINES[state.currentLineIndex].type as PrefixType]
-              }`}>
+              <span
+                className={`shrink-0 font-label ${
+                  prefixColor[
+                    SCAN_LINES[state.currentLineIndex].type as PrefixType
+                  ]
+                }`}
+              >
                 {/* Show prefix only once full prefix is typed */}
-                {state.currentText.length > 0
-                  ? state.currentText[0]
-                  : ""}
+                {state.currentText.length > 0 ? state.currentText[0] : ""}
               </span>
               <span className="text-foreground">
                 {state.currentText.slice(1)}
                 {/* Blinking cursor — animation suppressed by global reduced-motion rule */}
                 <span
-                  className="inline-block w-2 h-[1em] bg-accent ml-0.5 align-middle animate-[blink_1s_step-end_infinite] motion-reduce:animate-none"
+                  className="inline-block w-2 h-[1em] bg-accent ml-0.5 align-middle animate-blink motion-reduce:animate-none"
                   aria-hidden="true"
                 />
               </span>
@@ -194,7 +198,7 @@ export function Terminal() {
             <div className="flex gap-2 leading-relaxed">
               <span className="font-label text-accent">$</span>
               <span
-                className="inline-block w-2 h-[1em] bg-accent ml-0.5 align-middle animate-[blink_1s_step-end_infinite] motion-reduce:animate-none"
+                className="inline-block w-2 h-[1em] bg-accent ml-0.5 align-middle animate-blink motion-reduce:animate-none"
                 aria-hidden="true"
               />
             </div>

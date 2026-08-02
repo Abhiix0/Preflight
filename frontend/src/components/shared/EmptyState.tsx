@@ -51,7 +51,10 @@ export function EmptyState({
       {/* Title with ">" prompt */}
       <div className="space-y-2">
         <h3 className="flex items-baseline justify-center gap-2">
-          <span aria-hidden="true" className="font-label text-xs text-accent select-none">
+          <span
+            aria-hidden="true"
+            className="font-label text-xs text-accent select-none"
+          >
             &gt;
           </span>
           <span className="font-label text-sm uppercase tracking-wider text-accent">

@@ -10,7 +10,13 @@ import {
   FlaskConical,
   Hammer,
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 
 /**
  * Features — 8 analysis categories exactly as defined in
@@ -92,9 +98,9 @@ export function Features() {
             Eight categories. Zero surprises.
           </h2>
           <p className="max-w-2xl font-body text-sm text-muted-foreground md:text-base">
-            Every Preflight scan covers the same eight engineering areas.
-            Each finding is categorised, severity-ranked, and paired with a
-            concrete recommendation before it reaches your dashboard.
+            Every Preflight scan covers the same eight engineering areas. Each
+            finding is categorised, severity-ranked, and paired with a concrete
+            recommendation before it reaches your dashboard.
           </p>
         </div>
 

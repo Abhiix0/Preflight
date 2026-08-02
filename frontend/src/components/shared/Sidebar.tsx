@@ -2,14 +2,21 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, FolderGit2, Settings, Rocket, PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import {
+  LayoutDashboard,
+  FolderGit2,
+  Settings,
+  Rocket,
+  PanelLeftClose,
+  PanelLeftOpen,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUIStore } from "@/store/ui.store";
 
 const navItems = [
-  { title: "Dashboard",    href: "/dashboard",    icon: LayoutDashboard },
+  { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { title: "Repositories", href: "/repositories", icon: FolderGit2 },
-  { title: "Settings",     href: "/settings",     icon: Settings },
+  { title: "Settings", href: "/settings", icon: Settings },
 ];
 
 /**
@@ -44,7 +51,7 @@ export function Sidebar() {
           className={cn(
             "flex shrink-0 items-center justify-center",
             "h-8 w-8 cyber-chamfer-sm",
-            "bg-accent text-background",
+            "bg-accent text-background"
           )}
         >
           <Rocket className="h-4 w-4 stroke-[1.5]" />
@@ -58,7 +65,10 @@ export function Sidebar() {
       </div>
 
       {/* ── Navigation ─────────────────────────────────────────── */}
-      <nav className="flex-1 space-y-0.5 px-2 py-4" aria-label="Main navigation">
+      <nav
+        className="flex-1 space-y-0.5 px-2 py-4"
+        aria-label="Main navigation"
+      >
         {navItems.map((item) => {
           const isActive =
             pathname === item.href || pathname.startsWith(item.href + "/");
@@ -81,11 +91,12 @@ export function Sidebar() {
                 "text-muted-foreground",
                 "hover:bg-accent/5 hover:text-accent",
                 // Active — left-border accent, no pill fill
-                isActive && [
-                  "border-l-2 border-accent pl-2.5", // compensate 2px border
-                  "bg-accent/5 text-accent",
-                  "[text-shadow:0_0_6px_color-mix(in_srgb,var(--accent)_50%,transparent)]",
-                ].join(" ")
+                isActive &&
+                  [
+                    "border-l-2 border-accent pl-2.5", // compensate 2px border
+                    "bg-accent/5 text-accent",
+                    "[text-shadow:0_0_6px_color-mix(in_srgb,var(--accent)_50%,transparent)]",
+                  ].join(" ")
               )}
             >
               <Icon
@@ -121,10 +132,11 @@ export function Sidebar() {
           )}
         >
           {!sidebarCollapsed && <span>Collapse</span>}
-          {sidebarCollapsed
-            ? <PanelLeftOpen  className="h-4 w-4 shrink-0 stroke-[1.5]" />
-            : <PanelLeftClose className="h-4 w-4 shrink-0 stroke-[1.5]" />
-          }
+          {sidebarCollapsed ? (
+            <PanelLeftOpen className="h-4 w-4 shrink-0 stroke-[1.5]" />
+          ) : (
+            <PanelLeftClose className="h-4 w-4 shrink-0 stroke-[1.5]" />
+          )}
         </button>
       </div>
     </aside>

@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
-import {
-  Orbitron,
-  Share_Tech_Mono,
-  JetBrains_Mono,
-} from "next/font/google";
+import { Orbitron, Share_Tech_Mono, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/app/providers";
 

@@ -25,12 +25,8 @@ const cardVariants = cva(
   {
     variants: {
       variant: {
-        default: [
-          "bg-card border border-border",
-        ].join(" "),
-        terminal: [
-          "bg-background border border-border",
-        ].join(" "),
+        default: ["bg-card border border-border"].join(" "),
+        terminal: ["bg-background border border-border"].join(" "),
         holographic: [
           "bg-muted/30 border border-accent/30",
           "backdrop-blur-sm",
@@ -69,7 +65,8 @@ const TerminalDots = () => (
 
 /* ─── Card root ─────────────────────────────────────────────────── */
 export interface CardProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends
+    React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof cardVariants> {
   /**
    * When true on the "default" variant, hover applies:
@@ -86,7 +83,8 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       className={cn(
         cardVariants({ variant }),
         hoverEffect &&
-          variant !== "holographic" && [
+          variant !== "holographic" &&
+          [
             "cursor-pointer",
             "hover:-translate-y-px hover:border-accent",
             "hover:[box-shadow:var(--box-shadow-neon-sm)]",

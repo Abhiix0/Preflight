@@ -39,8 +39,8 @@ export function CTASection() {
 
         {/* Body */}
         <p className="max-w-md font-body text-sm text-muted-foreground md:text-base leading-relaxed">
-          Connect your repository in seconds. Get a full engineering audit,
-          a scored report, and a prioritised fix list — before you push to
+          Connect your repository in seconds. Get a full engineering audit, a
+          scored report, and a prioritised fix list — before you push to
           production.
         </p>
 
@@ -69,10 +69,7 @@ export function CTASection() {
       </div>
 
       {/* Accent bottom border */}
-      <div
-        aria-hidden="true"
-        className="h-px w-full bg-accent/20"
-      />
+      <div aria-hidden="true" className="h-px w-full bg-accent/20" />
     </section>
   );
 }

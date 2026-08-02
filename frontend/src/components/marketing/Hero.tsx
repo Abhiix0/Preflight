@@ -59,7 +59,6 @@ export function Hero() {
        * midpoint rather than their tops, matching the centered layout.
        */}
       <div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-16 sm:px-8 lg:grid lg:grid-cols-[60fr_40fr] lg:items-center lg:gap-12">
-
         {/* ── LEFT: copy ─────────────────────────────────────────── */}
         {/*
          * max-w-2xl caps the left column at ~672px so the headline can
@@ -68,7 +67,6 @@ export function Hero() {
          * content stack so Orbitron + tracking-widest can't overflow.
          */}
         <div className="flex max-w-2xl flex-col items-start space-y-4">
-
           {/* Eyebrow badge */}
           <span
             className={[
@@ -122,9 +120,7 @@ export function Hero() {
             ].join(" ")}
           >
             {/* Line 1 — foreground (#e0e0e0), no effect */}
-            <span className="text-foreground">
-              Scan your repo.
-            </span>
+            <span className="text-foreground">Scan your repo.</span>
 
             {/* Line 2 — accent (#00ff88) + chromatic-aberration text-shadow.
                 This is the ONLY emphasis line. No pseudo-element duplication
@@ -152,9 +148,9 @@ export function Hero() {
            * leading. max-w-md keeps the measure readable (65–75 chars).
            */}
           <p className="max-w-md font-body text-lg leading-relaxed text-muted-foreground">
-            Connect a GitHub repository. Preflight runs a full engineering
-            audit — security, dependencies, Docker, CI/CD, tests — and
-            delivers a scored readiness report in minutes.
+            Connect a GitHub repository. Preflight runs a full engineering audit
+            — security, dependencies, Docker, CI/CD, tests — and delivers a
+            scored readiness report in minutes.
           </p>
 
           {/* CTA — glitch variant applied directly on the anchor so the
@@ -211,7 +207,6 @@ export function Hero() {
         <div className="hidden lg:flex lg:justify-end">
           <Terminal />
         </div>
-
       </div>
     </section>
   );

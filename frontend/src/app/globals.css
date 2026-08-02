@@ -35,8 +35,8 @@
   /* Neon Glow Shadows */
   --box-shadow-neon: 0 0 5px #00ff88, 0 0 10px #00ff8840;
   --box-shadow-neon-sm: 0 0 3px #00ff88, 0 0 6px #00ff8830;
-  --box-shadow-neon-lg: 0 0 10px #00ff88, 0 0 20px #00ff8860,
-    0 0 40px #00ff8830;
+  --box-shadow-neon-lg:
+    0 0 10px #00ff88, 0 0 20px #00ff8860, 0 0 40px #00ff8830;
   --box-shadow-neon-secondary: 0 0 5px #ff00ff, 0 0 20px #ff00ff60;
   --box-shadow-neon-tertiary: 0 0 5px #00d4ff, 0 0 20px #00d4ff60;
   /* Fonts */
@@ -44,8 +44,6 @@
   --font-body: "JetBrains Mono", monospace;
   --font-label: "Share Tech Mono", monospace;
 }
-
-
 
 @theme inline {
   --color-background: var(--background);
@@ -85,8 +83,7 @@
   /* Neon Glow Shadows */
   --shadow-neon: 0 0 5px #00ff88, 0 0 10px #00ff8840;
   --shadow-neon-sm: 0 0 3px #00ff88, 0 0 6px #00ff8830;
-  --shadow-neon-lg: 0 0 10px #00ff88, 0 0 20px #00ff8860,
-    0 0 40px #00ff8830;
+  --shadow-neon-lg: 0 0 10px #00ff88, 0 0 20px #00ff8860, 0 0 40px #00ff8830;
   --shadow-neon-secondary: 0 0 5px #ff00ff, 0 0 20px #ff00ff60;
   --shadow-neon-tertiary: 0 0 5px #00d4ff, 0 0 20px #00d4ff60;
 
@@ -97,7 +94,8 @@
   --animate-rgb-shift: rgbShift 0.8s ease-in-out infinite;
 
   /* Backgrounds */
-  --bg-grid: linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+  --bg-grid:
+    linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
 }
 
@@ -139,10 +137,14 @@
 @keyframes rgbShift {
   0%,
   100% {
-    text-shadow: -2px 0 #ff00ff, 2px 0 #00d4ff;
+    text-shadow:
+      -2px 0 #ff00ff,
+      2px 0 #00d4ff;
   }
   50% {
-    text-shadow: 2px 0 #ff00ff, -2px 0 #00d4ff;
+    text-shadow:
+      2px 0 #ff00ff,
+      -2px 0 #00d4ff;
   }
 }
 
@@ -189,12 +191,7 @@
   top: 0;
   z-index: -1;
   text-shadow: -1px 0 #ff00ff;
-  clip-path: polygon(
-    0 0,
-    calc(100% - 2px) 0,
-    calc(100% - 2px) 100%,
-    0 100%
-  );
+  clip-path: polygon(0 0, calc(100% - 2px) 0, calc(100% - 2px) 100%, 0 100%);
 }
 
 .cyber-glitch::after {
@@ -204,12 +201,7 @@
   top: 0;
   z-index: -1;
   text-shadow: 2px 0 #00d4ff;
-  clip-path: polygon(
-    2px 0,
-    100% 0,
-    100% 100%,
-    2px 100%
-  );
+  clip-path: polygon(2px 0, 100% 0, 100% 100%, 2px 100%);
 }
 
 /* Scanline overlay pattern */
@@ -233,10 +225,8 @@
 
 /* Grid/circuit pattern background */
 .cyber-grid {
-  background-image: linear-gradient(
-      rgba(0, 255, 136, 0.03) 1px,
-      transparent 1px
-    ),
+  background-image:
+    linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
   background-size: 50px 50px;
 }

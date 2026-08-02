@@ -2,7 +2,13 @@
 
 import Link from "next/link";
 import { Rocket } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 
 /**
  * Login page — visual placeholder only.
@@ -14,7 +20,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 export default function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background cyber-grid px-6">
-
       {/* Accent bloom behind the card */}
       <div
         aria-hidden="true"
@@ -22,11 +27,13 @@ export default function LoginPage() {
       />
 
       <div className="relative z-10 w-full max-w-sm">
-
         {/* Logo mark */}
         <div className="mb-8 flex flex-col items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center cyber-chamfer-sm bg-accent">
-            <Rocket className="h-5 w-5 stroke-[1.5] text-background" aria-hidden="true" />
+            <Rocket
+              className="h-5 w-5 stroke-[1.5] text-background"
+              aria-hidden="true"
+            />
           </div>
           <span className="font-heading text-xs font-black uppercase tracking-widest text-foreground">
             Preflight
@@ -84,7 +91,6 @@ export default function LoginPage() {
             </p>
           </CardContent>
         </Card>
-
       </div>
     </div>
   );

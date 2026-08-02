@@ -52,16 +52,11 @@ export function ConfirmDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
-          {description && (
-            <DialogDescription>{description}</DialogDescription>
-          )}
+          {description && <DialogDescription>{description}</DialogDescription>}
         </DialogHeader>
 
         <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => onOpenChange?.(false)}
-          >
+          <Button variant="outline" onClick={() => onOpenChange?.(false)}>
             {cancelLabel}
           </Button>
           <Button

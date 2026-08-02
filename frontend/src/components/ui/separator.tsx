@@ -39,9 +39,11 @@ const Separator = React.forwardRef<
         // Color
         glow ? "bg-accent" : "bg-border",
         // Optional neon glow — applied as a shadow on the correct axis
-        glow && orientation === "horizontal" &&
+        glow &&
+          orientation === "horizontal" &&
           "[box-shadow:0_0_4px_var(--accent),0_0_8px_color-mix(in_srgb,var(--accent)_30%,transparent)]",
-        glow && orientation === "vertical" &&
+        glow &&
+          orientation === "vertical" &&
           "[box-shadow:0_0_4px_var(--accent),0_0_8px_color-mix(in_srgb,var(--accent)_30%,transparent)]",
         className
       )}

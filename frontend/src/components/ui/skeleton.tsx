@@ -6,7 +6,10 @@ import { cn } from "@/lib/utils";
  * - bg-muted/40 shimmer instead of plain bg-muted
  * - Pulse animation disabled under prefers-reduced-motion
  */
-function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+function Skeleton({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={cn(

@@ -46,7 +46,10 @@ export function Navbar() {
         >
           {/* Chamfered square logo mark */}
           <div className="flex h-8 w-8 shrink-0 items-center justify-center cyber-chamfer-sm bg-accent">
-            <Rocket className="h-4 w-4 stroke-[1.5] text-background" aria-hidden="true" />
+            <Rocket
+              className="h-4 w-4 stroke-[1.5] text-background"
+              aria-hidden="true"
+            />
           </div>
           <span className="font-heading text-sm font-black uppercase tracking-widest text-foreground">
             Preflight

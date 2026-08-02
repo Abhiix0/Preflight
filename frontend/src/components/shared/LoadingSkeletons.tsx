@@ -26,10 +26,7 @@ export function TableSkeleton({
       {/* Header row — accent tint */}
       <div className="flex gap-4 border-b border-border pb-3">
         {Array.from({ length: columns }).map((_, i) => (
-          <Skeleton
-            key={i}
-            className="h-4 flex-1 bg-accent/10"
-          />
+          <Skeleton key={i} className="h-4 flex-1 bg-accent/10" />
         ))}
       </div>
 

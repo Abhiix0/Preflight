@@ -25,7 +25,6 @@ export function Footer() {
   return (
     <footer className="border-t border-border bg-background">
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-8 sm:px-8">
-
         {/* Logo */}
         <Link
           href="/"
@@ -36,7 +35,10 @@ export function Footer() {
           ].join(" ")}
         >
           <div className="flex h-7 w-7 shrink-0 items-center justify-center cyber-chamfer-sm bg-accent">
-            <Rocket className="h-3.5 w-3.5 stroke-[1.5] text-background" aria-hidden="true" />
+            <Rocket
+              className="h-3.5 w-3.5 stroke-[1.5] text-background"
+              aria-hidden="true"
+            />
           </div>
           <span className="font-heading text-xs font-black uppercase tracking-widest text-foreground">
             Preflight
@@ -74,7 +76,6 @@ export function Footer() {
             Privacy
           </Link>
         </div>
-
       </div>
     </footer>
   );

@@ -48,7 +48,7 @@ export function ErrorState({
         className={cn(
           "mt-6 flex items-center justify-center",
           "h-14 w-14 cyber-chamfer-sm",
-          "bg-destructive/10 border border-destructive/40",
+          "bg-destructive/10 border border-destructive/40"
         )}
       >
         <AlertTriangle className="h-6 w-6 stroke-[1.5] text-destructive" />
@@ -57,7 +57,10 @@ export function ErrorState({
       {/* Title with ">" prompt */}
       <div className="space-y-2">
         <h3 className="flex items-baseline justify-center gap-2">
-          <span aria-hidden="true" className="font-label text-xs text-destructive select-none">
+          <span
+            aria-hidden="true"
+            className="font-label text-xs text-destructive select-none"
+          >
             &gt;
           </span>
           <span className="font-label text-sm uppercase tracking-wider text-destructive">

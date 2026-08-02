@@ -41,24 +41,19 @@ export function Providers({ children }: { children: React.ReactNode }) {
               // Neon glow
               "[box-shadow:var(--box-shadow-neon-sm)]",
             ].join(" "),
-            title:
-              "font-label text-xs uppercase tracking-wider text-accent",
-            description:
-              "font-body text-xs text-muted-foreground",
+            title: "font-label text-xs uppercase tracking-wider text-accent",
+            description: "font-body text-xs text-muted-foreground",
             actionButton:
               "font-label text-xs uppercase tracking-wider bg-accent text-background cyber-chamfer-sm px-3 py-1",
             cancelButton:
               "font-label text-xs uppercase tracking-wider border border-border bg-transparent text-muted-foreground cyber-chamfer-sm px-3 py-1",
             closeButton:
               "border border-border bg-card text-muted-foreground hover:text-accent hover:border-accent cyber-chamfer-sm",
-            success:
-              "border-accent [box-shadow:var(--box-shadow-neon-sm)]",
+            success: "border-accent [box-shadow:var(--box-shadow-neon-sm)]",
             error:
               "border-destructive [box-shadow:0_0_3px_var(--destructive),0_0_6px_color-mix(in_srgb,var(--destructive)_30%,transparent)]",
-            warning:
-              "border-[#ffaa00]",
-            info:
-              "border-accent-tertiary",
+            warning: "border-[#ffaa00]",
+            info: "border-accent-tertiary",
           },
         }}
       />

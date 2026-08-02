@@ -25,7 +25,9 @@ export default function AuthCallbackPage() {
             {/* Simulated auth lines */}
             <div className="flex gap-2">
               <span className="font-label text-accent shrink-0">$</span>
-              <span className="text-foreground">preflight auth --provider github</span>
+              <span className="text-foreground">
+                preflight auth --provider github
+              </span>
             </div>
             <div className="flex gap-2">
               <span className="font-label text-accent shrink-0">&gt;</span>
@@ -37,7 +39,7 @@ export default function AuthCallbackPage() {
                 Waiting for session
                 {/* Blinking cursor — animation suppressed by global reduced-motion rule */}
                 <span
-                  className="ml-1 inline-block h-[1em] w-2 bg-accent align-middle animate-[blink_1s_step-end_infinite] motion-reduce:animate-none"
+                  className="ml-1 inline-block h-[1em] w-2 bg-accent align-middle animate-blink motion-reduce:animate-none"
                   aria-hidden="true"
                 />
               </span>

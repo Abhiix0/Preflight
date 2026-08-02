@@ -102,7 +102,8 @@ const SelectScrollDownButton = React.forwardRef<
     <ChevronDown className="size-4" />
   </SelectPrimitive.ScrollDownButton>
 ));
-SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayName;
+SelectScrollDownButton.displayName =
+  SelectPrimitive.ScrollDownButton.displayName;
 
 /* ── Content ────────────────────────────────────────────────────── */
 const SelectContent = React.forwardRef<

@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { analysisService } from "../services";
-import { AnalysisRequest } from "../types";
+import { analysisService } from "@/services";
+import { AnalysisRequest } from "@/types";
 
 export const useStartAnalysis = () => {
   const queryClient = useQueryClient();

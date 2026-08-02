@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { authService } from "../services";
-import { useAuthStore } from "../store";
+import { authService } from "@/services";
+import { useAuthStore } from "@/store";
 
 export const useCurrentUser = () => {
   const setUser = useAuthStore((state) => state.setUser);

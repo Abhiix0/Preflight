@@ -1,5 +1,5 @@
-import { apiClient } from "../lib/api-client";
-import { Repository } from "../types";
+import { apiClient } from "@/lib/api-client";
+import { Repository } from "@/types";
 
 export interface ConnectRepositoryRequest {
   github_repo_id: number;

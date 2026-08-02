@@ -7,9 +7,6 @@ import {
   FolderGit2,
   Settings,
   Rocket,
-  BarChart3,
-  FileText,
-  AlertCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUIStore } from "@/store/ui.store";
@@ -24,21 +21,6 @@ const navItems = [
     title: "Repositories",
     href: "/repositories",
     icon: FolderGit2,
-  },
-  {
-    title: "Reports",
-    href: "/reports",
-    icon: FileText,
-  },
-  {
-    title: "Findings",
-    href: "/findings",
-    icon: AlertCircle,
-  },
-  {
-    title: "Analytics",
-    href: "/analytics",
-    icon: BarChart3,
   },
   {
     title: "Settings",

@@ -1,5 +1,5 @@
-import { apiClient } from "../lib/api-client";
-import { DashboardSummary } from "../types";
+import { apiClient } from "@/lib/api-client";
+import { DashboardSummary } from "@/types";
 
 export const dashboardService = {
   /** GET /dashboard */

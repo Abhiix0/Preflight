@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { createScope, type Scope } from "animejs";
-import { prefersReducedMotion } from "./reduced-motion";
+import { prefersReducedMotion } from "@/lib/animation/reduced-motion";
 
 export function useAnimeScope<T extends HTMLElement>(
   setup: (self?: Scope) => void,

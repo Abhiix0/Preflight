@@ -1,6 +1,6 @@
 "use client";
 
-import { STORY_STAGES } from "./stages";
+import { STORY_STAGES } from "@/components/marketing/story/stages";
 import FlightVisual from "@/components/marketing/flight/FlightVisual";
 
 export function WhyPreflightSection() {

@@ -1,6 +1,6 @@
-import { apiClient } from "../lib/api-client";
-import { useAuthStore } from "../store";
-import { User } from "../types";
+import { apiClient } from "@/lib/api-client";
+import { useAuthStore } from "@/store";
+import { User } from "@/types";
 
 export const authService = {
   // GET /auth/github - redirects, so no direct call needed in service

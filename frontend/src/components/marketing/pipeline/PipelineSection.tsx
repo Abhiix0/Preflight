@@ -2,9 +2,9 @@
 
 import { GitBranch, Search, BarChart2, FileText, Rocket } from "lucide-react";
 import { useScrollTimeline, prefersReducedMotion } from "@/lib/animation";
-import { buildPipelineTimeline } from "./pipeline.animations";
-import { PipelineNode } from "./PipelineNode";
-import { PipelineCard } from "./PipelineCard";
+import { buildPipelineTimeline } from "@/components/marketing/pipeline/pipeline.animations";
+import { PipelineNode } from "@/components/marketing/pipeline/PipelineNode";
+import { PipelineCard } from "@/components/marketing/pipeline/PipelineCard";
 
 /* ─── Stage data ──────────────────────────────────────────────────────────── */
 const STAGES = [

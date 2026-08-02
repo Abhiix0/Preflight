@@ -2,13 +2,13 @@
 
 import { useAnimeScope } from "@/lib/animation";
 import { prefersReducedMotion } from "@/lib/animation";
-import { buildFlightEnvironment } from "./flight.animations";
+import { buildFlightEnvironment } from "@/components/marketing/flight/flight.animations";
 import {
   PaperAirplane,
   WireframeAircraft,
   JetSilhouette,
   RocketSilhouette,
-} from "./aircraft-forms";
+} from "@/components/marketing/flight/aircraft-forms";
 
 /**
  * FlightVisual — the aviation environment scene.

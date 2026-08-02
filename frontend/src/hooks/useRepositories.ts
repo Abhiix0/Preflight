@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { repositoryService, ConnectRepositoryRequest } from "../services";
+import { repositoryService, ConnectRepositoryRequest } from "@/services";
 
 export const useRepositories = () => {
   return useQuery({

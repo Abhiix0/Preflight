@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { reportsService } from "../services";
+import { reportsService } from "@/services";
 
 export const useReport = (jobId: string) => {
   return useQuery({

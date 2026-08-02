@@ -1,5 +1,5 @@
-import { apiClient } from "../lib/api-client";
-import { Recommendation } from "../types";
+import { apiClient } from "@/lib/api-client";
+import { Recommendation } from "@/types";
 
 export const recommendationsService = {
   /** GET /analysis/{jobId}/recommendations */

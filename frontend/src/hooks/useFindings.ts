@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { findingsService } from "../services";
-import { FindingFilters } from "../types";
+import { findingsService } from "@/services";
+import { FindingFilters } from "@/types";
 
 export const useFindings = (jobId: string, filters?: FindingFilters) => {
   return useQuery({

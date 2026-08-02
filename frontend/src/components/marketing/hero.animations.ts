@@ -10,4 +10,4 @@
  * per the isolation convention (*.animations.ts contains logic only,
  * no JSX/component code).
  */
-export { buildFlightEnvironment } from "./flight/flight.animations";
+export { buildFlightEnvironment } from "@/components/marketing/flight/flight.animations";

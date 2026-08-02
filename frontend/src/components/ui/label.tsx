@@ -6,8 +6,19 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Cyberpunk label — Share Tech Mono, uppercase, wider tracking, accent color.
+ * Respects peer-disabled pattern for paired input states.
+ */
 const labelVariants = cva(
-  "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+  [
+    // Typography
+    "font-label text-xs uppercase tracking-wider",
+    // Color — accent by default
+    "text-accent",
+    // Peer-disabled propagation
+    "peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
+  ].join(" ")
 );
 
 const Label = React.forwardRef<

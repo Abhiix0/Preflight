@@ -5,6 +5,13 @@ import * as TabsPrimitive from "@radix-ui/react-tabs";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Cyberpunk Tabs.
+ * - TabsList: dark bar, border-border bottom line, no rounded pill
+ * - TabsTrigger: font-label uppercase monospace; active: accent border-b-2 + text-accent
+ * - TabsContent: token-palette styled, focus ring
+ */
+
 const Tabs = TabsPrimitive.Root;
 
 const TabsList = React.forwardRef<
@@ -14,7 +21,11 @@ const TabsList = React.forwardRef<
   <TabsPrimitive.List
     ref={ref}
     className={cn(
-      "inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground",
+      "inline-flex items-center gap-0",
+      // Dark background bar
+      "bg-card border-b border-border",
+      // Full width
+      "w-full",
       className
     )}
     {...props}
@@ -29,7 +40,25 @@ const TabsTrigger = React.forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm",
+      // Layout
+      "inline-flex items-center justify-center px-4 py-2.5 min-h-11",
+      // Typography — monospace uppercase
+      "font-label text-xs uppercase tracking-wider",
+      // Default state
+      "text-muted-foreground border-b-2 border-transparent",
+      "bg-transparent",
+      // Transition
+      "transition-all duration-150 motion-reduce:transition-none",
+      // Hover
+      "hover:text-foreground hover:bg-accent/5",
+      // Active / selected
+      "data-[state=active]:text-accent data-[state=active]:border-b-2 data-[state=active]:border-accent",
+      // Focus ring — accessible
+      "focus-visible:outline-none",
+      "focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+      "focus-visible:[box-shadow:var(--box-shadow-neon-sm)]",
+      // Disabled
+      "disabled:pointer-events-none disabled:opacity-50",
       className
     )}
     {...props}
@@ -44,7 +73,10 @@ const TabsContent = React.forwardRef<
   <TabsPrimitive.Content
     ref={ref}
     className={cn(
-      "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+      "mt-4",
+      // Focus ring on the content panel itself
+      "focus-visible:outline-none",
+      "focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background",
       className
     )}
     {...props}

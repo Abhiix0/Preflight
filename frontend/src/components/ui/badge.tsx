@@ -3,18 +3,47 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Cyberpunk badge — sharp/chamfered corners, monospace uppercase labels,
+ * border color from --border, focus ring using --ring + neon-sm glow.
+ *
+ * Variants:
+ *   default     — accent border + accent text, transparent bg
+ *   secondary   — magenta border + magenta text
+ *   destructive — red border + red text
+ *   outline     — border-border, foreground text
+ *   success     — accent (green) solid fill — convenience alias
+ */
 const badgeVariants = cva(
-  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  [
+    // Layout
+    "inline-flex items-center gap-1 px-2 py-0.5",
+    // Typography — monospace, uppercase, wider
+    "font-label text-[10px] uppercase tracking-wider",
+    // Shape — sharp cut, no radius
+    "cyber-chamfer-sm",
+    // Border
+    "border",
+    // Transitions
+    "transition-colors duration-150 motion-reduce:transition-none",
+    // Focus ring
+    "focus:outline-none",
+    "focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background",
+    "focus:[box-shadow:var(--box-shadow-neon-sm)]",
+  ].join(" "),
   {
     variants: {
       variant: {
         default:
-          "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
+          "border-accent bg-transparent text-accent",
         secondary:
-          "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+          "border-secondary bg-transparent text-secondary",
         destructive:
-          "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
-        outline: "text-foreground",
+          "border-destructive bg-transparent text-destructive",
+        outline:
+          "border-border bg-transparent text-foreground",
+        success:
+          "border-accent bg-accent/10 text-accent",
       },
     },
     defaultVariants: {
@@ -24,8 +53,7 @@ const badgeVariants = cva(
 );
 
 export interface BadgeProps
-  extends
-    React.HTMLAttributes<HTMLDivElement>,
+  extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof badgeVariants> {}
 
 function Badge({ className, variant, ...props }: BadgeProps) {

@@ -5,6 +5,14 @@ import * as AvatarPrimitive from "@radix-ui/react-avatar";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Cyberpunk Avatar.
+ * - Square with chamfered corner cut (cyber-chamfer-sm) — no rounded-full
+ * - 2px accent ring on hover
+ * - Fallback: bg-card, font-label uppercase text-accent
+ * - Standard sizes maintained via className (size-8 / size-10 / etc.)
+ */
+
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
@@ -12,7 +20,14 @@ const Avatar = React.forwardRef<
   <AvatarPrimitive.Root
     ref={ref}
     className={cn(
-      "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
+      "relative flex shrink-0 overflow-hidden",
+      // Shape — chamfered square, NOT a circle
+      "cyber-chamfer-sm",
+      // Default size
+      "size-10",
+      // Hover accent ring
+      "ring-0 transition-all duration-150 motion-reduce:transition-none",
+      "hover:ring-2 hover:ring-accent hover:[box-shadow:var(--box-shadow-neon-sm)]",
       className
     )}
     {...props}
@@ -26,7 +41,7 @@ const AvatarImage = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <AvatarPrimitive.Image
     ref={ref}
-    className={cn("aspect-square h-full w-full", className)}
+    className={cn("aspect-square h-full w-full object-cover", className)}
     {...props}
   />
 ));
@@ -39,7 +54,9 @@ const AvatarFallback = React.forwardRef<
   <AvatarPrimitive.Fallback
     ref={ref}
     className={cn(
-      "flex h-full w-full items-center justify-center rounded-full bg-muted font-medium text-muted-foreground",
+      "flex h-full w-full items-center justify-center",
+      "bg-card border border-border",
+      "font-label text-xs uppercase tracking-wider text-accent",
       className
     )}
     {...props}

@@ -1,6 +1,5 @@
-"use client";
-
 import Link from "next/link";
+import { Rocket } from "lucide-react";
 
 function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -14,23 +13,68 @@ function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
+/**
+ * Cyberpunk Footer.
+ *
+ * Left:  chamfered logo mark + wordmark
+ * Right: GitHub link + Privacy link
+ * Top border: border-border
+ * No rounded-* anywhere.
+ */
 export function Footer() {
   return (
-    <footer className="border-t border-(--landing-surface)/10">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-8 sm:px-8">
-        <span className="text-sm text-(--landing-fg-muted)">
-          &copy; {new Date().getFullYear()} Preflight
-        </span>
+    <footer className="border-t border-border bg-background">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-8 sm:px-8">
 
+        {/* Logo */}
         <Link
-          href="https://github.com/Abhiix0/Preflight"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Preflight on GitHub"
-          className="text-(--landing-fg-muted) transition-colors hover:text-(--landing-fg)"
+          href="/"
+          className={[
+            "flex items-center gap-3",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+            "focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+          ].join(" ")}
         >
-          <GithubIcon className="h-5 w-5" />
+          <div className="flex h-7 w-7 shrink-0 items-center justify-center cyber-chamfer-sm bg-accent">
+            <Rocket className="h-3.5 w-3.5 stroke-[1.5] text-background" aria-hidden="true" />
+          </div>
+          <span className="font-heading text-xs font-black uppercase tracking-widest text-foreground">
+            Preflight
+          </span>
         </Link>
+
+        {/* Links */}
+        <div className="flex items-center gap-6">
+          <Link
+            href="https://github.com/Abhiix0/Preflight"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Preflight on GitHub"
+            className={[
+              "flex items-center gap-1.5",
+              "font-label text-[10px] uppercase tracking-wider text-muted-foreground",
+              "hover:text-accent transition-colors duration-150 motion-reduce:transition-none",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+              "focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+            ].join(" ")}
+          >
+            <GithubIcon className="h-4 w-4" />
+            <span>GitHub</span>
+          </Link>
+
+          <Link
+            href="/privacy"
+            className={[
+              "font-label text-[10px] uppercase tracking-wider text-muted-foreground",
+              "hover:text-accent transition-colors duration-150 motion-reduce:transition-none",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+              "focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+            ].join(" ")}
+          >
+            Privacy
+          </Link>
+        </div>
+
       </div>
     </footer>
   );

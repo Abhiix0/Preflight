@@ -1,82 +1,168 @@
 "use client";
 
 import Link from "next/link";
-import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import FlightVisual from "@/components/marketing/flight/FlightVisual";
-
-const trustPoints = [
-  "Security Audit",
-  "Architecture Review",
-  "DevOps Checks",
-  "Production Readiness",
-];
+import { Terminal } from "@/components/marketing/Terminal";
 
 /**
- * Hero section — exactly one viewport (h-screen), overflow-hidden.
+ * Hero — full-viewport section.
  *
- * Left column vertical spacing is intentionally compact so content fits
- * comfortably at 800px viewport height without internal scroll:
- *   pt-20 (clears fixed Navbar at 800px)
- *   gap-10 between grid columns
- *   mt-5 on CTA button (was mt-6)
- *   mt-6 on trust points (was mt-8)
+ * Layout: asymmetric 60/40 split (lg+). Left column: headline + sub + CTA.
+ * Right column: Terminal panel (lg:block only per Responsive Strategy).
  *
- * Diagonal seam: "/" orientation — pale zone wider at bottom.
- * clip-path unchanged from prior pass.
+ * H1: Orbitron (font-heading), text-5xl → text-7xl → text-8xl, font-black,
+ *     uppercase, tracking-widest, cyber-glitch class for chromatic aberration
+ *     + occasional skew/translate flicker (Phase 1 .cyber-glitch + @keyframes glitch).
+ *     data-text attribute required for the ::before/::after pseudo-element text.
+ *
+ * Background: bg-background (#0a0a0f) + cyber-grid overlay at low opacity.
+ *             Global scanline (html::after from globals.css) already covers this
+ *             — not re-added here.
+ *
+ * No rounded-*, no border-radius > 4px anywhere.
  */
+
+const HEADLINE_LINE1 = "SCAN.";
+const HEADLINE_LINE2 = "FIX.";
+const HEADLINE_LINE3 = "SHIP.";
+
 export function Hero() {
   return (
-    <section className="relative flex h-screen overflow-hidden bg-(--landing-bg)">
-      {/* Right zone — pale-sky solid fill, "/" diagonal */}
+    <section
+      className={[
+        "relative flex min-h-screen w-full items-center overflow-hidden",
+        "bg-background cyber-grid",
+        // Left-edge accent line
+        "border-l-0",
+      ].join(" ")}
+    >
+      {/* Subtle radial accent bloom — bottom-left */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-(--landing-surface) [clip-path:polygon(60%_0%,100%_0%,100%_100%,45%_100%)] lg:[clip-path:polygon(58%_0%,100%_0%,100%_100%,43%_100%)]"
+        className="pointer-events-none absolute -bottom-32 -left-32 h-96 w-96 rounded-full bg-accent/5 blur-3xl"
+      />
+      {/* Cyan bloom — top-right */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-accent-tertiary/5 blur-3xl"
       />
 
-      {/* Content grid — z-10 sits above zone fills */}
-      <div className="relative z-10 mx-auto grid w-full max-w-7xl px-6 pt-20 pb-8 sm:px-8 lg:grid-cols-[55fr_45fr] lg:items-center lg:gap-10 lg:pt-24">
-        {/* ── Left column: copy ── */}
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-16 pt-28 sm:px-8 lg:grid lg:grid-cols-[60fr_40fr] lg:items-center lg:gap-12 lg:pt-24">
+
+        {/* ── LEFT: copy ─────────────────────────────────────────── */}
         <div className="flex flex-col items-start">
-          <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-(--landing-fg) sm:text-5xl lg:text-6xl">
-            Know what&apos;s broken
-            <br />
-            <span className="text-(--landing-surface)">
-              before production does.
+
+          {/* Eyebrow badge */}
+          <div className="mb-6 flex items-center gap-2">
+            <span
+              className={[
+                "cyber-chamfer-sm border border-accent/40 bg-accent/10",
+                "px-3 py-1 font-label text-[10px] uppercase tracking-widest text-accent",
+              ].join(" ")}
+            >
+              Engineering Readiness Platform
+            </span>
+          </div>
+
+          {/* H1 — three stacked lines, chromatic aberration on key phrase */}
+          <h1 className="flex flex-col gap-1">
+            {/* Line 1 — plain foreground */}
+            <span
+              className={[
+                "font-heading font-black uppercase tracking-widest leading-none",
+                "text-3xl md:text-4xl lg:text-5xl",
+                "text-foreground",
+              ].join(" ")}
+            >
+              Scan your repo.
+            </span>
+
+            {/* Line 2 — accent + static chromatic-aberration shadow.
+                cyber-glitch pseudo-elements are NOT used here because the
+                ::before/::after content would visually stack on top of the
+                real text. Instead we apply the same colour fringe via
+                text-shadow only, which is purely decorative and never doubles. */}
+            <span
+              className={[
+                "font-heading font-black uppercase tracking-widest leading-none",
+                "text-3xl md:text-4xl lg:text-5xl",
+                "text-accent",
+                "[text-shadow:-2px_0_#ff00ff,2px_0_#00d4ff]",
+              ].join(" ")}
+            >
+              Find what&apos;s broken.
+            </span>
+
+            {/* Line 3 — muted */}
+            <span
+              className={[
+                "font-heading font-black uppercase tracking-widest leading-none",
+                "text-3xl md:text-4xl lg:text-5xl",
+                "text-muted-foreground",
+              ].join(" ")}
+            >
+              Before production does.
             </span>
           </h1>
 
-          <Button
-            size="lg"
-            className="mt-5 bg-(--landing-surface) px-8 text-(--landing-bg) shadow-lg shadow-(--landing-surface)/10 hover:bg-(--landing-surface)/90"
-            asChild
+          {/* Subheadline */}
+          <p
+            className={[
+              "mt-8 max-w-lg font-body leading-relaxed text-muted-foreground",
+              "text-base md:text-lg lg:text-xl",
+            ].join(" ")}
           >
-            <Link href="/signup">Run Preflight</Link>
-          </Button>
+            Connect a GitHub repository. Preflight runs a full engineering
+            audit — security, dependencies, Docker, CI/CD, tests — and
+            delivers a scored readiness report in minutes.
+          </p>
 
-          <ul
-            className="mt-6 flex flex-wrap gap-x-6 gap-y-2"
-            aria-label="Key capabilities"
-          >
-            {trustPoints.map((point) => (
-              <li
-                key={point}
-                className="flex items-center gap-2 text-sm text-(--landing-fg-muted)"
-              >
-                <Check
-                  className="h-4 w-4 text-(--landing-surface)"
-                  aria-hidden="true"
-                />
-                {point}
-              </li>
+          {/* CTA — glitch variant applied directly on the anchor so the
+              cyber-glitch pseudo-elements and the visible text are on the
+              same element, preventing the double-text stacking. */}
+          <div className="mt-10">
+            <Link
+              href="/signup"
+              className={[
+                "cyber-chamfer-sm",
+                "inline-flex items-center justify-center gap-2",
+                "min-h-11 h-11 px-8",
+                "font-label text-xs uppercase tracking-wider",
+                "border-2 border-accent bg-accent text-background",
+                "hover:brightness-110 hover:[box-shadow:var(--box-shadow-neon)]",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+                "focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                "transition-all duration-150 motion-reduce:transition-none",
+              ].join(" ")}
+            >
+              Run Preflight
+            </Link>
+          </div>
+
+          {/* Inline stat strip */}
+          <div className="mt-12 flex flex-wrap gap-x-8 gap-y-3">
+            {[
+              { value: "8", label: "Check Categories" },
+              { value: "< 5 min", label: "Avg Scan Time" },
+              { value: "100", label: "Max Score" },
+            ].map(({ value, label }) => (
+              <div key={label} className="flex flex-col gap-0.5">
+                <span className="font-heading text-xl font-black text-accent">
+                  {value}
+                </span>
+                <span className="font-label text-[10px] uppercase tracking-widest text-muted-foreground">
+                  {label}
+                </span>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
 
-        {/* ── Right column: flight animation ── */}
-        <div className="hidden h-full w-full lg:flex lg:items-center lg:justify-center">
-          <FlightVisual />
+        {/* ── RIGHT: Terminal panel (lg+ only) ───────────────────── */}
+        <div className="mt-12 hidden lg:mt-0 lg:flex lg:items-center lg:justify-end">
+          <Terminal />
         </div>
+
       </div>
     </section>
   );

@@ -80,7 +80,7 @@ export default function LoginPage() {
 
             {/* Status line */}
             <p className="text-center font-label text-[10px] uppercase tracking-widest text-muted-foreground">
-              // OAuth · GitHub · Secure
+              {"//"} OAuth · GitHub · Secure
             </p>
           </CardContent>
         </Card>

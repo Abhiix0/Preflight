@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Terminal } from "@/components/marketing/Terminal";
 
 /**
@@ -21,10 +20,6 @@ import { Terminal } from "@/components/marketing/Terminal";
  *
  * No rounded-*, no border-radius > 4px anywhere.
  */
-
-const HEADLINE_LINE1 = "SCAN.";
-const HEADLINE_LINE2 = "FIX.";
-const HEADLINE_LINE3 = "SHIP.";
 
 export function Hero() {
   return (
@@ -70,24 +65,26 @@ export function Hero() {
             <span
               className={[
                 "font-heading font-black uppercase tracking-widest leading-none",
-                "text-3xl md:text-4xl lg:text-5xl",
+                "text-2xl sm:text-3xl lg:text-4xl",
                 "text-foreground",
               ].join(" ")}
             >
               Scan your repo.
             </span>
 
-            {/* Line 2 — accent + static chromatic-aberration shadow.
-                cyber-glitch pseudo-elements are NOT used here because the
-                ::before/::after content would visually stack on top of the
-                real text. Instead we apply the same colour fringe via
-                text-shadow only, which is purely decorative and never doubles. */}
+            {/* Line 2 — accent + chromatic-aberration text-shadow (no pseudo-elements
+                to avoid double-text on interactive elements). Static shadow is
+                always visible; reduced-motion removes the periodic glitch transform
+                via the global @media rule. */}
             <span
               className={[
                 "font-heading font-black uppercase tracking-widest leading-none",
-                "text-3xl md:text-4xl lg:text-5xl",
+                "text-2xl sm:text-3xl lg:text-4xl",
                 "text-accent",
+                // Chromatic fringe — purely CSS, no content duplication
                 "[text-shadow:-2px_0_#ff00ff,2px_0_#00d4ff]",
+                // Under reduced-motion the global * rule kills any residual animation;
+                // the static text-shadow remains (spec-compliant: static fringe is OK)
               ].join(" ")}
             >
               Find what&apos;s broken.
@@ -97,7 +94,7 @@ export function Hero() {
             <span
               className={[
                 "font-heading font-black uppercase tracking-widest leading-none",
-                "text-3xl md:text-4xl lg:text-5xl",
+                "text-2xl sm:text-3xl lg:text-4xl",
                 "text-muted-foreground",
               ].join(" ")}
             >

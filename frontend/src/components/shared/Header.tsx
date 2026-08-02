@@ -37,7 +37,7 @@ export function Header() {
       {/* Terminal label */}
       <div className="flex items-center gap-2">
         <span className="font-label text-[10px] uppercase tracking-widest text-muted-foreground">
-          //
+          {"//"}
         </span>
         <span className="font-label text-[10px] uppercase tracking-widest text-accent">
           Engineering Readiness Platform

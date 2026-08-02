@@ -35,10 +35,9 @@ export default function AuthCallbackPage() {
               <span className="font-label text-accent shrink-0">&gt;</span>
               <span className="text-foreground">
                 Waiting for session
-                {/* Blinking cursor — global `blink` keyframe from Phase 1 */}
+                {/* Blinking cursor — animation suppressed by global reduced-motion rule */}
                 <span
-                  className="ml-1 inline-block h-[1em] w-2 bg-accent align-middle"
-                  style={{ animation: "blink 1s step-end infinite" }}
+                  className="ml-1 inline-block h-[1em] w-2 bg-accent align-middle animate-[blink_1s_step-end_infinite] motion-reduce:animate-none"
                   aria-hidden="true"
                 />
               </span>

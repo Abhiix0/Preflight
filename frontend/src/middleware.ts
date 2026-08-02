@@ -10,11 +10,12 @@ import type { NextRequest } from "next/server";
  * and /repositories are directly reachable without a session. This is
  * intentional for the current UI-only development phase.
  */
-export function middleware(_request: NextRequest) {
+export function middleware(_req: NextRequest) {
+  void _req; // used in commented auth logic below
   // --- DISABLED: auth redirect logic (auth-integration phase) ---
   //
-  // const token = _request.cookies.get("preflight_token")?.value;
-  // const { pathname } = _request.nextUrl;
+  // const token = _req.cookies.get("preflight_token")?.value;
+  // const { pathname } = _req.nextUrl;
   //
   // const isProtectedRoute =
   //   pathname.startsWith("/dashboard") ||
@@ -26,11 +27,11 @@ export function middleware(_request: NextRequest) {
   // const isAuthRoute = pathname === "/login";
   //
   // if (isProtectedRoute && !token) {
-  //   return NextResponse.redirect(new URL("/login", _request.url));
+  //   return NextResponse.redirect(new URL("/login", _req.url));
   // }
   //
   // if (isAuthRoute && token) {
-  //   return NextResponse.redirect(new URL("/dashboard", _request.url));
+  //   return NextResponse.redirect(new URL("/dashboard", _req.url));
   // }
 
   return NextResponse.next();

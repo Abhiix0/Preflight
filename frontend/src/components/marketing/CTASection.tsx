@@ -21,7 +21,7 @@ export function CTASection() {
       <div className="mx-auto flex max-w-3xl flex-col items-center gap-8 px-6 py-28 text-center sm:px-8">
         {/* Eyebrow */}
         <span className="font-label text-[10px] uppercase tracking-widest text-accent">
-          // Ready to scan?
+          {"//"} Ready to scan?
         </span>
 
         {/* H2 */}

@@ -284,23 +284,12 @@ html::after {
   }
 }
 
-/* Existing reduced-motion flight animation support */
+/* Disable blink and glitch animations under reduced-motion */
 @media (prefers-reduced-motion: reduce) {
-  .flight-static #flight-jet {
-    opacity: 1 !important;
-  }
-
-  .flight-static #flight-bp-1,
-  .flight-static #flight-bp-2,
-  .flight-static #flight-bp-3,
-  .flight-static #flight-bp-4,
-  .flight-static #flight-bp-5 {
-    opacity: 0.25 !important;
-  }
-
-  .flight-static #flight-runway-l,
-  .flight-static #flight-runway-r {
-    opacity: 0.2 !important;
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 

@@ -180,10 +180,9 @@ export function Terminal() {
               </span>
               <span className="text-foreground">
                 {state.currentText.slice(1)}
-                {/* Blinking cursor */}
+                {/* Blinking cursor — animation suppressed by global reduced-motion rule */}
                 <span
-                  className="inline-block w-2 h-[1em] bg-accent ml-0.5 align-middle"
-                  style={{ animation: "blink 1s step-end infinite" }}
+                  className="inline-block w-2 h-[1em] bg-accent ml-0.5 align-middle animate-[blink_1s_step-end_infinite] motion-reduce:animate-none"
                   aria-hidden="true"
                 />
               </span>
@@ -195,8 +194,7 @@ export function Terminal() {
             <div className="flex gap-2 leading-relaxed">
               <span className="font-label text-accent">$</span>
               <span
-                className="inline-block w-2 h-[1em] bg-accent ml-0.5 align-middle"
-                style={{ animation: "blink 1s step-end infinite" }}
+                className="inline-block w-2 h-[1em] bg-accent ml-0.5 align-middle animate-[blink_1s_step-end_infinite] motion-reduce:animate-none"
                 aria-hidden="true"
               />
             </div>

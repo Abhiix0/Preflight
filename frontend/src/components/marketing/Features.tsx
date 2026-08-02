@@ -86,7 +86,7 @@ export function Features() {
       <div className="mx-auto max-w-7xl px-6 sm:px-8">
         <div className="mb-14 flex flex-col gap-3">
           <span className="font-label text-[10px] uppercase tracking-widest text-accent">
-            // What gets checked
+            {"//"} What gets checked
           </span>
           <h2 className="font-heading text-3xl font-black uppercase tracking-wide text-foreground md:text-4xl">
             Eight categories. Zero surprises.

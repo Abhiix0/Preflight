@@ -3,23 +3,34 @@
 import * as React from "react";
 import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useAuthStore } from "@/store/auth.store";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 /**
  * Cyberpunk Header — terminal-style top bar.
  *
- * - font-label monospace label, uppercase tracking
- * - chamfered avatar frame (from restyled Avatar primitive)
- * - neon-accent hover on logout icon button
- * - ThemeProvider / Sun / Moon removed — dark mode is mandatory
+ * AUTH PLACEHOLDER: user data is static mock values.
+ * TODO (auth-integration phase): replace MOCK_USER with real store data:
+ *   const { user, isAuthenticated, logout } = useAuthStore(...)
+ *   and restore the conditional render + real logout() call.
+ *
+ * Visual spec:
+ *   - font-label monospace label, uppercase tracking
+ *   - chamfered avatar frame (Avatar primitive from Phase 2)
+ *   - neon-accent hover on logout icon (filter drop-shadow)
  */
+
+const MOCK_USER = {
+  username: "dev_user",
+  email: "dev@preflight.local",
+  initials: "D",
+};
+
 export function Header() {
-  const { user, isAuthenticated, logout } = useAuthStore((state) => ({
-    user: state.user,
-    isAuthenticated: state.isAuthenticated,
-    logout: state.logout,
-  }));
+  // TODO (auth-integration phase): replace with useAuthStore
+  const handleLogout = () => {
+    // Placeholder — no-op until real auth is wired up
+    console.info("[placeholder] logout triggered — auth not yet wired");
+  };
 
   return (
     <header className="flex h-14 w-full shrink-0 items-center justify-between border-b border-border bg-card px-6">
@@ -35,36 +46,27 @@ export function Header() {
 
       {/* Right controls */}
       <div className="flex items-center gap-4">
-        {isAuthenticated && user ? (
-          <div className="flex items-center gap-3">
-            {/* Chamfered avatar */}
-            <Avatar className="size-8">
-              <AvatarImage
-                src={user.avatar_url || undefined}
-                alt={user.username}
-              />
-              <AvatarFallback>
-                {user.username?.[0]?.toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
+        {/* User info + chamfered avatar */}
+        <div className="flex items-center gap-3">
+          <Avatar className="size-8">
+            <AvatarFallback>{MOCK_USER.initials}</AvatarFallback>
+          </Avatar>
 
-            {/* User info */}
-            <div className="hidden sm:block">
-              <div className="font-label text-[10px] uppercase tracking-wider text-foreground">
-                {user.username}
-              </div>
-              <div className="font-body text-[10px] text-muted-foreground">
-                {user.email}
-              </div>
+          <div className="hidden sm:block">
+            <div className="font-label text-[10px] uppercase tracking-wider text-foreground">
+              {MOCK_USER.username}
+            </div>
+            <div className="font-body text-[10px] text-muted-foreground">
+              {MOCK_USER.email}
             </div>
           </div>
-        ) : null}
+        </div>
 
         {/* Logout — neon accent hover */}
         <Button
           variant="ghost"
           size="icon"
-          onClick={logout}
+          onClick={handleLogout}
           aria-label="Sign out"
           className={[
             "text-muted-foreground",

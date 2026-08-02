@@ -23,10 +23,11 @@ const navItems = [
  */
 export function Sidebar() {
   const pathname = usePathname();
-  const { sidebarCollapsed, toggleSidebar } = useUIStore((state) => ({
-    sidebarCollapsed: state.sidebarCollapsed,
-    toggleSidebar: state.toggleSidebar,
-  }));
+  // Two separate selectors returning primitives/stable refs — avoids the
+  // "getSnapshot result should be cached" warning that fires when an inline
+  // selector returns a new object reference on every render.
+  const sidebarCollapsed = useUIStore((state) => state.sidebarCollapsed);
+  const toggleSidebar = useUIStore((state) => state.toggleSidebar);
 
   return (
     <aside

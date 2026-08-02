@@ -1,27 +1,37 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function middleware(request: NextRequest) {
-  const token = request.cookies.get("preflight_token")?.value;
-  const { pathname } = request.nextUrl;
-
-  // Define protected routes (everything under /dashboard, /repositories, etc.)
-  const isProtectedRoute =
-    pathname.startsWith("/dashboard") ||
-    pathname.startsWith("/repositories") ||
-    pathname.startsWith("/profile") ||
-    pathname.startsWith("/settings") ||
-    pathname.startsWith("/docs");
-
-  const isAuthRoute = pathname === "/login";
-
-  if (isProtectedRoute && !token) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
-
-  if (isAuthRoute && token) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
-  }
+/**
+ * TODO (auth-integration phase): Re-enable the route protection logic below
+ * once GitHub OAuth is wired up end-to-end and the backend is issuing the
+ * `preflight_token` cookie on successful login.
+ *
+ * Until then this middleware is a no-op — all routes including /dashboard
+ * and /repositories are directly reachable without a session. This is
+ * intentional for the current UI-only development phase.
+ */
+export function middleware(_request: NextRequest) {
+  // --- DISABLED: auth redirect logic (auth-integration phase) ---
+  //
+  // const token = _request.cookies.get("preflight_token")?.value;
+  // const { pathname } = _request.nextUrl;
+  //
+  // const isProtectedRoute =
+  //   pathname.startsWith("/dashboard") ||
+  //   pathname.startsWith("/repositories") ||
+  //   pathname.startsWith("/profile") ||
+  //   pathname.startsWith("/settings") ||
+  //   pathname.startsWith("/docs");
+  //
+  // const isAuthRoute = pathname === "/login";
+  //
+  // if (isProtectedRoute && !token) {
+  //   return NextResponse.redirect(new URL("/login", _request.url));
+  // }
+  //
+  // if (isAuthRoute && token) {
+  //   return NextResponse.redirect(new URL("/dashboard", _request.url));
+  // }
 
   return NextResponse.next();
 }

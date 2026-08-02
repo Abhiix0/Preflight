@@ -1,35 +1,51 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/store/auth.store";
-import { apiClient } from "@/lib/api-client";
-import type { User } from "@/types";
+import { Card, CardContent } from "@/components/ui/card";
 
-export default function AuthCallback() {
-  const appRouter = useRouter();
-  const { setUser, logout } = useAuthStore((state) => ({
-    setUser: state.setUser,
-    logout: state.logout,
-  }));
-
-  useEffect(() => {
-    // This route is called by GitHub OAuth redirect after login
-    // The backend should set the JWT in a cookie, and we'll fetch the user
-    const fetchUser = async () => {
-      try {
-        const user = await apiClient.get<User>("/users/me");
-        setUser(user);
-        appRouter.push("/dashboard");
-      } catch (error) {
-        console.error("Auth callback failed:", error);
-        logout();
-        appRouter.replace("/login");
-      }
-    };
-
-    fetchUser();
-  }, [appRouter, setUser, logout]);
-
-  return null;
+/**
+ * Auth callback — visual placeholder only.
+ *
+ * TODO (auth-integration phase): wire real callback logic here —
+ *   1. Read the `code` search param from the URL.
+ *   2. Exchange it via POST /auth/github/callback on the backend.
+ *   3. Backend sets the JWT cookie and returns the user object.
+ *   4. Call setUser() on the auth store, then router.push("/dashboard").
+ *   5. On error: call logout(), router.replace("/login").
+ *
+ * This page is NOT reachable in the current flow — login navigates
+ * directly to /dashboard, bypassing OAuth entirely. The route is kept
+ * in place so the file structure is ready for the auth phase.
+ */
+export default function AuthCallbackPage() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background px-6">
+      <Card variant="terminal" className="w-full max-w-sm">
+        <CardContent className="p-6">
+          <div className="font-body text-sm space-y-3">
+            {/* Simulated auth lines */}
+            <div className="flex gap-2">
+              <span className="font-label text-accent shrink-0">$</span>
+              <span className="text-foreground">preflight auth --provider github</span>
+            </div>
+            <div className="flex gap-2">
+              <span className="font-label text-accent shrink-0">&gt;</span>
+              <span className="text-foreground">Authenticating...</span>
+            </div>
+            <div className="flex gap-2">
+              <span className="font-label text-accent shrink-0">&gt;</span>
+              <span className="text-foreground">
+                Waiting for session
+                {/* Blinking cursor — global `blink` keyframe from Phase 1 */}
+                <span
+                  className="ml-1 inline-block h-[1em] w-2 bg-accent align-middle"
+                  style={{ animation: "blink 1s step-end infinite" }}
+                  aria-hidden="true"
+                />
+              </span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }

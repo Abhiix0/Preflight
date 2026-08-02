@@ -9,10 +9,11 @@ export const useStartAnalysis = () => {
       repositoryId: string;
       requestData?: AnalysisRequest;
       idempotencyKey?: string;
-    }) => analysisService.start(params.repositoryId, {
-      requestData: params.requestData,
-      idempotencyKey: params.idempotencyKey || crypto.randomUUID(),
-    }),
+    }) =>
+      analysisService.start(params.repositoryId, {
+        requestData: params.requestData,
+        idempotencyKey: params.idempotencyKey || crypto.randomUUID(),
+      }),
     onSuccess: (_, { repositoryId }) => {
       queryClient.invalidateQueries({ queryKey: ["analysis", repositoryId] });
       queryClient.invalidateQueries({ queryKey: ["repositories"] });

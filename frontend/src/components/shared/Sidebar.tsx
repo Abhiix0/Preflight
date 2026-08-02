@@ -2,12 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  LayoutDashboard,
-  FolderGit2,
-  Settings,
-  Rocket,
-} from "lucide-react";
+import { LayoutDashboard, FolderGit2, Settings, Rocket } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUIStore } from "@/store/ui.store";
 

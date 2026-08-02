@@ -1,6 +1,9 @@
 import { createTimeline, createDrawable, animate, utils } from "animejs";
 import { EASE_PRIMARY } from "@/lib/animation";
-import { PATH_POINTS, PATH_ANGLES } from "@/components/marketing/flight/FlightVisual";
+import {
+  PATH_POINTS,
+  PATH_ANGLES,
+} from "@/components/marketing/flight/FlightVisual";
 
 /**
  * buildFlightEnvironment — entry point called by useAnimeScope.

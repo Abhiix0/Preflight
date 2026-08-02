@@ -24,9 +24,13 @@ export const analysisService = {
     if (options?.idempotencyKey) {
       headers["Idempotency-Key"] = options.idempotencyKey;
     }
-    return apiClient.post<AnalysisJobsResponse>(endpoint, options?.requestData, {
-      headers,
-    });
+    return apiClient.post<AnalysisJobsResponse>(
+      endpoint,
+      options?.requestData,
+      {
+        headers,
+      }
+    );
   },
 
   /** GET /analysis/{jobId} */
